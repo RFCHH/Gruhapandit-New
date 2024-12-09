@@ -1,11 +1,28 @@
-import { useState } from 'react'
+import {  BrowserRouter as Router,  Route,  Routes,} from "react-router-dom";
+import Home from "./Pages/LandingPage/Home";
+import About from "./Pages/LandingPage/About";
+import Services from "./Pages/LandingPage/Services";
+import Reviews from "./Pages/LandingPage/Reviews";
+import Contact from "./Pages/LandingPage/Contact";
+import Navbar from "./Navbar";
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <h1>Vite + React</h1>
+    <Router>
+      <Navbar/>
+      <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/About" element={<About />} />
+      <Route path="/OurServices" element={<Services />} />
+      <Route path="/Reviews" element={<Reviews />} />
+      <Route path="/ContactUs" element={<Contact />} />
+
+
+      </Routes>
+      </Router>
     </>
   )
 }
