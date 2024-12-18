@@ -103,9 +103,8 @@ const HomeReviews = () => {
         {[1, 2, 3, 4, 5].map((number) => (
           <button
             key={number}
-            className={`px-4 py-2 rounded-lg transition ${
-              number === 1 ? "text-[#000000]" : "text-[#000000] hover:underline"
-            }`}
+            className={`px-4 py-2 rounded-lg transition ${number === 1 ? "text-[#000000]" : "text-[#000000] hover:underline"
+              }`}
           >
             {number}
           </button>
