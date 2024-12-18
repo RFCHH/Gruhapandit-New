@@ -10,6 +10,11 @@ import National from "./Dashboard/National";
 import Sidebar from "./Layout/Sidebar";
 import Footer from "./Layout/Footer";
 import MainLayout from "./Layout/Mainlayout";
+import UserSelection from "./Signup/UserSelection";
+import CreatePassword from "./Signup/CreatePassword";
+import SignUp from "./Signup/Signup";
+import Login from "./Signup/Login";
+
 
 
 function App() {
@@ -28,16 +33,24 @@ function App() {
       </Routes>
     </Router> */}
 
+<Router><Navbar/>
+  <Routes>
+    
+  <Route path="/" element={<UserSelection/>}></Route>
+      <Route path="/CreatePassword" element={<CreatePassword/>}></Route>
+      <Route path="/SignUp" element={<SignUp/>}></Route>
+      <Route path="/LoginPage" element={<Login/>}></Route>
+  </Routes>
+</Router>
 
 
-
-      <Router>
+      {/* <Router>
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/National" element={<National />} />
           <Route path="/Dashboard" element={<Dashboard />} />
         </Routes>
-      </Router>
+      </Router> */}
     </>
 
   )
