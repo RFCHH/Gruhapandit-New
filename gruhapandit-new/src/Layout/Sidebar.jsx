@@ -12,6 +12,7 @@ import { FaBoxOpen } from 'react-icons/fa6';
 import { MdPersonSearch, MdPolicy } from 'react-icons/md';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Logo from './../../src/assets/1.png';
+import { TbLayoutDashboardFilled } from "react-icons/tb";
 
 function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -20,7 +21,8 @@ function Sidebar() {
   const location = useLocation();
 
   const menuItems = [
-    { path: '/Dashboard', label: 'Person', icon: <FaUser className="text-gray-700 text-lg" /> },
+    { path: '/Dashboard', label: 'Dashboard', icon: <TbLayoutDashboardFilled className="text-gray-700 text-lg" /> },
+    { path: '/Profile', label: 'Person', icon: <FaUser className="text-gray-700 text-lg" /> },
     { path: '/National', label: 'National ID', icon: <FaIdCard className="text-gray-700 text-lg" /> },
     { path: '/Feeds', label: 'My Feeds', icon: <SiGooglesheets className="text-gray-700 text-lg" /> },
     { path: '/Plans', label: 'My Plans', icon: <FaBoxOpen className="text-gray-700 text-lg" /> },
@@ -56,7 +58,7 @@ function Sidebar() {
         </nav>
         <div
           className="flex items-center px-3 py-3 hover:bg-blue-100 cursor-pointer justify-end"
-          onClick={() => console.log('Logout')}
+          onClick={() => navigate("/LoginPage")}
         >
           <FaSignOutAlt className="text-red-500 text-lg" />
           {isExpanded && <span className="ml-3 font-bold text-red-500">Logout</span>}

@@ -104,11 +104,19 @@ const Navbar = () => {
           </button>
           <button
             onClick={() => navigateTo("/ContactUs")}
-            className={`px-4 py-2 rounded-full border-2 border-purple-500 font-medium transition-all hover:bg-purple-50 duration-300 transform hover:scale-105 ${
-              isActive("/ContactUs") ? "text-white bg-purple-500" : "text-purple-500"
+            className={`font-bold px-3 py-2 transition-all duration-300 hover:bg-purple-50 ${
+              isActive("/ContactUs") ? "text-purple-500" : "text-gray-800"
             }`}
           >
             Contact Us
+          </button>
+          <button
+            onClick={() => navigateTo("/LoginPage")}
+            className={`bg-gradient-to-r from-[#0A97B0] to-green-500 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:bg-gradient-to-r hover:from-[#0288D1] hover:to-green-600 transition-all duration-300 transform hover:scale-105 ${
+              isActive("/LoginPage") ? "ring-2 ring-green-500" : ""
+            }`}
+          >
+            Sign In
           </button>
           <button
             onClick={() => navigateTo("/UserSelection")}

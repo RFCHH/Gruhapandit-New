@@ -3,7 +3,8 @@ import loginImg from '../assets/Login.png';
 import Sign1 from "../assets/Login1.png"; 
 import userIdIcon from "../assets/email.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import axiosInstance from "../AxiosInstance";
+import axiosInstance from '../axiosInstance';
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [userId, setuserId] = useState("");
@@ -15,6 +16,7 @@ const LoginPage = () => {
     password: "",
     role: ""
   });
+  const navigate=useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -72,6 +74,10 @@ const LoginPage = () => {
         } else {
           alert("Something went wrong. Please try again later.");
         }
+        navigate("/successfull")
+        setTimeout(() => {
+          navigate("/Dashboard");
+        }, 3000);
       } catch (error) {
         console.error(
           "API Error:",
@@ -157,6 +163,7 @@ const LoginPage = () => {
 
             <div className="flex justify-center mt-4">
               <button
+              onClick={() => navigate("/successfull")}
                 type="submit"
                 className="w-48 py-3 bg-[#FFFFFF] text-[#000000] font-bold rounded-md border-2 hover:bg-[#F4EBFF] hover:border-blue-300 shadow-xl"
               >
