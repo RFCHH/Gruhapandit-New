@@ -6,6 +6,10 @@ import Reviews from "./Pages/LandingPage/Reviews";
 import Contact from "./Pages/LandingPage/Contact";
 import Navbar from "./Navbar";
 import UserSelection from "./Pages/LandingPage/UserSelection";
+import CreatePassword from "./Pages/LandingPage/CreatePassword";
+import SignUp from "./Pages/LandingPage/SignUp";
+import LoginPage from "./Pages/LandingPage/LoginPage"
+
 
 
 function App() {
@@ -21,6 +25,9 @@ function App() {
       <Route path="/Reviews" element={<Reviews />} />
       <Route path="/ContactUs" element={<Contact />} />
       <Route path="/userselection" element={<UserSelection/>}></Route>
+      <Route path="/CreatePassword" element={<CreatePassword/>}></Route>
+      <Route path="/SignUp" element={<SignUp/>}></Route>
+      <Route path="/LoginPage" element={<LoginPage/>}></Route>
       </Routes>
       </Router>
     </>

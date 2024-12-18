@@ -24,6 +24,10 @@ function Navbar() {
     navigate("/ContactUs");
   }
 
+  const signupclick = () => {
+    navigate("/userselection");
+  }
+
 
 
 
@@ -34,6 +38,7 @@ function Navbar() {
       <h1 onClick={servicesClick} style={{ cursor: 'pointer' }}>Our Services</h1>
       <h1 onClick={reviewsClick} style={{ cursor: 'pointer' }}>Reviews</h1>
       <h1 onClick={contactClick} style={{ cursor: 'pointer' }}>Contact Us</h1>
+      <h1 onClick={signupclick} style={{ cursor: 'pointer' }}>SignUp</h1>
     </div>
   );
 }
