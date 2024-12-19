@@ -1,4 +1,3 @@
-
 import React, { useState,useEffect } from 'react';
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -72,7 +71,7 @@ const Dashboard = () => {
         <MainLayout>
             <div className="flex min-h-screen bg-gradient-to-b from-white to-blue-200">
                 <main className="flex-1 p-6 ml-10">
-                    {/* Welcome Section */}
+                   
                     <div className="grid grid-cols-1   lg:grid-cols-2 gap-6 mb-6">
                         <div className="bg-white p-6 rounded-lg shadow">
                             <h2 className="text-2xl font-bold">   {loading ? 'Loading...' : `Welcome ${fullname}`}</h2>
@@ -128,50 +127,9 @@ const Dashboard = () => {
                         ))}
                     </div>
                 </main>
-
             </div>
-          </div>
-
-          {/* Cards Section */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {[
-              { title: "School Education", count: "50+", icon: SchoolImage },
-              {
-                title: "Under/Post Graduate",
-                count: "100+",
-                icon: CollegeImage,
-              },
-              { title: "Technical Skills", count: "30+", icon: Technical },
-              { title: "Global Language", count: "10+", icon: Global },
-              { title: "Competitive Exam", count: "210+", icon: Competitive },
-              { title: "Soft Skills", count: "25+", icon: Soft },
-              { title: "Government Exam", count: "150+", icon: Government },
-              { title: "Entrance Exam", count: "250+", icon: Entrance },
-            ].map((card, index) => (
-              <div
-                className="option-card border rounded-3xl bg-white p-6 shadow-2xl shadow-zinc-500 hover:shadow-current transition"
-                key={index}
-              >
-                <div className="text-center">
-                  <img
-                    src={card.icon}
-                    alt={`${card.title} Icon`}
-                    className="w-16 h-16 mx-auto"
-                  />
-                </div>
-                <h3 className="text-lg text-center font-semibold mb-4">
-                  {card.title}
-                </h3>
-                <animated.p className="text-3xl text-center font-extrabold">
-                  {animatedCount(card.count)}
-                </animated.p>
-              </div>
-            ))}
-          </div>
-        </main>
-      </div>
-    </MainLayout>
-  );
+        </MainLayout>
+    );
 };
 
 export default Dashboard;
