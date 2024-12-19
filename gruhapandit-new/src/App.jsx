@@ -12,6 +12,7 @@ import CreatePassword from "./Signup/CreatePassword";
 import SignUp from "./Signup/Signup";
 import Login from "./Signup/Login";
 import LoginSuccess from "./Signup/Success";
+import TutorProfile from "./Profile/TutorProfile";
 
 
 
@@ -51,9 +52,7 @@ function App() {
 
             <Route path="/Dashboard/:userId" element={<Dashboard />} />
             <Route path="/National/:userId" element={<National />} />
-            {/* <Route path="/Profile" element={<National />} /> */}
-
-
+            <Route path="/Profile" element={<TutorProfile />} />
           </Routes>
         </Layout>
       </Router>
