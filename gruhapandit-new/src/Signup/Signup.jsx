@@ -509,7 +509,7 @@ const SignUp = () => {
                     <p className="text-center text-sm text-black mt-4 font-semibold">
                         Already have an account?{" "}
                         <a
-                            href="#"
+                           onClick={() => navigate("/LoginPage")}
                             className="text-[#2AB0FF] hover:text-purple-500 transition duration-300"
                         >
                             Sign In
