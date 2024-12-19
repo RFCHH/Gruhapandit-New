@@ -2,15 +2,15 @@ import axios from 'axios';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL:'https://tution-application.onrender.com'
+  baseURL:'https://tution-application.onrender.com/tuition-application'
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('Token');
   // console.log('Sending token:', token);
 
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers['Authorization'] = `Bearer ${token}`;
   }
   return config;
 }, (error) => {
