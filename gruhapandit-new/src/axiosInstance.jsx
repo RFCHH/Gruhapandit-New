@@ -2,7 +2,8 @@ import axios from 'axios';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL:'https://tution-application.onrender.com/tuition-application'
+  // baseURL:'https://tution-application.onrender.com/tuition-application'
+  baseURL:'https://tution-application-testenv.onrender.com/tuition-application'
 });
 
 axiosInstance.interceptors.request.use((config) => {
