@@ -224,7 +224,7 @@ function OurServices() {
                 />
               </span>
             </div>
-            <button className="py-3 px-4 bg-white text-gray-700 border font-bold border-gray-300 rounded-full hover:bg-gray-200">
+            <button className="py-3 px-4 bg-yellow-500 text-gray-700 border font-bold border-gray-300 rounded-full hover:bg-gray-200">
               Subscribe Now
             </button>
           </div>
