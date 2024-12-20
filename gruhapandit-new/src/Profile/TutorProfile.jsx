@@ -11,16 +11,18 @@ import Details from "./Details";
 
 export const FormInput = ({
   label,
+  name,
   placeholder,
   type = "text",
   value,
   onChange,
 }) => (
   <div>
-    <label className="block text-sm font-medium text-[#000000]">{label}</label>
+    <label className="text-sm font-medium text-[#000000]">{label}</label>
     <input
       className="w-full border p-2 rounded"
       type={type}
+      name={name}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
@@ -46,6 +48,7 @@ const TutorProfile = () => {
       },
     ],
   };
+
   const options = {
     cutout: "70%",
     plugins: {
@@ -67,10 +70,8 @@ const TutorProfile = () => {
           switch (activeSection) {
             case "Personal Information":
               return <PersonalInformation />;
-
             case "Tutor Details":
               return <Details />;
-
             case "Subject Details":
               return (
                 <SubjectDetails
@@ -84,21 +85,14 @@ const TutorProfile = () => {
                   setSubject={setSubject}
                 />
               );
-
             case "Current Location":
               return <CurrentLocation />;
             case "Permanent Location":
               return <PermanetLocation />;
-
             default:
               return <div>Invalid Section</div>;
           }
         })()}
-        <div className="flex justify-center">
-          <button className="mt-4 bg-[#32046B] text-white px-4 py-2 rounded-lg hover:bg-blue-500 w-28">
-            Save
-          </button>
-        </div>
       </div>
     );
   };
@@ -178,3 +172,4 @@ const TutorProfile = () => {
 };
 
 export default TutorProfile;
+ 
