@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import loginImg from '../assets/Login.png'; 
 import Sign1 from "../assets/Login1.png"; 
 import userIdIcon from "../assets/email.png";
@@ -11,6 +11,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("--select--"); 
+
   const [errors, setErrors] = useState({
     userId: "",
     password: "",
@@ -62,22 +63,33 @@ const LoginPage = () => {
         password,
         type: role.toUpperCase(), 
       };
-  
+
+      localStorage.setItem("userId", userId);      
+      localStorage.setItem("role", role);
       try {
         const response = await axiosInstance.post(
           "https://tution-application.onrender.com/tuition-application/authentication/login",
           formData
-        );
-  
+        
+        );    
+
         if (response.status === 200) {
-          alert(response.data.message || "Login successful!");
+          const data = response.data
+          console.log('Login Successful', data);
+          const { token } = data;
+          localStorage.setItem('Token', token);
+          // alert(response.data.message || "Login successful!");
+          console.log('Login Successful')
         } else {
           alert("Something went wrong. Please try again later.");
+          console.log();
+          
         }
+        
         navigate("/successfull")
         setTimeout(() => {
           navigate("/Dashboard");
-        }, 3000);
+        }, 2000);
       } catch (error) {
         console.error(
           "API Error:",

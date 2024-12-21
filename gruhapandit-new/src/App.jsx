@@ -12,6 +12,8 @@ import CreatePassword from "./Signup/CreatePassword";
 import SignUp from "./Signup/Signup";
 import Login from "./Signup/Login";
 import LoginSuccess from "./Signup/Success";
+import CreateReview from "./Dashboard/CreateReview"
+import Review from"./Dashboard/Reviews"
 
 
 
@@ -19,7 +21,7 @@ import LoginSuccess from "./Signup/Success";
 function Layout({ children }) {
   const location = useLocation();
 
-  const hideNavbarRoutes = ["/Dashboard", "/National"];
+  const hideNavbarRoutes = ["/Dashboard", "/National","/createReviews"];
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
 
   return (
@@ -50,7 +52,9 @@ function App() {
 
             <Route path="/Dashboard" element={<Dashboard />} />
             <Route path="/National" element={<National />} />
-            {/* <Route path="/Profile" element={<National />} /> */}
+            <Route path="/createReviews" element={<CreateReview/>} />
+            <Route path="/review" element={<Review/>} />
+           
 
 
           </Routes>

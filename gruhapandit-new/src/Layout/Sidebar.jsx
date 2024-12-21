@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   FaUser,
   FaIdCard,
@@ -27,7 +27,7 @@ function Sidebar() {
     { path: '/Feeds', label: 'My Feeds', icon: <SiGooglesheets className="text-gray-700 text-lg" /> },
     { path: '/Plans', label: 'My Plans', icon: <FaBoxOpen className="text-gray-700 text-lg" /> },
     { path: '/Requests', label: 'My Requests', icon: <MdPersonSearch className="text-gray-700 text-xl" /> },
-    { path: '/Reviews', label: 'Reviews', icon: <FaStar className="text-gray-700 text-lg" /> },
+    { path: '/review', label: 'Reviews', icon: <FaStar className="text-gray-700 text-lg" /> },
     { path: '/Policy', label: 'Policy', icon: <MdPolicy className="text-gray-700 text-lg" /> },
   ];
 

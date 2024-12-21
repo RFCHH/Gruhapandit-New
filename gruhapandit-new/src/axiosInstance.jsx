@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-// Create an Axios instance
 const axiosInstance = axios.create({
   baseURL:'https://tution-application.onrender.com'
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  // console.log('Sending token:', token);
+  const token = localStorage.getItem('Token');
+console.log(token);
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -22,14 +21,23 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 404) {
+      console.error('API endpoint not found: ', error.response.config.url);
+      // Optionally show a more user-friendly message
+      alert('Requested resource not found. Please check the API endpoint or contact support.');
+      // Do not automatically clear localStorage or redirect to login
+    } else if (error.response && error.response.status === 401) {
+      // Handle 401 Unauthorized error (e.g., invalid or expired token)
       localStorage.clear();
-      window.location.href = '/login';  
+      window.location.href = '/login';
     }
     return Promise.reject(error);
   }
 );
 
+
 export default axiosInstance;
+
+
 
 //....18
 // import axios from 'axios';
