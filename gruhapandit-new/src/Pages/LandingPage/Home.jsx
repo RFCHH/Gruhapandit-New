@@ -75,7 +75,7 @@ function Home() {
   ], []);
   return (
     <>
-      <div className="bg-gradient-to-b from-purple-50 to-blue-100 min-h-screen">
+      <div className="bg-gradient-to-b from-purple-50 to-blue-100 min-h-screen mt-20">
         <section
           className="bg-gradient-to-b from-blue-200 to-white bg-cover bg-center "
           style={{
