@@ -82,7 +82,8 @@ const CreatePassword = () => {
 
     try {
       const response = await axios.post(
-        `https://tution-application.onrender.com/tuition-application/users/`,
+        // `https://tution-application.onrender.com/tuition-application/users/`,
+        `https://tution-application-testenv.onrender.com/tuition-application/users/`,
         postData
       );
 

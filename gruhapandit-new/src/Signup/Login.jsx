@@ -67,39 +67,47 @@ const LoginPage = () => {
       localStorage.setItem("userId", userId);      
       localStorage.setItem("role", role);
       try {
+        // Make a POST request using axios
         const response = await axiosInstance.post(
-          "https://tution-application.onrender.com/tuition-application/authentication/login",
+          `/authentication/login`,
           formData
-        
-        );    
 
-        if (response.status === 200) {
-          const data = response.data
-          console.log('Login Successful', data);
-          const { token } = data;
-          localStorage.setItem('Token', token);
-          // alert(response.data.message || "Login successful!");
-          console.log('Login Successful')
-        } else {
-          alert("Something went wrong. Please try again later.");
-          console.log();
-          
-        }
-        
-        navigate("/successfull")
-        setTimeout(() => {
-          navigate("/Dashboard");
-        }, 2000);
-      } catch (error) {
-        console.error(
-          "API Error:",
-          error.response?.data?.message || error.message
         );
-        alert("Failed to submit form. Please check your details and try again.");
+      
+        if (response.status === 200) {
+          const data = response.data;
+          console.log('Login successful:', data);
+          
+          alert(response.data.message || "Login successful!");
+      
+          const { token,  userRole,userId  } = data;
+
+          localStorage.setItem('UserId', userId);
+          localStorage.setItem('Token', token);
+          localStorage.setItem('UserRole', userRole);
+
+          navigate("/successfull")
+          setTimeout(() => {
+          navigate(`/Dashboard/${userId}`);
+        }, 3000);
+      
+        } else {
+          
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            serverError: data?.message || 'Login failed. Please try again.',
+          }));
+        }
+      
+
+      } catch (error) {
+        console.error('Error during login:', error);
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          serverError: 'Login failed. Please try again.',
+        }));
       }
-    }
-  };
-  
+    };};      
 
   return (
     <div className="relative flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-100 to-white overflow-hidden">
@@ -118,6 +126,13 @@ const LoginPage = () => {
             <img src={Sign1} alt="Login" className="h-20 w-20 object-contain" />
           </div>
           <h2 className="text-2xl text-gray-800 text-center mb-4 font-bold">Login with Password</h2>
+          {errors.serverError && (
+            <div className='mb-4'>
+              <p className='text-red-500 text-sm text-center'>
+                {errors.serverError}
+              </p>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-4">
             
             <div className="relative">
@@ -175,13 +190,23 @@ const LoginPage = () => {
 
             <div className="flex justify-center mt-4">
               <button
-              onClick={() => navigate("/successfull")}
+              
                 type="submit"
                 className="w-48 py-3 bg-[#FFFFFF] text-[#000000] font-bold rounded-md border-2 hover:bg-[#F4EBFF] hover:border-blue-300 shadow-xl"
               >
                 Sign In
               </button>
+              
             </div>
+            <p className="text-center text-sm text-black mt-4 font-semibold">
+                        Don't have an account ?{" "}
+                        <a
+                           onClick={() => navigate("/SignUp")}
+                            className="text-[#2AB0FF] hover:text-purple-500 transition duration-300"
+                        >
+                            Sign Up
+                        </a>
+                    </p>
           </form>
         </div>
       </div>

@@ -14,6 +14,8 @@ import Login from "./Signup/Login";
 import LoginSuccess from "./Signup/Success";
 import CreateReview from "./Dashboard/CreateReview"
 import Review from"./Dashboard/Reviews"
+import TutorProfile from "./Profile/TutorProfile";
+
 
 
 
@@ -49,13 +51,18 @@ function App() {
             <Route path="/SignUp" element={<SignUp />}></Route>
             <Route path="/LoginPage" element={<Login />}></Route>
             <Route path="/successfull" element={<LoginSuccess />} />
+            {/* <Route path="/Dashboard" element={<Dashboard />} /> */}
 
-            <Route path="/Dashboard" element={<Dashboard />} />
-            <Route path="/National" element={<National />} />
+
             <Route path="/createReviews" element={<CreateReview/>} />
             <Route path="/review" element={<Review/>} />
            
 
+
+
+            <Route path="/Dashboard/:userId" element={<Dashboard />} />
+            <Route path="/National/:userId" element={<National />} />
+            <Route path="/Profile" element={<TutorProfile />} />
 
           </Routes>
         </Layout>
