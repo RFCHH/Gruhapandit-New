@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   FaUser,
@@ -23,14 +24,16 @@ function Sidebar() {
 
   const menuItems = [
 
+
     { path: `/Dashboard/${userId}`, label: 'Dashboard', icon: <TbLayoutDashboardFilled className="text-gray-700 text-lg" /> },
     { path: `/Profile`, label: 'Person', icon: <FaUser className="text-gray-700 text-lg" /> },
     { path: `/National/${userId}`, label: 'National ID', icon: <FaIdCard className="text-gray-700 text-lg" /> },
     { path: `/Feeds`, label: 'My Feeds', icon: <SiGooglesheets className="text-gray-700 text-lg" /> },
     { path: `/Plans`, label: 'My Plans', icon: <FaBoxOpen className="text-gray-700 text-lg" /> },
     { path: `/Requests`, label: 'My Requests', icon: <MdPersonSearch className="text-gray-700 text-xl" /> },
-    { path: `/Reviews`, label: 'Reviews', icon: <FaStar className="text-gray-700 text-lg" /> },
+  { path: '/review', label: 'Reviews', icon: <FaStar className="text-gray-700 text-lg" /> },
     { path: `/Policy`, label: 'Policy', icon: <MdPolicy className="text-gray-700 text-lg" /> },
+
 
   ];
 
