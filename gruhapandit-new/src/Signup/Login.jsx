@@ -67,9 +67,9 @@ const LoginPage = () => {
       localStorage.setItem("userId", userId);      
       localStorage.setItem("role", role);
       try {
-        // Make a POST request using axios
+        
         const response = await axiosInstance.post(
-          "https://tution-application.onrender.com/tuition-application/authentication/login",
+          `/authentication/login`,
           formData
 
         );
