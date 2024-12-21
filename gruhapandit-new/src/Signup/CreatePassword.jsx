@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
+import axiosInstance from "../axiosInstance";
 
 const CreatePassword = () => {
   const navigate = useNavigate();
@@ -81,7 +82,7 @@ const CreatePassword = () => {
     };
 
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `/users/`,
         postData
       );
