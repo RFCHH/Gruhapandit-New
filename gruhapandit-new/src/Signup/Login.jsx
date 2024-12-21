@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import loginImg from '../assets/Login.png'; 
 import Sign1 from "../assets/Login1.png"; 
 import userIdIcon from "../assets/email.png";
@@ -11,6 +11,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("--select--"); 
+
   const [errors, setErrors] = useState({
     userId: "",
     password: "",
@@ -62,12 +63,15 @@ const LoginPage = () => {
         password,
         type: role.toUpperCase(), 
       };
-  
+
+      localStorage.setItem("userId", userId);      
+      localStorage.setItem("role", role);
       try {
         // Make a POST request using axios
         const response = await axiosInstance.post(
           "https://tution-application.onrender.com/tuition-application/authentication/login",
           formData
+
         );
       
         if (response.status === 200) {
@@ -95,6 +99,8 @@ const LoginPage = () => {
           }));
         }
       
+
+
       } catch (error) {
         console.error('Error during login:', error);
         setErrors((prevErrors) => ({
