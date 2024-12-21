@@ -22,13 +22,11 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 404) {
       console.error('API endpoint not found: ', error.response.config.url);
-      // Optionally show a more user-friendly message
-      alert('Requested resource not found. Please check the API endpoint or contact support.');
-      // Do not automatically clear localStorage or redirect to login
+      // alert('Requested resource not found. Please check the API endpoint or contact support.');
     } else if (error.response && error.response.status === 401) {
-      // Handle 401 Unauthorized error (e.g., invalid or expired token)
+      
       localStorage.clear();
-      window.location.href = '/login';
+      window.location.href = '/LoginPage';
     }
     return Promise.reject(error);
   }

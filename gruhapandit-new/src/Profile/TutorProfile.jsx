@@ -1,32 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import MainLayout from "../Layout/Mainlayout";
 import { Doughnut } from "react-chartjs-2";
-import { FiEdit } from "react-icons/fi";
 import PersonalInformation from "./PersonalInformation";
 import SubjectDetails from "./SubjectDetails";
 import CurrentLocation from "./CurrentLocation";
 import PermanetLocation from "./PermanetLocation";
 import Details from "./Details";
+import axiosInstance from "../axiosInstance";
 
 export const FormInput = ({
   label,
   placeholder,
   type = "text",
+  name,
   value,
   onChange,
+  disabled,
 }) => (
   <div>
     <label className="block text-sm font-medium text-[#000000]">{label}</label>
     <input
       className="w-full border p-2 rounded"
       type={type}
+      name={name}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      disabled={disabled}
     />
   </div>
 );
+
+const data = {
+  labels: ["Completed", "Remaining"],
+  datasets: [
+    {
+      data: [40, 60],
+      backgroundColor: ["#10b981", "#e5e7eb"],
+      hoverBackgroundColor: ["#059669", "#d1d5db"],
+      borderWidth: 0,
+    },
+  ],
+};
+
+const options = {
+  cutout: "70%",
+  plugins: {
+    legend: { display: false },
+  },
+};
 
 const TutorProfile = () => {
   const [activeSection, setActiveSection] = useState("Personal Information");
@@ -34,43 +57,33 @@ const TutorProfile = () => {
   const [subjects, setSubjects] = useState([]);
   const [category, setCategory] = useState("");
   const [subject, setSubject] = useState("");
+  const [fullname, setFullname] = useState("");
+  // const [loading, setLoading] = useState(true);
 
-  const data = {
-    labels: ["Completed", "Remaining"],
-    datasets: [
-      {
-        data: [40, 60],
-        backgroundColor: ["#10b981", "#e5e7eb"],
-        hoverBackgroundColor: ["#059669", "#d1d5db"],
-        borderWidth: 0,
-      },
-    ],
-  };
-  const options = {
-    cutout: "70%",
-    plugins: {
-      legend: { display: false },
-    },
-  };
+  const userId = localStorage.getItem("userId");
+
+  const role = localStorage.getItem("role");
+
+  const sections = [
+    "Personal Information",
+    role === "TUTOR" ? "Tutor Details" : "Student Details",
+    "Subject Details",
+    "Current Location",
+    "Permanent Location",
+  ];
 
   const renderSectionContent = () => {
     const isEditableSection = !["Subject Details"].includes(activeSection);
 
     return (
       <div className="col-span-2 bg-white shadow-lg rounded-lg p-4 relative">
-        {isEditableSection && (
-          <button className="absolute top-4 right-4 text-gray-500 hover:text-blue-600">
-            <FiEdit size={20} />
-          </button>
-        )}
         {(() => {
           switch (activeSection) {
             case "Personal Information":
               return <PersonalInformation />;
-
             case "Tutor Details":
-              return <Details />;
-
+            case "Student Details":
+              return <Details role={role} />;
             case "Subject Details":
               return (
                 <SubjectDetails
@@ -84,24 +97,31 @@ const TutorProfile = () => {
                   setSubject={setSubject}
                 />
               );
-
             case "Current Location":
               return <CurrentLocation />;
             case "Permanent Location":
               return <PermanetLocation />;
-
             default:
               return <div>Invalid Section</div>;
           }
         })()}
-        <div className="flex justify-center">
-          <button className="mt-4 bg-[#32046B] text-white px-4 py-2 rounded-lg hover:bg-blue-500 w-28">
-            Save
-          </button>
-        </div>
       </div>
     );
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axiosInstance.get(`/users/${userId}`);
+        const data = response.data;
+        console.log(data);
+        setFullname(data.fullName);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchUserData();
+  }, []);
 
   return (
     <MainLayout>
@@ -109,7 +129,7 @@ const TutorProfile = () => {
         <main className="flex-1 p-6 ml-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <div className="bg-white p-6 rounded-lg shadow">
-              <h2 className="text-2xl font-bold">Welcome Gruhapandit</h2>
+              <h2 className="text-2xl font-bold">{`Welcome ${fullname}`}</h2>
               <p className="text-lg text-gray-600">
                 Every step you take today shapes your future tomorrow. Let's
                 make it count!
@@ -141,13 +161,7 @@ const TutorProfile = () => {
           <div className="grid grid-cols-3 gap-6">
             <div className="bg-white shadow-lg rounded-lg p-4">
               <div className="space-y-4">
-                {[
-                  "Personal Information",
-                  "Tutor Details",
-                  "Subject Details",
-                  "Current Location",
-                  "Permanent Location",
-                ].map((section) => (
+                {sections.map((section) => (
                   <button
                     key={section}
                     className={`w-full flex items-center justify-between p-2 rounded-lg ${
@@ -178,3 +192,4 @@ const TutorProfile = () => {
 };
 
 export default TutorProfile;
+ 
