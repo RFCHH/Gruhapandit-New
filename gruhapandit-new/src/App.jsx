@@ -58,7 +58,7 @@ function App() {
 
             <Route path="/Dashboard/:userId" element={<Dashboard />} />
             <Route path="/National/:userId" element={<National />} />
-            <Route path="/Profile" element={<TutorProfile />} />
+            <Route path="/Profile/:userId" element={<TutorProfile />} />
 
            
             <Route path="/createReviews" element={<CreateReview/>} />
