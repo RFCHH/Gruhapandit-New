@@ -11,24 +11,32 @@ import axiosInstance from "../axiosInstance";
 
 export const FormInput = ({
   label,
-  placeholder,
-  type = "text",
   name,
+  placeholder,
   value,
   onChange,
+  onFocus,
   disabled,
+  error,
 }) => (
-  <div>
-    <label className="block text-sm font-medium text-[#000000]">{label}</label>
+  <div className="mb-4">
+    <label htmlFor={name} className="block text-gray-700 font-bold mb-1">
+      {label}
+    </label>
     <input
-      className="w-full border p-2 rounded"
-      type={type}
+      type="text"
+      id={name}
       name={name}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      onFocus={onFocus}
       disabled={disabled}
+      className={`w-full px-3 py-2 border ${
+        error ? "border-red-500" : "border-gray-300"
+      } rounded focus:outline-none focus:ring-2 focus:ring-cyan-500`}
     />
+    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
   </div>
 );
 
@@ -192,4 +200,3 @@ const TutorProfile = () => {
 };
 
 export default TutorProfile;
- 
