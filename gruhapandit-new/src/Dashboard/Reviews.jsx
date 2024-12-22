@@ -55,7 +55,7 @@ function App() {
   };
 
   const handleStarClick = (rating) => {
-    setTempRating(tempRating === rating ? 0 : rating); // Toggle rating on click
+    setTempRating(tempRating === rating ? 0 : rating); // 
   };
 
   return (
