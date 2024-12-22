@@ -11,12 +11,14 @@ import UserSelection from "./Signup/UserSelection";
 import CreatePassword from "./Signup/CreatePassword";
 import SignUp from "./Signup/Signup";
 import Login from "./Signup/Login";
-import LoginSuccess from "./Signup/Success";
-
+import LoginSuccess from "./Signup/Success"
 import TutorProfile from "./Profile/TutorProfile";
-
 import CreateReview from "./Dashboard/CreateReview"
-import Review from"./Dashboard/Reviews"
+import Review from"./Dashboard/Reviews";
+import MyRequest from "./Dashboard/Request";
+import TutorTable from "./Admin Flow/TutorTable";
+import Registration from "./Admin Flow/Registration";
+import StudentTable from "./Admin Flow/StudentTable";
 
 
 
@@ -59,10 +61,16 @@ function App() {
             <Route path="/Dashboard/:userId" element={<Dashboard />} />
             <Route path="/National/:userId" element={<National />} />
             <Route path="/Profile/:userId" element={<TutorProfile />} />
+            <Route path="/Request/:userId" element={<MyRequest />} />
+
 
            
             <Route path="/createReviews" element={<CreateReview/>} />
             <Route path="/review" element={<Review/>} />
+            <Route path="/Registration" element={<Registration/>} />
+            <Route path="/TutorTable" element={<TutorTable/>}/>
+            <Route path="/StudentTable" element={<StudentTable/>}/>
+
            
 
 
