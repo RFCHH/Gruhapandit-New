@@ -1,10 +1,15 @@
-import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Home from "./Pages/LandingPage/Home";
 import About from "./Pages/LandingPage/About";
 import Services from "./Pages/LandingPage/Services";
 import Reviews from "./Pages/LandingPage/Reviews";
 import Contact from "./Pages/LandingPage/Contact";
-import Navbar from './Pages/LandingPage/Navbar';
+import Navbar from "./Pages/LandingPage/Navbar";
 import Dashboard from "./Dashboard/Dashboard";
 import National from "./Dashboard/National";
 import UserSelection from "./Signup/UserSelection";
@@ -12,21 +17,35 @@ import CreatePassword from "./Signup/CreatePassword";
 import SignUp from "./Signup/Signup";
 import Login from "./Signup/Login";
 import LoginSuccess from "./Signup/Success";
-
 import TutorProfile from "./Profile/TutorProfile";
-
-import CreateReview from "./Dashboard/CreateReview"
-import Review from"./Dashboard/Reviews"
-
-
-
-
+import CreateReview from "./Dashboard/CreateReview";
+import Review from "./Dashboard/Reviews";
+import MyRequest from "./Dashboard/Request";
+import TutorTable from "./Admin Flow/TutorTable";
+import Registration from "./Admin Flow/Registration";
+import StudentTable from "./Admin Flow/StudentTable";
+import MyPlans from "./Dashboard/Plans";
+import StudentFeed from "./Dashboard/StudentFeed";
 
 function Layout({ children }) {
   const location = useLocation();
+  const isAuthenticated = true;
 
-  const hideNavbarRoutes = ["/Dashboard", "/National","/createReviews"];
-  const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
+  const hideNavbarRoutes = [
+    "/Dashboard",
+    "/National",
+    "/createReviews",
+    "/Profile",
+    "/Request",
+    "/createReviews",
+    "/review",
+    "/plans",
+    "/Feeds"
+  ];
+
+  const shouldHideNavbar =
+    !isAuthenticated ||
+    hideNavbarRoutes.some((route) => location.pathname.startsWith(route));
 
   return (
     <>
@@ -37,7 +56,6 @@ function Layout({ children }) {
 }
 
 function App() {
-
   return (
     <>
       <Router>
@@ -53,28 +71,27 @@ function App() {
             <Route path="/SignUp" element={<SignUp />}></Route>
             <Route path="/LoginPage" element={<Login />}></Route>
             <Route path="/successfull" element={<LoginSuccess />} />
-            {/* <Route path="/Dashboard" element={<Dashboard />} /> */}
-
 
             <Route path="/Dashboard/:userId" element={<Dashboard />} />
             <Route path="/National/:userId" element={<National />} />
-            <Route path="/Profile" element={<TutorProfile />} />
+            <Route path="/Profile/:userId" element={<TutorProfile />} />
+            <Route path="/Request/:userId" element={<MyRequest />} />
+            <Route path="/createReviews" element={<CreateReview />} />
+            <Route path="review" element={<Review />} />
+            <Route path="/plans/:userId" element={<MyPlans />} />
+            <Route path="/Feeds/:userId" element={<StudentFeed />} />
 
-           
-            <Route path="/createReviews" element={<CreateReview/>} />
-            <Route path="/review" element={<Review/>} />
-           
 
 
 
+            <Route path="/Registration" element={<Registration />} />
+            <Route path="/TutorTable" element={<TutorTable />} />
+            <Route path="/StudentTable" element={<StudentTable />} />
           </Routes>
         </Layout>
       </Router>
     </>
-
-  )
+  );
 }
 
 export default App;
-
-
