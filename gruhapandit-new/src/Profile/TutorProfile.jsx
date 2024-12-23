@@ -20,7 +20,7 @@ export const FormInput = ({
   error,
 }) => (
   <div className="mb-4">
-    <label htmlFor={name} className="block text-gray-700 font-bold mb-1">
+    <label htmlFor={name} className="block text-black font-bold mb-1">
       {label}
     </label>
     <input
