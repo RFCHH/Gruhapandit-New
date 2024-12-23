@@ -67,16 +67,16 @@ const PersonalInformation = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const token = localStorage.getItem("Token");
     const userId = localStorage.getItem("UserId");
     const type = localStorage.getItem("role");
-  
+
     if (!token || !userId || !type) {
       console.error("Token, userId, or role is missing.");
       return;
     }
-  
+
     const payload = {
       userId: userId,
       fullName: formData.fullName,
@@ -87,7 +87,7 @@ const PersonalInformation = () => {
       type: type,
       dateOfBirth: formData.dateOfBirth,
     };
-  
+
     if (validateForm()) {
       try {
         const response = await axiosInstance.patch(`/users/`, payload, {
@@ -96,7 +96,7 @@ const PersonalInformation = () => {
             "Content-Type": "application/json",
           },
         });
-  
+
         // Handle API response
         if (response.status === 200) {
           console.log("Form submitted successfully:", response.data);
@@ -111,7 +111,6 @@ const PersonalInformation = () => {
       console.error("Form validation failed.");
     }
   };
-  
 
   const validateForm = () => {
     const newErrors = {};
@@ -120,10 +119,98 @@ const PersonalInformation = () => {
     if (!formData.fullName) {
       newErrors.fullName = "Full Name is required.";
       isValid = false;
+    } else if (/^\s/.test(formData.fullName)) {
+      newErrors.fullName = "Full Name cannot start with a space.";
+      isValid = false;
     }
 
     if (!formData.emailId) {
-      newErrors.emailId = "Email ID is required.";
+      newErrors.email = "Email ID is required.";
+      isValid = false;
+    } else {
+      const emailWithoutSpaces = formData.emailId.replace(/\s+/g, "");
+
+      if (!/^[a-z0-9._%+-]+@[a-z.-]+\.(com|net|org|in|edu|gov|mil|co|us|info)$/.test(emailWithoutSpaces)) {
+        newErrors.emailId = "Invalid Email ID.";
+        isValid = false;
+      } else {
+        formData.emailId = emailWithoutSpaces;
+      }
+    }
+
+    if (!formData.mobile) {
+      newErrors.mobile = "Mobile Number is required.";
+      isValid = false;
+    } else if (formData.mobile.length !== 10) {
+      newErrors.mobile = "Mobile Number must be exactly 10 digits.";
+      isValid = false;
+    }
+
+    if (!formData.gender) {
+      newErrors.gender = "Gender is required.";
+      isValid = false;
+    }
+
+    if (!formData.dob) {
+      newErrors.dob = "Date of Birth is required.";
+      isValid = false;
+    } else {
+      const dob = new Date(formData.dob);
+      const currentDate = new Date();
+
+      if (dob >= currentDate) {
+        newErrors.dob = "Date of Birth cannot be today or in the future.";
+        isValid = false;
+      } else {
+        const ageInMilliseconds = currentDate - dob;
+        const ageInYears = ageInMilliseconds / (1000 * 3600 * 24 * 365.25);
+
+        if (ageInYears < 2) {
+          newErrors.dob = "You must be at least 2 years old.";
+          isValid = false;
+        } else if (ageInYears > 75) {
+          newErrors.dob = "Age must be under 75 years.";
+          isValid = false;
+        }
+      }
+    }
+    if (!formData.city) {
+      newErrors.city = "City is required.";
+      isValid = false;
+    } else if (/^\s/.test(formData.city)) {
+      newErrors.city = "City cannot start with a space.";
+      isValid = false;
+    }
+
+    if (!formData.district) {
+      newErrors.district = "District is required.";
+      isValid = false;
+    } else if (/^\s/.test(formData.district)) {
+      newErrors.district = "District cannot start with a space.";
+      isValid = false;
+    }
+
+    if (!formData.country) {
+      newErrors.country= "Country is required.";
+      isValid = false;
+    } else if (/^\s/.test(formData.country)) {
+      newErrors.country = "Country cannot start with a space.";
+      isValid = false;
+    }
+    
+    if (!formData.state) {
+      newErrors.state = "State is required.";
+      isValid = false;
+    } else if (/^\s/.test(formData.state)) {
+      newErrors.state = "State cannot start with a space.";
+      isValid = false;
+    }
+
+    if (!formData.pinCode) {
+      newErrors.pinCode = "PinCode is required.";
+      isValid = false;
+    } else if (formData.pinCode.length !== 6) {
+      newErrors.pinCode = "PinCode must be exactly 6 digits.";
       isValid = false;
     }
 
@@ -170,7 +257,7 @@ const PersonalInformation = () => {
         className="absolute -top-1 right-2 bg-cyan-600 text-white px-3 py-2 rounded"
         onClick={() => setIsEditing(!isEditing)}
       >
-        {isEditing ? <ImCancelCircle/> : <FaEdit/>}
+        {isEditing ? <ImCancelCircle /> : <FaEdit />}
       </button>
       <h3 className="text-cyan-600 font-bold mb-4">Personal Information</h3>
       <form className="grid grid-cols-3 gap-1" onSubmit={handleSubmit}>
@@ -183,7 +270,9 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the Name"
           />
-          {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName}</p>}
+          {errors.fullName && (
+            <p className="text-red-500 text-sm">{errors.fullName}</p>
+          )}
         </div>
 
         <div className="flex flex-col">
@@ -196,7 +285,9 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the Email ID"
           />
-          {errors.emailId && <p className="text-red-500 text-sm">{errors.emailId}</p>}
+          {errors.emailId && (
+            <p className="text-red-500 text-sm">{errors.emailId}</p>
+          )}
         </div>
 
         <div className="flex flex-col">
@@ -209,6 +300,9 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the Number"
           />
+          {errors.mobileNumber && (
+            <p className="text-red-500 text-sm">{errors.mobileNumber}</p>
+          )}
         </div>
 
         <div className="flex flex-col mt-1">
@@ -224,6 +318,9 @@ const PersonalInformation = () => {
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
+          {errors.gender && (
+            <p className="text-red-500 text-sm">{errors.gender}</p>
+          )}
         </div>
 
         <div className="flex flex-col">
@@ -235,6 +332,9 @@ const PersonalInformation = () => {
             onChange={handleChange}
             disabled={!isEditing}
           />
+          {errors.dateOfBirth && (
+            <p className="text-red-500 text-sm">{errors.dateOfBirth}</p>
+          )}
         </div>
 
         <div className="flex flex-col">
@@ -246,6 +346,7 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the City"
           />
+          {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
         </div>
 
         <div className="flex flex-col">
@@ -257,6 +358,9 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the State"
           />
+          {errors.state && (
+            <p className="text-red-500 text-sm">{errors.state}</p>
+          )}
         </div>
 
         <div className="flex flex-col">
@@ -268,6 +372,9 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the District"
           />
+          {errors.district && (
+            <p className="text-red-500 text-sm">{errors.district}</p>
+          )}
         </div>
 
         <div className="flex flex-col">
@@ -279,6 +386,9 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the Country"
           />
+          {errors.country && (
+            <p className="text-red-500 text-sm">{errors.country}</p>
+          )}
         </div>
 
         <div className="flex flex-col">
@@ -290,11 +400,17 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the Pin code"
           />
+          {errors.pinCode && (
+            <p className="text-red-500 text-sm">{errors.pinCode}</p>
+          )}
         </div>
 
         <div className="col-span-3 mt-4 text-end">
           {isEditing && (
-            <button type="submit" className="bg-cyan-600 text-white px-4 py-2 rounded">
+            <button
+              type="submit"
+              className="bg-cyan-600 text-white px-4 py-2 rounded"
+            >
               Save
             </button>
           )}
