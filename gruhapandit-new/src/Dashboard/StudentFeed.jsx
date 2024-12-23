@@ -1,5 +1,6 @@
 import React from "react";
 import MainLayout from "../Layout/Mainlayout";
+import { Link } from "react-router-dom";
 
 const MyFeedStudent = () => {
   return (
@@ -11,7 +12,7 @@ const MyFeedStudent = () => {
             My Feed
           </button>
           <button className="bg-blue-500 text-white px-8 py-2 mr-36 mt-16 rounded-tr-xl rounded-bl-xl hover:bg-blue-600">
-            Exam
+            <Link to="/ExamList">Exam</Link>
           </button>
         </nav>
 
