@@ -26,6 +26,7 @@ import Registration from "./Admin Flow/Registration";
 import StudentTable from "./Admin Flow/StudentTable";
 import MyPlans from "./Dashboard/Plans";
 import StudentFeed from "./Dashboard/StudentFeed";
+import ExamList from "./Exam/ExamList";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -40,7 +41,8 @@ function Layout({ children }) {
     "/createReviews",
     "/review",
     "/plans",
-    "/Feeds"
+    "/Feeds",
+    "/ExamList"
   ];
 
   const shouldHideNavbar =
@@ -80,6 +82,7 @@ function App() {
             <Route path="review" element={<Review />} />
             <Route path="/plans/:userId" element={<MyPlans />} />
             <Route path="/Feeds/:userId" element={<StudentFeed />} />
+            <Route path="/ExamList"element={<ExamList/>}></Route>
 
 
 
@@ -87,6 +90,7 @@ function App() {
             <Route path="/Registration" element={<Registration />} />
             <Route path="/TutorTable" element={<TutorTable />} />
             <Route path="/StudentTable" element={<StudentTable />} />
+            
           </Routes>
         </Layout>
       </Router>
