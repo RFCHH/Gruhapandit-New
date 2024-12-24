@@ -76,7 +76,6 @@ const CurrentLocation = () => {
     setErrors(newErrors);
     return isValid;
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -113,23 +112,13 @@ const CurrentLocation = () => {
               "Content-Type": "application/json",
             },
           });
-
-          if (response.status === 201) {
-            const newResponse = await axiosInstance.get(
-              `/address/${userId}?type=CURRENT`,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-            setFormData(newResponse.data);
-            setIsDataPresent(true);
-            setIsEditing(false);
-          }
         }
 
         console.log("Response:", response);
+
+        // Set the form as non-editable after a successful submission
+        setIsEditing(false);
+        setIsDataPresent(true);
       } catch (error) {
         console.error("Error submitting form:", error);
         if (error.response) {
@@ -189,7 +178,7 @@ const CurrentLocation = () => {
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-cyan-600 font-bold">Current Location</h3>
 
-        {isDataPresent && (
+        {isDataPresent && !isEditing && (
           <button
             onClick={handleEdit}
             className="bg-green-500 text-white py-1 px-3 rounded"
@@ -299,3 +288,4 @@ const CurrentLocation = () => {
 };
 
 export default CurrentLocation;
+ 

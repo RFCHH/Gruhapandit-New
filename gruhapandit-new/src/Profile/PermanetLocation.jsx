@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FormInput } from "./TutorProfile";
 import axiosInstance from "../axiosInstance";
 
-const PermanetLocation = () => {
+const PermanentLocation = () => {
   const [formData, setFormData] = useState({
     houseNum: "",
     locality: "",
@@ -47,7 +47,7 @@ const PermanetLocation = () => {
 
     setErrors({
       ...errors,
-      [name]: "", 
+      [name]: "",
     });
   };
 
@@ -112,61 +112,58 @@ const PermanetLocation = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Form data submitted", formData);
-    }
+      const token = localStorage.getItem("Token");
+      const userId = localStorage.getItem("UserId");
 
-    const token = localStorage.getItem("Token");
-    const userId = localStorage.getItem("UserId");
-
-    if (!token || !userId) {
-      console.error("Missing token or userId.");
-      return;
-    }
-
-    const payload = {
-      ...formData,
-      type: "CURRENT",
-      userId,
-    };
-
-    console.log("Submitting data:", payload);
-
-    try {
-      let response;
-      if (isDataPresent) {
-        response = await axiosInstance.patch(`/address/`, payload, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-      } else {
-        response = await axiosInstance.post(`/address/`, payload, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-        if (response.status === 201) {
-          const newResponse = await axiosInstance.get(
-            `/address/${userId}?type=PERMANENT`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setFormData(newResponse.data);
-          setIsDataPresent(true);
-          setIsEditing(false);
-        }
+      if (!token || !userId) {
+        console.error("Missing token or userId.");
+        return;
       }
 
-      console.log("Response:", response);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      if (error.response) {
-        console.error("Error response data:", error.response.data);
+      const payload = {
+        ...formData,
+        type: "PERMANENT",
+        userId,
+      };
+
+      try {
+        let response;
+        if (isDataPresent) {
+          response = await axiosInstance.patch(`/address/`, payload, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+        } else {
+          response = await axiosInstance.post(`/address/`, payload, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (response.status === 201) {
+            const newResponse = await axiosInstance.get(
+              `/address/${userId}?type=PERMANENT`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            setFormData(newResponse.data);
+            setIsDataPresent(true);
+          }
+        }
+
+        setIsEditing(false);
+        console.log("Response:", response);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        if (error.response) {
+          console.error("Error response data:", error.response.data);
+        }
       }
     }
   };
@@ -187,7 +184,7 @@ const PermanetLocation = () => {
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-cyan-600 font-bold">Permanent Location</h3>
 
-        {isDataPresent && (
+        {isDataPresent && !isEditing && (
           <button
             onClick={handleEdit}
             className="bg-green-500 text-white py-1 px-3 rounded"
@@ -295,4 +292,4 @@ const PermanetLocation = () => {
   );
 };
 
-export default PermanetLocation;
+export default PermanentLocation;
