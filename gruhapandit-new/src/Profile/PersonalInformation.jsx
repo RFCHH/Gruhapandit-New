@@ -67,16 +67,16 @@ const PersonalInformation = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const token = localStorage.getItem("Token");
     const userId = localStorage.getItem("UserId");
     const type = localStorage.getItem("role");
-
+  
     if (!token || !userId || !type) {
       console.error("Token, userId, or role is missing.");
       return;
     }
-
+  
     const payload = {
       userId: userId,
       fullName: formData.fullName,
@@ -86,8 +86,14 @@ const PersonalInformation = () => {
       gender: formData.gender,
       type: type,
       dateOfBirth: formData.dateOfBirth,
+      updateBasicAddressRequest: {
+        city: formData.city,
+        district: formData.district,
+        state: formData.state,
+        country: formData.country,
+      },
     };
-
+  
     if (validateForm()) {
       try {
         const response = await axiosInstance.patch(`/users/`, payload, {
@@ -96,11 +102,11 @@ const PersonalInformation = () => {
             "Content-Type": "application/json",
           },
         });
-
+  
         // Handle API response
         if (response.status === 200) {
           console.log("Form submitted successfully:", response.data);
-          setIsEditing(false); // Updated this line
+          setIsEditing(false); // Close editing mode
         } else {
           console.error("Error in response:", response);
         }
@@ -111,112 +117,83 @@ const PersonalInformation = () => {
       console.error("Form validation failed.");
     }
   };
+  
 
   const validateForm = () => {
     const newErrors = {};
     let isValid = true;
-
-    if (!formData.fullName) {
+  
+    if (!formData.fullName.trim()) {
       newErrors.fullName = "Full Name is required.";
       isValid = false;
-    } else if (/^\s/.test(formData.fullName)) {
-      newErrors.fullName = "Full Name cannot start with a space.";
+    }
+  
+    const emailWithoutSpaces = formData.emailId.replace(/\s+/g, "");
+    if (!emailWithoutSpaces) {
+      newErrors.emailId = "Email ID is required.";
+      isValid = false;
+    } else if (!/^[a-z0-9._%+-]+@[a-z.-]+\.(com|net|org|in|edu|gov|mil|co|us|info)$/.test(emailWithoutSpaces)) {
+      newErrors.emailId = "Invalid Email ID.";
       isValid = false;
     }
-
-    if (!formData.emailId) {
-      newErrors.email = "Email ID is required.";
+  
+    if (!formData.mobileNumber) {
+      newErrors.mobileNumber = "Mobile Number is required.";
       isValid = false;
-    } else {
-      const emailWithoutSpaces = formData.emailId.replace(/\s+/g, "");
-
-      if (!/^[a-z0-9._%+-]+@[a-z.-]+\.(com|net|org|in|edu|gov|mil|co|us|info)$/.test(emailWithoutSpaces)) {
-        newErrors.emailId = "Invalid Email ID.";
-        isValid = false;
-      } else {
-        formData.emailId = emailWithoutSpaces;
-      }
-    }
-
-    if (!formData.mobile) {
-      newErrors.mobile = "Mobile Number is required.";
-      isValid = false;
-    } else if (formData.mobile.length !== 10) {
-      newErrors.mobile = "Mobile Number must be exactly 10 digits.";
+    } else if (formData.mobileNumber.length !== 10) {
+      newErrors.mobileNumber = "Mobile Number must be exactly 10 digits.";
       isValid = false;
     }
-
+  
     if (!formData.gender) {
       newErrors.gender = "Gender is required.";
       isValid = false;
     }
-
-    if (!formData.dob) {
-      newErrors.dob = "Date of Birth is required.";
+  
+    if (!formData.dateOfBirth) {
+      newErrors.dateOfBirth = "Date of Birth is required.";
       isValid = false;
     } else {
-      const dob = new Date(formData.dob);
+      const dob = new Date(formData.dateOfBirth);
       const currentDate = new Date();
-
       if (dob >= currentDate) {
-        newErrors.dob = "Date of Birth cannot be today or in the future.";
+        newErrors.dateOfBirth = "Date of Birth cannot be today or in the future.";
         isValid = false;
-      } else {
-        const ageInMilliseconds = currentDate - dob;
-        const ageInYears = ageInMilliseconds / (1000 * 3600 * 24 * 365.25);
-
-        if (ageInYears < 2) {
-          newErrors.dob = "You must be at least 2 years old.";
-          isValid = false;
-        } else if (ageInYears > 75) {
-          newErrors.dob = "Age must be under 75 years.";
-          isValid = false;
-        }
       }
     }
-    if (!formData.city) {
+  
+    if (!formData.city.trim()) {
       newErrors.city = "City is required.";
       isValid = false;
-    } else if (/^\s/.test(formData.city)) {
-      newErrors.city = "City cannot start with a space.";
-      isValid = false;
     }
-
-    if (!formData.district) {
+  
+    if (!formData.district.trim()) {
       newErrors.district = "District is required.";
       isValid = false;
-    } else if (/^\s/.test(formData.district)) {
-      newErrors.district = "District cannot start with a space.";
-      isValid = false;
     }
-
-    if (!formData.country) {
-      newErrors.country= "Country is required.";
-      isValid = false;
-    } else if (/^\s/.test(formData.country)) {
-      newErrors.country = "Country cannot start with a space.";
-      isValid = false;
-    }
-    
-    if (!formData.state) {
+  
+    if (!formData.state.trim()) {
       newErrors.state = "State is required.";
       isValid = false;
-    } else if (/^\s/.test(formData.state)) {
-      newErrors.state = "State cannot start with a space.";
+    }
+  
+    if (!formData.country.trim()) {
+      newErrors.country = "Country is required.";
       isValid = false;
     }
-
+  
     if (!formData.pinCode) {
-      newErrors.pinCode = "PinCode is required.";
+      newErrors.pinCode = "Pin Code is required.";
       isValid = false;
     } else if (formData.pinCode.length !== 6) {
-      newErrors.pinCode = "PinCode must be exactly 6 digits.";
+      newErrors.pinCode = "Pin Code must be exactly 6 digits.";
       isValid = false;
     }
-
+  
     setErrors(newErrors);
     return isValid;
   };
+  
 
   useEffect(() => {
     const fetchData = async () => {
