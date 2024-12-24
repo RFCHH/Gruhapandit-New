@@ -180,6 +180,14 @@ const Navbar = () => {
               Contact Us
             </button>
             <button
+            onClick={() => navigateTo("/LoginPage")}
+            className={`bg-gradient-to-r from-[#0A97B0] to-green-500 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:bg-gradient-to-r hover:from-[#0288D1] hover:to-green-600 transition-all duration-300 ${
+              isActive("/LoginPage") ? "ring-2 ring-green-500" : ""
+            }`}
+          >
+            Sign In
+          </button>
+            <button
               onClick={() => navigateTo("/UserSelection")}
               className={`bg-gradient-to-r from-[#0A97B0] to-green-500 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:bg-gradient-to-r hover:from-[#0288D1] hover:to-green-600 transition-all duration-300 ${
                 isActive("/SignUp") ? "ring-2 ring-green-500" : ""
