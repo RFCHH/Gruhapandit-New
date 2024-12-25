@@ -14,6 +14,7 @@ import MainLayout from "../Layout/Mainlayout";
 // import { useParams } from 'react-router-dom';
 import axiosInstance from "../axiosInstance";
 import christmas from "../assets/christmas.png";
+import { useNavigate } from 'react-router-dom';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -21,6 +22,7 @@ const Dashboard = () => {
   const [fullname, setFullname] = useState("");
   const [loading, setLoading] = useState(true);
   const userId = localStorage.getItem("UserId");
+  const navigate=useNavigate();
 
   const animatedCount = (count) => {
     const { number } = useSpring({
@@ -131,7 +133,8 @@ const Dashboard = () => {
             ].map((card, index) => (
               <div
                 className="option-card border rounded-3xl bg-white p-6 shadow-2xl shadow-zinc-500 hover:shadow-current transition"
-                key={index}
+                key={index} 
+                onClick={() => navigate("/subject")}
               >
                 <div className="text-center">
                   <img
