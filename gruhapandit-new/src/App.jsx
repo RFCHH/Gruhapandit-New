@@ -27,6 +27,8 @@ import StudentTable from "./Admin Flow/StudentTable";
 import MyPlans from "./Dashboard/Plans";
 import StudentFeed from "./Dashboard/StudentFeed";
 import ExamList from "./Exam/ExamList";
+import ForgotPassword from "./Signup/ForgotPassword";
+import PasswordVerification from "./Signup/PasswordVeification";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -72,6 +74,8 @@ function App() {
             <Route path="/CreatePassword" element={<CreatePassword />}></Route>
             <Route path="/SignUp" element={<SignUp />}></Route>
             <Route path="/LoginPage" element={<Login />}></Route>
+            <Route path="/ForgotPassword" element={<ForgotPassword />}/>
+            <Route path="/PasswordVerification"element={<PasswordVerification />}/>
             <Route path="/successfull" element={<LoginSuccess />} />
 
             <Route path="/Dashboard/:userId" element={<Dashboard />} />

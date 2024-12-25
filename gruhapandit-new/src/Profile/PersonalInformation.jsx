@@ -234,7 +234,8 @@ const PersonalInformation = () => {
         className="absolute -top-1 right-2 bg-cyan-600 text-white px-3 py-2 rounded"
         onClick={() => setIsEditing(!isEditing)}
       >
-        {isEditing ? <ImCancelCircle /> : <FaEdit />}
+        {/* {isEditing ? <ImCancelCircle /> : <FaEdit />}
+         */}Edit
       </button>
       <h3 className="text-cyan-600 font-bold mb-4">Personal Information</h3>
       <form className="grid grid-cols-3 gap-1" onSubmit={handleSubmit}>

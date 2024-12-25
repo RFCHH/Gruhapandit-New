@@ -181,7 +181,7 @@ const CurrentLocation = () => {
         {isDataPresent && !isEditing && (
           <button
             onClick={handleEdit}
-            className="bg-green-500 text-white py-1 px-3 rounded"
+            className="bg-cyan-500 text-white py-2 px-3 rounded"
           >
             Edit
           </button>

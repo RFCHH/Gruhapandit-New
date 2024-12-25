@@ -8,6 +8,7 @@ import CurrentLocation from "./CurrentLocation";
 import PermanetLocation from "./PermanetLocation";
 import Details from "./Details";
 import axiosInstance from "../axiosInstance";
+import profileIcon from "../assets/profileIcon.png";
 
 export const FormInput = ({
   label,
@@ -20,7 +21,7 @@ export const FormInput = ({
   error,
 }) => (
   <div className="mb-4">
-    <label htmlFor={name} className="block text-black font-bold mb-1">
+    <label htmlFor={name} className="block text-gray-700 font-bold mb-1">
       {label}
     </label>
     <input
@@ -66,10 +67,10 @@ const TutorProfile = () => {
   const [category, setCategory] = useState("");
   const [subject, setSubject] = useState("");
   const [fullname, setFullname] = useState("");
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const userId = localStorage.getItem("userId");
-
   const role = localStorage.getItem("role");
 
   const sections = [
@@ -119,49 +120,100 @@ const TutorProfile = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      if (!userId) {
+        setError("User ID not found. Please log in again.");
+        setLoading(false);
+        return;
+      }
+
       try {
+        setLoading(true);
         const response = await axiosInstance.get(`/users/${userId}`);
         const data = response.data;
-        console.log(data);
         setFullname(data.fullName);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+        setError("Unable to fetch user data. Please try again later.");
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchUserData();
-  }, []);
+  }, [userId]);
 
   return (
     <MainLayout>
       <div className="flex min-h-screen bg-gradient-to-b from-white to-blue-200">
         <main className="flex-1 p-6 ml-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h2 className="text-2xl font-bold">{`Welcome ${fullname}`}</h2>
-              <p className="text-lg text-gray-600">
-                Every step you take today shapes your future tomorrow. Let's
-                make it count!
-              </p>
+            <div className="bg-white p-6 rounded-lg shadow flex items-center">
+              <img
+                src={profileIcon}
+                alt="Profile Icon"
+                className="w-24 h-24 rounded-full mr-8"
+              />
+              <div>
+                <h2 className="text-2xl font-bold">
+                  {loading ? "Loading..." : `Welcome ${fullname}`}
+                </h2>
+                <p className="text-lg text-black mt-4">
+                  Every step you take today shapes your future tomorrow. Let's
+                  make it count!
+                </p>
+              </div>
             </div>
             <div className="bg-white p-6 rounded-lg shadow flex flex-col items-center">
-              <div className="flex items-center space-x-16">
-                <div className="relative w-40 h-40">
-                  <Doughnut data={data} options={options} />
-                  <div className="absolute inset-0 flex items-center justify-center text-green-600 font-bold text-lg">
-                    40%
+              <div className="flex items-center space-x-12">
+                <div className="flex flex-col items-center">
+                  <div className="relative w-36 h-36">
+                    <Doughnut
+                      data={{
+                        datasets: [
+                          {
+                            data: [30, 70],
+                            backgroundColor: ["#4A148C", "#EDE7F6"],
+                            borderWidth: 0,
+                          },
+                        ],
+                      }}
+                      options={{
+                        cutout: "70%",
+                        plugins: { tooltip: { enabled: false } },
+                      }}
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center text-yellow-500 font-bold text-lg">
+                      30%
+                    </div>
+                  </div>
+                  <div className="text-center mt-4">
+                    <p className="text-blue-600 font-bold">Profile</p>
                   </div>
                 </div>
-
-                <div className="flex flex-col space-y-6">
-                  <h3 className="text-md font-bold text-gray-700">
-                    Complete Your Profile
-                  </h3>
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-                    Profile
-                  </button>
-                  <button className="bg-green-500 text-white px-4 py-2 rounded-lg">
-                    KYC
-                  </button>
+                <div className="flex flex-col items-center">
+                  <div className="relative w-36 h-36">
+                    <Doughnut
+                      data={{
+                        datasets: [
+                          {
+                            data: [30, 70],
+                            backgroundColor: ["#FF9800", "#FFF3E0"],
+                            borderWidth: 0,
+                          },
+                        ],
+                      }}
+                      options={{
+                        cutout: "70%",
+                        plugins: { tooltip: { enabled: false } },
+                      }}
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center text-yellow-500 font-bold text-lg">
+                      30%
+                    </div>
+                  </div>
+                  <div className="text-center mt-4">
+                    <p className="text-blue-600 font-bold">KYC</p>
+                  </div>
                 </div>
               </div>
             </div>
