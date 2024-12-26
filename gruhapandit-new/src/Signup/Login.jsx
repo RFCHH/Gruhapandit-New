@@ -84,10 +84,19 @@ const LoginPage = () => {
           localStorage.setItem("Token", token);
           localStorage.setItem("UserRole", userRole);
 
-          navigate("/successfull");
-          setTimeout(() => {
-            navigate(`/Dashboard/${userId}`);
-          }, 3000);
+          if(userRole === 'ROLE_ADMIN'){  
+            navigate("/Registration");
+          }else if(userRole === 'ROLE_PREMIUM_USER'){
+            navigate("/successfull")
+             setTimeout(() => {
+             navigate(`/Dashboard/${userId}`);
+            }, 3000);
+          }
+           else {
+            console.log('navigated to employeeDashboard');
+            navigate(`/userdashboard`);          
+          } 
+
         } else {
           setErrors((prevErrors) => ({
             ...prevErrors,

@@ -1,4 +1,5 @@
 
+
 import React, { useState } from "react";
 
 import {
@@ -12,9 +13,13 @@ import {
 import { SiGooglesheets } from "react-icons/si";
 import { FaBoxOpen } from "react-icons/fa6";
 import { MdPersonSearch, MdPolicy } from "react-icons/md";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Logo from "./../../src/assets/1.png";
 import { TbLayoutDashboardFilled } from "react-icons/tb";
+import { BsPersonCircle,BsPersonCheckFill } from "react-icons/bs";
+import { BiLogoGmail,BiSolidReport } from "react-icons/bi";
+import { FcAdvertising } from "react-icons/fc";
+
 
 function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -22,8 +27,10 @@ function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const userId=localStorage.getItem('UserId');
+  const userRole=localStorage.getItem('UserRole')
+  console.log(userRole);
 
-  const menuItems = [
+  const userMenuItems = [
 
 
     { path: `/Dashboard/${userId}`, label: 'Dashboard', icon: <TbLayoutDashboardFilled className="text-gray-700 text-lg" /> },
@@ -37,6 +44,15 @@ function Sidebar() {
 
 
   ];
+  const adminMenuItems = [
+    { path: `/Registration`, label: "Registration", icon: <BsPersonCircle className="text-gray-700 text-lg" /> },
+    { path: `/email-templates`, label: "Email", icon: <BiLogoGmail className="text-gray-700 text-lg" /> },
+    { path: `/banner`, label: "Banner", icon: <FcAdvertising className="text-gray-700 text-lg" /> },
+    { path: `/reports`, label: "Reports", icon: <BiSolidReport className="text-gray-700 text-lg" /> },
+    { path: `/requestApproval`, label: "Request Approval", icon: <BsPersonCheckFill className="text-gray-700 text-xl" /> },
+  ];
+
+  const menuItems = userRole === 'ROLE_ADMIN' ? adminMenuItems : userMenuItems;
 
   return (
     <div className="relative flex h-screen">

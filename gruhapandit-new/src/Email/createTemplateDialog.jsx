@@ -2,14 +2,14 @@
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useForm } from "react-hook-form";
-import { createTemplate } from "../Services/EmailTemplatesService";
+import { createTemplate } from "../services/EmailTemplatesService";
 import { useNavigate } from "react-router-dom";
 import {FilePlus, Plus, PlusCircle} from "lucide-react";
 
 const CreateTemplateDialog = ({ onCreate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [apiError, setApiError] = useState(""); // State for API errors
+  const [apiError, setApiError] = useState(""); 
   const {
     register,
     handleSubmit,
@@ -34,7 +34,7 @@ const CreateTemplateDialog = ({ onCreate }) => {
   const createNewTemplate = async (data) => {
     try {
       setLoading(true);
-      setApiError(""); // Reset API error message
+      setApiError(""); 
       const res = await createTemplate(data);
       if (res.data && res.data.id) {
         setLoading(false);
@@ -42,7 +42,7 @@ const CreateTemplateDialog = ({ onCreate }) => {
       }
     } catch (error) {
       setLoading(false);
-      setApiError("Failed to create template. Please try again."); // Set API error message
+      setApiError("Failed to create template. Please try again.");
       console.error(error);
     }
   };
