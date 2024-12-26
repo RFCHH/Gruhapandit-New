@@ -24,8 +24,8 @@ const StudentTable = () => {
     try {
       const endpoint =
         tab === "Normal User"
-          ? `users/regularUsers?type=${role}&page=0&size=10 `// Replace with the actual endpoint
-          : `/users/premiumUsers?type=${role}&page=0&size=10`; // Replace with the actual endpoint
+          ? `users/regularUsers?type=${role}&page=0&size=10 `
+          : `/users/premiumUsers?type=${role}&page=0&size=10`; 
 
       const response = await axiosInstance.get(endpoint);
       setTableData(response.data);
@@ -51,9 +51,7 @@ const handlebackclick = ((event) => {
                       <button onClick={handlebackclick}><span className="font-semibold text-black">Previous Page</span></button>
                   </div>
     <div className="min-h-screen bg-blue-50 p-8">
-      {/* Left Sidebar with Tabs */}
       <div className="flex">
-        {/* Sidebar */}
         <div className="w-1/4 ml-6">
           <div className="bg-white rounded-lg shadow-md p-4">
             <button
@@ -79,7 +77,6 @@ const handlebackclick = ((event) => {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="w-3/4 ml-6 ">
           {/* Dropdown */}
           {/* <div className="mb-4">

@@ -53,7 +53,8 @@ function Layout({ children }) {
     "/TutorTable" ,
     "/StudentTable",
     '/email-templates',
-    '/Payment'
+    '/Payment',
+    '/subject',
   ];
 
   const shouldHideNavbar =
@@ -96,7 +97,7 @@ function App() {
             <Route path="/plans/:userId" element={<MyPlans />} />
             <Route path="/Feeds/:userId" element={<StudentFeed />} />
             <Route path="/ExamList"element={<ExamList/>}></Route>
-            <Route path="/subject" element={<Subjects/>}></Route>
+            <Route path="/subject/:userId" element={<Subjects/>}></Route>
             <Route path="/Payment" element={<Payment/>}></Route>
 
 

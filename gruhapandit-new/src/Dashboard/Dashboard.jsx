@@ -24,6 +24,7 @@ const Dashboard = () => {
     const [categoryCounts, setCategoryCounts] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
     const userId = localStorage.getItem('UserId');
+    const  userRole =localStorage.getItem('UserRole')
 
     const navigate=useNavigate();
 
@@ -141,14 +142,14 @@ const Dashboard = () => {
           </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {[
-                            { title: 'School Education', icon: SchoolImage },
-                            { title: 'Under/Post Graduate', icon: CollegeImage },
-                            { title: 'Technical Skills', icon: Technical },
-                            { title: 'Global Language', icon: Global },
-                            { title: 'Competitive Exam', icon: Competitive },
-                            { title: 'Soft Skills', icon: Soft },
-                            { title: 'Government Exam', icon: Government },
-                            { title: 'Entrance Exam', icon: Entrance },
+                            {  title: 'School Education', name: 'SCHOOL_EDUCATION', icon: SchoolImage},
+                            { title: 'Under/Post Graduate',name:'UNDER/POST_GRADUATE', icon: CollegeImage },
+                            { title: 'Technical Skills',name:'TECHNICAL_SKILLS', icon: Technical },
+                            { title: 'Global Language',name:'GLOBAL_LANGUAGE', icon: Global },
+                            { title: 'Competitive Exams',name:'COMPETITIVE_EXAMS', icon: Competitive },
+                            { title: 'Soft Skills', name:'SOFT_SKILLS',icon: Soft },
+                            { title: 'Government Exam',name:'GOVERNMENT_EXAM', icon: Government },
+                            { title: 'Entrance Exams', name:'ENTRANCE_EXAMS',icon: Entrance },
                         ].map((card, index) => {
                             const count = categoryCounts[card.title.toLowerCase()] 
                             
@@ -156,7 +157,14 @@ const Dashboard = () => {
                                 <div
                                     className="option-card border rounded-3xl bg-white p-6 shadow-2xl shadow-zinc-500 hover:shadow-current transition"
                                     key={index}
-                                    onClick={()=> setIsModalOpen(true)}
+                                    onClick={() => {
+                                        if (userRole === "ROLE_PREMIUM_USER") {
+                                            navigate(`/subject/${userId}`, { state: { category: card.name } })
+                                        } else {
+                                            setIsModalOpen(true);
+                                            
+                                        }
+                                    }}
                                 >
                                     <div className="text-center">
                                         <img src={card.icon} alt={`${card.title} Icon`} className="w-16 h-16 mx-auto" />

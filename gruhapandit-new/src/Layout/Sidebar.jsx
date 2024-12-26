@@ -19,6 +19,7 @@ import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { BsPersonCircle,BsPersonCheckFill } from "react-icons/bs";
 import { BiLogoGmail,BiSolidReport } from "react-icons/bi";
 import { FcAdvertising } from "react-icons/fc";
+import axiosInstance from "../axiosInstance";
 
 
 function Sidebar() {
@@ -53,6 +54,46 @@ function Sidebar() {
   ];
 
   const menuItems = userRole === 'ROLE_ADMIN' ? adminMenuItems : userMenuItems;
+
+  const handleLogout = () => {
+    const token = localStorage.getItem("Token");
+    const userId = localStorage.getItem("UserId");
+  
+    if (!token || !userId) {
+      console.log("Token or userId is missing");
+      alert("You are not logged in.");
+      return;
+    }
+  
+    try {
+      axiosInstance.delete(`/authentication/logout?userId=${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          console.log("Logout successful", response.data);
+        
+        localStorage.clear();
+          navigate("/LoginPage"); 
+        })
+        .catch((error) => {
+          
+          if (error.response && error.response.status === 403) {
+            console.error("Access Denied: Invalid Token");
+            alert("Your session has expired or the token is invalid. Please log in again.");
+            localStorage.clear();
+            navigate("/LoginPage"); 
+          } else {
+            console.error("Error during logout", error);
+            alert("Error during logout, please try again.");
+          }
+        });
+    } catch (error) {
+      console.error("Error in logout function", error);
+      alert("Unexpected error, please try again.");
+    }
+  };
 
   return (
     <div className="relative flex h-screen">
@@ -91,7 +132,7 @@ function Sidebar() {
         </nav>
         <div
           className="flex items-center px-3 py-3 hover:bg-blue-100 cursor-pointer justify-end"
-          onClick={() => navigate("/LoginPage")}
+          onClick={handleLogout}
         >
           <FaSignOutAlt className="text-red-500 text-lg" />
           {isExpanded && (
