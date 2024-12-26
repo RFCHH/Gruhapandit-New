@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useForm } from "react-hook-form";
-import { createTemplate } from "../services/EmailTemplatesService";
+import { createTemplate } from "../Services/EmailTemplatesService";
 import { useNavigate } from "react-router-dom";
 import {FilePlus, Plus, PlusCircle} from "lucide-react";
 

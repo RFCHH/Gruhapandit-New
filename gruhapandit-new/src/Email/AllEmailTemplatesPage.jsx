@@ -4,7 +4,7 @@ import {ChevronLeft, Inbox, Info, Plus, RefreshCcw} from 'lucide-react';
 
 import {
     getAllTemplates,
-} from '../services/EmailTemplatesService'; // Adjust path if needed
+} from '../Services/EmailTemplatesService'; // Adjust path if needed
 
 import EmailTemplateCard from './EmailTemplateCard';
 import CreateTemplateDialog from './createTemplateDialog';
