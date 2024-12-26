@@ -13,6 +13,8 @@ import Entrance from './../../src/assets/12.png';
 import MainLayout from '../Layout/Mainlayout';
 import axiosInstance from '../axiosInstance';
 import christmas from '../assets/christmas.png'
+import { useNavigate } from 'react-router-dom';
+import { IoClose } from 'react-icons/io5';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -20,7 +22,10 @@ const Dashboard = () => {
     const [fullname, setFullname] = useState('');
     const [loading, setLoading] = useState(true);
     const [categoryCounts, setCategoryCounts] = useState({});
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const userId = localStorage.getItem('UserId');
+
+    const navigate=useNavigate();
 
     const animatedCount = (count) => {
         const { number } = useSpring({
@@ -66,6 +71,8 @@ const Dashboard = () => {
         fetchUserData();
     }, []);
 
+    
+
     useEffect(() => {
         const fetchCategoryCounts = async () => {
             try {
@@ -84,6 +91,10 @@ const Dashboard = () => {
         };
         fetchCategoryCounts();
     }, []);
+
+    const handlePaymentNavigation = () => {
+        navigate('/Payment');
+    };
 
     return (
         <>
@@ -145,6 +156,7 @@ const Dashboard = () => {
                                 <div
                                     className="option-card border rounded-3xl bg-white p-6 shadow-2xl shadow-zinc-500 hover:shadow-current transition"
                                     key={index}
+                                    onClick={()=> setIsModalOpen(true)}
                                 >
                                     <div className="text-center">
                                         <img src={card.icon} alt={`${card.title} Icon`} className="w-16 h-16 mx-auto" />
@@ -158,6 +170,27 @@ const Dashboard = () => {
                         })}
                     </div>
                 </main>
+                {isModalOpen && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg text-center relative">
+                            {/* Close Button with Icon */}
+                            <button
+                                className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+                                onClick={() => setIsModalOpen(false)}
+                            >
+                                <IoClose size={24} />
+                            </button>
+                            <h2 className="text-4xl font-bold mb-4 text-blue-600">Complete Your Payment</h2>
+                            <p className="mb-6">To proceed, kindly make a payment to continue exploring additional options.</p>
+                            <button
+                                className="bg-purple-600 text-white px-6 py-2 rounded-lg"
+                                onClick={handlePaymentNavigation}
+                            >
+                                Pay
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </MainLayout>
         </>

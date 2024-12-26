@@ -32,6 +32,7 @@ import PasswordVerification from "./Signup/PasswordVeification";
 import Subjects from "./Dashboard/Subject";
 import AllEmailTemplatesPage from "./Email/AllEmailTemplatesPage";
 import EditEmailTemplatePage from "./Email/EditEmailTemplatePage";
+import Payment from "./Payment";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -52,6 +53,7 @@ function Layout({ children }) {
     "/TutorTable" ,
     "/StudentTable",
     '/email-templates',
+    '/Payment'
   ];
 
   const shouldHideNavbar =
@@ -95,6 +97,8 @@ function App() {
             <Route path="/Feeds/:userId" element={<StudentFeed />} />
             <Route path="/ExamList"element={<ExamList/>}></Route>
             <Route path="/subject" element={<Subjects/>}></Route>
+            <Route path="/Payment" element={<Payment/>}></Route>
+
 
 
 
