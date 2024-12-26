@@ -109,7 +109,7 @@ function Home() {
                   />
                 </div>
 
-                <button className="border-4 border-purple-600 text-black px-6 py-2 rounded-full  hover:bg-orange-200">
+                <button className="border-4 border-purple-600 text-black px-6 py-2 rounded-full  ">
                   Search Now
                 </button>
               </div>
