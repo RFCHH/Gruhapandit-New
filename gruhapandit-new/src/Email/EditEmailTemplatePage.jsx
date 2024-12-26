@@ -19,7 +19,7 @@ import {
   getEventNames,
   getTemplateById,
   updateFullTemplate,
-} from "../Services/EmailTemplatesService";
+} from "../services/EmailTemplatesService";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DeleteTemplateDialog from "../Email/DeleteTemplateDialog";

@@ -1,4 +1,4 @@
-import React, { useState,useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Logo from './../../assets/3.png';
 import Map from './../../assets/4.png';
 import Books from './../../assets/2.png';
@@ -25,11 +25,33 @@ import BigMail from './../../assets/23.png';
 import Mail from './../../assets/24.png';
 import Footer from './../../assets/Footer.png';
 import { FaGreaterThan, FaQuoteLeft, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import axiosInstance from '../../axiosInstance';
 
 
 
 function Home() {
   const [stats, setStats] = useState(false);
+
+  useEffect(() => {
+    const fetchStatsData = async () => {
+      try {
+        const response = await axiosInstance.get(`/homepagedata/`);
+
+        if (response.status === 200) {
+          const statsArray = Object.entries(response.data).map(([key, value]) => ({
+            label: key.toUpperCase(),
+            count: value,
+          }));
+          setStats(statsArray);
+        }
+      } catch (error) {
+        console.error("Error fetching stats data:", error);
+      }
+    };
+
+    fetchStatsData();
+  }, []);
+
 
   const options = useMemo(() => [
     {
@@ -109,7 +131,7 @@ function Home() {
                   />
                 </div>
 
-                <button className="border-4 border-purple-600 text-black px-6 py-2 rounded-full  hover:bg-orange-200">
+                <button className="border-4 border-purple-600 text-black px-6 py-2 rounded-full  ">
                   Search Now
                 </button>
               </div>
@@ -151,107 +173,107 @@ function Home() {
           </div>
         </section>
         <section
-          // className=" bg-gradient-to-b from-blue-200 to-pink-100 bg-cover bg-center "
-          // style={{
-          //   backgroundImage: `url(${Background})`,
-          //   transition: 'background 0.5s ease-in-out',
-          // }}
+        // className=" bg-gradient-to-b from-blue-200 to-pink-100 bg-cover bg-center "
+        // style={{
+        //   backgroundImage: `url(${Background})`,
+        //   transition: 'background 0.5s ease-in-out',
+        // }}
         >
           {/* <div className="bg-white bg-opacity-80 p-10 rounded-lg shadow-lg max-w-6xl mx-auto mt-10"> */}
-          <div className="relative  py-10   mt-10">         
-              <div className="text-center ">
-                <h2 className="text-3xl font-bold text-gray-800">How it works</h2>
-                <div className=" mx-auto w-28 mt-2 mb-5" style={{
-                      height: '2px',
-                      background: 'linear-gradient(to right, #7C14FD, transparent)'
-                    }}
-                    ></div>
-                <p className="text-xl text-white bg-violet-800 px-20 py-2 rounded-full inline-block font-medium mt-10 mb-30">
-                  For Student
-                </p>
-              </div>
-              <div className="absolute top-0 right-0  mr-30">
-                <img
-                  src={Student}
-                  alt="Student"
-                  className="w-[600px] h-[600px] md:w-[600px] md:h-[600px]  sm:w-[400px]  sm:h-[400px] object-contain"
-                />
-              </div>
+          <div className="relative  py-10   mt-10">
+            <div className="text-center ">
+              <h2 className="text-3xl font-bold text-gray-800">How it works</h2>
+              <div className=" mx-auto w-28 mt-2 mb-5" style={{
+                height: '2px',
+                background: 'linear-gradient(to right, #7C14FD, transparent)'
+              }}
+              ></div>
+              <p className="text-xl text-white bg-violet-800 px-20 py-2 rounded-full inline-block font-medium mt-10 mb-30">
+                For Student
+              </p>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-1 gap-8 items-center ">
-              <div >
-                <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto  ml-96 ">
-                  <div className="flex-shrink-0">
-                    <img src={Compare} alt="Compare" className="w-28 h-28" />
-                  </div>
-                  <div className="ml-6">
-                    <h2 className="text-2xl font-semibold text-violet-800 mb-2">Compare, Hire & Learn</h2>
-                    <div className="  w-20 mt-2 mb-5" style={{
-                      height: '2px',
-                      background: 'linear-gradient(to right, #7C14FD, transparent)'
-                    }}
-                    ></div>
-                    <p className=" text-sm text-black font-semibold">
-                      Take a free demo from our Home Tutors and Online Tutors. Compare amongst them and hire the best.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto  mr-80">
-                  <div className="flex-shrink-0">
-                    <img src={Instant} alt="Instant" className="w-28 h-28" />
-                  </div>
-                  <div className="ml-6">
-                    <h2 className="text-2xl font-semibold text-violet-800 mb-2">Instant Response</h2>
-                    <div className="w-20 mt-2 mb-5" style={{
-                      height: '2px',
-                      background: 'linear-gradient(to right, #7C14FD, transparent)'
-                    }}
-                    ></div>
-                    <p className=" text-sm text-black font-semibold">
-                      As per your learning needs, get an instant response from experienced tutors and teachers near you.
-
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto  ml-96">
-                  <div className="flex-shrink-0">
-                    <img src={Flexible} alt="Flexible" className="w-28 h-28" />
-                  </div>
-                  <div className="ml-6">
-                    <h2 className="text-2xl font-semibold text-violet-800 mb-2">Learn at Flexible Timings</h2>
-                    <div className="w-20 mt-2 mb-5" style={{
-                      height: '2px',
-                      background: 'linear-gradient(to right, #7C14FD, transparent)'
-                    }}
-                    ></div>
-                    <p className=" text-sm text-black font-semibold">
-                      Enjoy the freedom to study at your convenience with personalized schedules designed to fit your busy life.
-
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto  mr-80">
-                  <div className="flex-shrink-0">
-                    <img src={Verified} alt="Verified Tutors" className="w-28 h-28" />
-                  </div>
-                  <div className="ml-6">
-                    <h2 className="text-2xl font-semibold text-violet-800 mb-2">Get Verified Expert Tutors</h2>
-                    <div className="w-20 mt-2 mb-5" style={{
-                      height: '2px',
-                      background: 'linear-gradient(to right, #7C14FD, transparent)'
-                    }}
-                    ></div>
-                    <p className=" text-sm text-black font-semibold">
-                      Learn from experienced and certified tutors who provide reliable, high-quality education tailored to your needs.
-                    </p>
-                  </div>
-                </div>
+            <div className="absolute top-0 right-0  mr-30">
+              <img
+                src={Student}
+                alt="Student"
+                className="w-[600px] h-[600px] md:w-[600px] md:h-[600px]  sm:w-[400px]  sm:h-[400px] object-contain"
+              />
             </div>
           </div>
 
-        {/* </section>
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-8 items-center ">
+            <div >
+              <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto  ml-96 ">
+                <div className="flex-shrink-0">
+                  <img src={Compare} alt="Compare" className="w-28 h-28" />
+                </div>
+                <div className="ml-6">
+                  <h2 className="text-2xl font-semibold text-violet-800 mb-2">Compare, Hire & Learn</h2>
+                  <div className="  w-20 mt-2 mb-5" style={{
+                    height: '2px',
+                    background: 'linear-gradient(to right, #7C14FD, transparent)'
+                  }}
+                  ></div>
+                  <p className=" text-sm text-black font-semibold">
+                    Take a free demo from our Home Tutors and Online Tutors. Compare amongst them and hire the best.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto  mr-80">
+                <div className="flex-shrink-0">
+                  <img src={Instant} alt="Instant" className="w-28 h-28" />
+                </div>
+                <div className="ml-6">
+                  <h2 className="text-2xl font-semibold text-violet-800 mb-2">Instant Response</h2>
+                  <div className="w-20 mt-2 mb-5" style={{
+                    height: '2px',
+                    background: 'linear-gradient(to right, #7C14FD, transparent)'
+                  }}
+                  ></div>
+                  <p className=" text-sm text-black font-semibold">
+                    As per your learning needs, get an instant response from experienced tutors and teachers near you.
+
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto  ml-96">
+                <div className="flex-shrink-0">
+                  <img src={Flexible} alt="Flexible" className="w-28 h-28" />
+                </div>
+                <div className="ml-6">
+                  <h2 className="text-2xl font-semibold text-violet-800 mb-2">Learn at Flexible Timings</h2>
+                  <div className="w-20 mt-2 mb-5" style={{
+                    height: '2px',
+                    background: 'linear-gradient(to right, #7C14FD, transparent)'
+                  }}
+                  ></div>
+                  <p className=" text-sm text-black font-semibold">
+                    Enjoy the freedom to study at your convenience with personalized schedules designed to fit your busy life.
+
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto  mr-80">
+                <div className="flex-shrink-0">
+                  <img src={Verified} alt="Verified Tutors" className="w-28 h-28" />
+                </div>
+                <div className="ml-6">
+                  <h2 className="text-2xl font-semibold text-violet-800 mb-2">Get Verified Expert Tutors</h2>
+                  <div className="w-20 mt-2 mb-5" style={{
+                    height: '2px',
+                    background: 'linear-gradient(to right, #7C14FD, transparent)'
+                  }}
+                  ></div>
+                  <p className=" text-sm text-black font-semibold">
+                    Learn from experienced and certified tutors who provide reliable, high-quality education tailored to your needs.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* </section>
 
         <section> */}
           <div className="relative  py-10   mt-10">
@@ -319,7 +341,7 @@ function Home() {
                     ></div>
                     <p className=" text-sm text-black font-semibold">
                       Take a free demo from our Home Tutors and Online Tutors.Compare amongst and hire the best.
-                      </p>
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto ml-96">
@@ -344,39 +366,39 @@ function Home() {
           {/* </section>
        <section > */}
           <div className="flex min-h-screen bg-gradient-to-r from-blue-300 to-green-200 flex-col md:flex-row">
-        <div className="flex-1 flex items-center justify-center p-10">
-          <h1 className="text-black text-4xl md:text-5xl lg:text-6xl font-bold text-left">
-            What Are You Looking For?
-          </h1>
-        </div>
-        <div className="flex-1 flex items-center justify-center p-10">
-          <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
-            <div className="bg-white rounded-3xl shadow-lg p-6 w-full max-w-md">
-              <h2 className="text-xl font-semibold text-blue-600 mb-2">I'm a Tutor</h2>
-              <p className="mb-4">
-              Perfect Tutor connects Students with the Home Tutors and Online Tutors. We provide Full-time & part-time Home Tuition Jobs and Online Tuition Jobs.
-              You can teach students of all Classes from K.G. to XII. You can also teach the students of Colleges, Universities, Competitive Exams, Hobby & Languages, etc.
-              </p>
-              <div className="flex items-center px-4 py-2 border-black shadow-md rounded-full w-40 mt-12">
-                <button><span className="font-semibold ml-2">Sign Up</span></button>
-                <FaGreaterThan className="text-black ml-10" />
-              </div>
+            <div className="flex-1 flex items-center justify-center p-10">
+              <h1 className="text-black text-4xl md:text-5xl lg:text-6xl font-bold text-left">
+                What Are You Looking For?
+              </h1>
             </div>
-            <div className="bg-white rounded-3xl shadow-lg p-6 w-full max-w-md">
-              <h2 className="text-xl font-semibold text-blue-600 mb-2">I'm a Student</h2>
-              <p className="mb-4">
-              If you are looking for the top-qualified Tutor or Online Tutor for tuition classes at your Home or Online. You can simply post your learning requirement for Free on our Perfect Tutor Platform and get a list of qualified tutors.
-              </p>
-              <div className="flex items-center px-4 py-2 border-black shadow-lg rounded-full w-40 mt-24">
-                <button><span className="font-semibold ml-2">Sign Up</span></button>
-                <FaGreaterThan className="text-black ml-10" />
+            <div className="flex-1 flex items-center justify-center p-10">
+              <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
+                <div className="bg-white rounded-3xl shadow-lg p-6 w-full max-w-md">
+                  <h2 className="text-xl font-semibold text-blue-600 mb-2">I'm a Tutor</h2>
+                  <p className="mb-4">
+                    Perfect Tutor connects Students with the Home Tutors and Online Tutors. We provide Full-time & part-time Home Tuition Jobs and Online Tuition Jobs.
+                    You can teach students of all Classes from K.G. to XII. You can also teach the students of Colleges, Universities, Competitive Exams, Hobby & Languages, etc.
+                  </p>
+                  <div className="flex items-center px-4 py-2 border-black shadow-md rounded-full w-40 mt-12">
+                    <button><span className="font-semibold ml-2">Sign Up</span></button>
+                    <FaGreaterThan className="text-black ml-10" />
+                  </div>
+                </div>
+                <div className="bg-white rounded-3xl shadow-lg p-6 w-full max-w-md">
+                  <h2 className="text-xl font-semibold text-blue-600 mb-2">I'm a Student</h2>
+                  <p className="mb-4">
+                    If you are looking for the top-qualified Tutor or Online Tutor for tuition classes at your Home or Online. You can simply post your learning requirement for Free on our Perfect Tutor Platform and get a list of qualified tutors.
+                  </p>
+                  <div className="flex items-center px-4 py-2 border-black shadow-lg rounded-full w-40 mt-24">
+                    <button><span className="font-semibold ml-2">Sign Up</span></button>
+                    <FaGreaterThan className="text-black ml-10" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-          </div>
-          
-          
+
+
           <div className="bg-purple-50 py-12">
             <div className="container mx-auto px-4 ">
               <h2 className="text-4xl font-bold text-[#32046B] text-center  mt-20 mb-6">
@@ -407,17 +429,25 @@ function Home() {
             </div>
           </div>
 
-          {/* Stats Section */}
-          {/* <div className="bg-gradient-to-r from-cyan-500 to-teal-500 py-8 rounded-lg">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center text-white font-bold">
-          {stats.map((stat, index) => (
-            <div key={index}>
-              <h3 className="text-4xl">{stat.count}+</h3>
-              <p className="mt-2">{stat.label}</p>
+          <div className="bg-gradient-to-b from-[#26A3C9] via-[#208AAA] to-[#4999B2] py-8 rounded-2xl m-10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 text-center text-white font-bold auto-rows-auto "
+              style={{
+                gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+              }}>
+              {Array.isArray(stats) && stats.length > 0 ? (
+                stats.map((stat, index) => (
+                  <div key={index} className="flex flex-col items-center">
+                    <h3 className="mt-2 text-7xl mb-4 ">{stat.count ? `${stat.count}+` : "0+"}</h3>
+                    <p className=" text-3xl  font-serif">{stat.label || "No Label"}</p>
+
+
+                  </div>
+                ))
+              ) : (
+                <p className="text-lg">No stats available</p>
+              )}
             </div>
-          ))}
-        </div>
-      </div> */}
+          </div>
         </section>
 
         <section className="bg-cover bg-center min-h-screen "
@@ -443,7 +473,7 @@ function Home() {
               <p className="text-sm text-[#32046B] font-medium mt-4"> — Kimmo Hakonen, Scrum Master at Duocar AB </p>
 
               <div className="flex items-center justify-end mt-4 space-x-4">
-                <button className="text-[#32046B] hover:opacity-75 text-xl"><FaArrowLeft/> </button>
+                <button className="text-[#32046B] hover:opacity-75 text-xl"><FaArrowLeft /> </button>
                 <button className="text-[#32046B] hover:opacity-75 text-xl"><FaArrowRight /></button>
               </div>
             </div>
@@ -484,12 +514,12 @@ function Home() {
             </div>
           </div>
         </section>
-        </div>
-        <footer
+      </div>
+      <footer
         className="bg-cover bg-center min-h-screen bg-gradient-to-r from-cyan-500 to-teal-500"
         style={{ backgroundImage: `url(${Footer})`, transition: 'background 0.5s ease-in-out' }}
       />
-      
+
     </>
   )
 }
