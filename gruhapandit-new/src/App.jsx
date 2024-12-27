@@ -33,6 +33,7 @@ import Subjects from "./Dashboard/Subject";
 import AllEmailTemplatesPage from "./Email/AllEmailTemplatesPage";
 import EditEmailTemplatePage from "./Email/EditEmailTemplatePage";
 import Payment from "./Payment";
+import RequestApproval from "./Admin Flow/Request";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -50,11 +51,12 @@ function Layout({ children }) {
     "/Feeds",
     "/ExamList",
     "/Registration",
-    "/TutorTable" ,
+    "/TutorTable",
     "/StudentTable",
-    '/email-templates',
-    '/Payment',
-    '/subject',
+    "/email-templates",
+    "/Payment",
+    "/subject",
+    "/Request",
   ];
 
   const shouldHideNavbar =
@@ -84,8 +86,11 @@ function App() {
             <Route path="/CreatePassword" element={<CreatePassword />}></Route>
             <Route path="/SignUp" element={<SignUp />}></Route>
             <Route path="/LoginPage" element={<Login />}></Route>
-            <Route path="/ForgotPassword" element={<ForgotPassword />}/>
-            <Route path="/PasswordVerification"element={<PasswordVerification />}/>
+            <Route path="/ForgotPassword" element={<ForgotPassword />} />
+            <Route
+              path="/PasswordVerification"
+              element={<PasswordVerification />}
+            />
             <Route path="/successfull" element={<LoginSuccess />} />
 
             <Route path="/Dashboard/:userId" element={<Dashboard />} />
@@ -96,23 +101,23 @@ function App() {
             <Route path="review" element={<Review />} />
             <Route path="/plans/:userId" element={<MyPlans />} />
             <Route path="/Feeds/:userId" element={<StudentFeed />} />
-            <Route path="/ExamList"element={<ExamList/>}></Route>
-            <Route path="/subject/:userId" element={<Subjects/>}></Route>
-            <Route path="/Payment" element={<Payment/>}></Route>
-
-
-
-
+            <Route path="/ExamList" element={<ExamList />}></Route>
+            <Route path="/subject/:userId" element={<Subjects />}></Route>
+            <Route path="/Payment" element={<Payment />}></Route>
 
             <Route path="/Registration" element={<Registration />} />
             <Route path="/TutorTable" element={<TutorTable />} />
             <Route path="/StudentTable" element={<StudentTable />} />
-            <Route path="/email-templates" element={<AllEmailTemplatesPage />} />
-          <Route path="/edit-email-template/:templateId"element={<EditEmailTemplatePage />}/>
+            <Route path="/Request" element={<RequestApproval />} />
 
-
-            
-            
+            <Route
+              path="/email-templates"
+              element={<AllEmailTemplatesPage />}
+            />
+            <Route
+              path="/edit-email-template/:templateId"
+              element={<EditEmailTemplatePage />}
+            />
           </Routes>
         </Layout>
       </Router>
