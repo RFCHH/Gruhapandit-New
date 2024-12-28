@@ -67,7 +67,7 @@ const CreateExam = () => {
   };
 
   const handleBackNavigation = () => {
-    navigate('/Feeds/:userId');
+    navigate(`/Feeds/:userId`);
   };
 
   const handleDelete = async (index) => {
