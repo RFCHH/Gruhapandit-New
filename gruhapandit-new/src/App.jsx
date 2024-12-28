@@ -33,6 +33,8 @@ import Subjects from "./Dashboard/Subject";
 import AllEmailTemplatesPage from "./Email/AllEmailTemplatesPage";
 import EditEmailTemplatePage from "./Email/EditEmailTemplatePage";
 import Payment from "./Payment";
+import Exam from "./Exam/SelfExam";
+import ExamPopUp from "./Exam/ExamPopUp";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -55,6 +57,7 @@ function Layout({ children }) {
     '/email-templates',
     '/Payment',
     '/subject',
+    '/SelfExam',
   ];
 
   const shouldHideNavbar =
@@ -99,6 +102,9 @@ function App() {
             <Route path="/ExamList"element={<ExamList/>}></Route>
             <Route path="/subject/:userId" element={<Subjects/>}></Route>
             <Route path="/Payment" element={<Payment/>}></Route>
+            <Route path="/SelfExam" element={<Exam/>}></Route>
+            <Route path="/exampopup" element={<ExamPopUp/>}/>
+            
 
 
 
