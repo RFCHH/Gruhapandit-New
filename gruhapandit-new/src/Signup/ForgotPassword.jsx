@@ -2,35 +2,62 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import forgetImg from "../assets/ForgotPassword.png";
 
+import axiosInstance from "../axiosInstance";
+
 const ForgotPassword = () => {
-  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [userId, setUserId] = useState("");
   const [errors, setErrors] = useState({});
   const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const validateForm = () => {
     const validationErrors = {};
 
-    if (!emailOrPhone) {
-      validationErrors.emailOrPhone = "Email or phone number is required.";
-    } else if (/^\d+$/.test(emailOrPhone)) {
-      if (emailOrPhone.length !== 10) {
-        validationErrors.emailOrPhone =
-          "Phone number must be exactly 10 digits.";
-      }
-    } else if (!/^\S+@\S+\.\S+$/.test(emailOrPhone)) {
-      validationErrors.emailOrPhone = "Please enter a valid email address.";
+    if (!userId) {
+      validationErrors.userId = "User ID is required.";
     }
 
     return validationErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const validationErrors = validateForm();
 
     if (Object.keys(validationErrors).length === 0) {
-      setShowPopup(true);
+      setLoading(true);
+      try {
+        console.log("Sending API request for forgot password with:", {
+          userId,
+        });
+
+        const response = await axiosInstance.post(
+          `/authentication/forgotPassword?userId=${userId}`,
+          null,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("API response:", response);
+
+        if (response.status === 200) {
+          // alert("OTP has been sent successfully!");
+          setShowPopup(true);
+        }
+      } catch (error) {
+        console.error("Error sending OTP:", error);
+
+        let errorMessage = "Failed to send OTP. Please try again.";
+
+        setErrors({ userId: errorMessage });
+      } finally {
+        setLoading(false);
+      }
     } else {
       setErrors(validationErrors);
     }
@@ -38,7 +65,7 @@ const ForgotPassword = () => {
 
   const handlePopupClose = () => {
     setShowPopup(false);
-    navigate("/PasswordVerification", { state: { emailOrPhone } });
+    navigate("/PasswordVerification", { state: { userId } });
   };
 
   return (
@@ -74,22 +101,17 @@ const ForgotPassword = () => {
             <div className="relative">
               <input
                 type="text"
-                maxLength="10"
-                placeholder="Email / Phone Number *"
-                value={emailOrPhone}
-                onChange={(e) => setEmailOrPhone(e.target.value)}
+                placeholder="User ID *"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
                 className={`w-full px-4 sm:px-6 py-3 sm:py-4 border-2 ${
-                  errors.emailOrPhone ? "border-red-500" : "border-purple-300"
+                  errors.userId ? "border-red-500" : "border-purple-300"
                 } rounded-lg focus:outline-none focus:ring-2 ${
-                  errors.emailOrPhone
-                    ? "focus:ring-red-500"
-                    : "focus:ring-purple-500"
+                  errors.userId ? "focus:ring-red-500" : "focus:ring-purple-500"
                 }`}
               />
-              {errors.emailOrPhone && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.emailOrPhone}
-                </p>
+              {errors.userId && (
+                <p className="text-red-500 text-sm mt-1">{errors.userId}</p>
               )}
             </div>
 
@@ -97,8 +119,9 @@ const ForgotPassword = () => {
               <button
                 type="submit"
                 className="w-40 sm:w-56 py-3 sm:py-4 bg-[#FFFFFF] text-[#000000] font-bold rounded-md border-2 hover:border-blue-300 shadow-xl flex items-center justify-center hover:bg-purple-500 hover:text-white transition duration-300"
+                disabled={loading} // Disable the button while loading
               >
-                Submit
+                {loading ? "Sending..." : "Submit"}
               </button>
             </div>
           </form>
@@ -123,7 +146,7 @@ const ForgotPassword = () => {
               Success
             </h2>
             <p className="text-gray-600 mb-6">
-              Your email/phone number has been successfully submitted!
+              Your User ID has been successfully submitted!
             </p>
             <button
               className="w-24 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
