@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import MainLayout from "../Layout/Mainlayout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
 
 const MyFeedStudent = () => {
   const [feedData, setFeedData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const role =localStorage.getItem("role");
+  const navigate =useNavigate();
+  const UserRole=localStorage.getItem("UserRole");
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -17,7 +20,7 @@ const MyFeedStudent = () => {
       }
 
       try {
-        const page = 1; // Define the page value
+        const page = 0; // Define the page value
         const size = 10; // Define the size per page
         const response = await axiosInstance.get(
           `/requests/feed?userId=${userId}&page=${page}&size=${size}`
@@ -40,8 +43,9 @@ const MyFeedStudent = () => {
           <button className="bg-blue-500 text-white px-8 py-2 ml-40 mb-10 rounded-tr-xl rounded-bl-xl hover:bg-blue-600">
             My Feed
           </button>
-          <button className="bg-blue-500 text-white px-8 py-2 mr-36 mt-16 rounded-tr-xl rounded-bl-xl hover:bg-blue-600">
-            <Link to="/ExamList">Exam</Link>
+          <button className="bg-blue-500 text-white px-8 py-2 mr-36 mt-16 rounded-tr-xl rounded-bl-xl hover:bg-blue-600"
+            onClick={()=>navigate('/ExamList')
+            }> Exam
           </button>
         </nav>
 
@@ -64,7 +68,7 @@ const MyFeedStudent = () => {
                     <span className="font-semibold">Name:</span> {item.name}
                   </p>
                   <p className="text-sm">
-                    <span className="font-semibold">Email:</span> {item.email}
+                    <span className="font-semibold">Email:</span> {item.emailId}
                   </p>
                   <p className="text-sm">
                     <span className="font-semibold">Subject:</span> {item.subject}

@@ -30,7 +30,7 @@ const SubjectDetails = ({
 
     const token = localStorage.getItem("Token");
     const userId = localStorage.getItem("UserId");
-    const type = localStorage.getItem("Role");
+    const type = localStorage.getItem("role");
 
     if (!token || !userId || !type) {
       console.log("Token, userId, or role are missing");
