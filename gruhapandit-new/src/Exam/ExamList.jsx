@@ -67,7 +67,7 @@ const CreateExam = () => {
   };
 
   const handleBackNavigation = () => {
-    navigate('/adminDashboard');
+    navigate('/Feeds/:userId');
   };
 
   const handleDelete = async (index) => {
