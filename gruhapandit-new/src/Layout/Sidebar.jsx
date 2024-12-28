@@ -50,7 +50,7 @@ function Sidebar() {
     { path: `/email-templates`, label: "Email", icon: <BiLogoGmail className="text-gray-700 text-lg" /> },
     { path: `/banner`, label: "Banner", icon: <FcAdvertising className="text-gray-700 text-lg" /> },
     { path: `/reports`, label: "Reports", icon: <BiSolidReport className="text-gray-700 text-lg" /> },
-    { path: `/requestApproval`, label: "Request Approval", icon: <BsPersonCheckFill className="text-gray-700 text-xl" /> },
+    { path: `/Request`, label: "Request Approval", icon: <BsPersonCheckFill className="text-gray-700 text-xl" /> },
   ];
 
   const menuItems = userRole === 'ROLE_ADMIN' ? adminMenuItems : userMenuItems;

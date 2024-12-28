@@ -63,17 +63,18 @@ const MyRequest = () => {
             );
 
             if (response.status === 200) {
+                // Remove the updated request from the list
                 setRequests((prevRequests) =>
-                    prevRequests.map((req) =>
-                        req.id === requestId ? { ...req, status } : req
-                    )
+                    prevRequests.filter((req) => req.id !== requestId)
                 );
-                console.log(`Request ${requestId} status updated to ${status}`);
+                console.log(`Request ${requestId} status updated to ${status} and removed from the list.`);
             }
         } catch (error) {
             console.error("Error updating status:", error);
         }
     };
+
+
     const handleDelete = async (requestId) => {
         setRequestId(requestId);
         const token = localStorage.getItem("Token");
@@ -95,13 +96,13 @@ const MyRequest = () => {
             );
 
             if (response.status === 200) {
-                
+                // Remove the deleted request from the list
                 setRequests((prevRequests) =>
                     prevRequests.filter((req) => req.id !== requestId)
                 );
                 console.log(`Request ${requestId} deleted successfully`);
-                setSuccessMessage('Request successfully deleted!'); 
-                setTimeout(() => setSuccessMessage(null), 1000); 
+                setSuccessMessage("Request successfully deleted!");
+                setTimeout(() => setSuccessMessage(null), 1000);
             }
         } catch (error) {
             console.error("Error deleting request:", error);

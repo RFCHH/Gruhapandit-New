@@ -143,10 +143,10 @@ const Dashboard = () => {
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {[
                             {  title: 'School Education', name: 'SCHOOL_EDUCATION', icon: SchoolImage},
-                            { title: 'Under/Post Graduate',name:'UNDER/POST_GRADUATE', icon: CollegeImage },
+                            { title: 'Under/Post Graduate',name:' UG_PG_EDUCATION', icon: CollegeImage },
                             { title: 'Technical Skills',name:'TECHNICAL_SKILLS', icon: Technical },
-                            { title: 'Global Language',name:'GLOBAL_LANGUAGE', icon: Global },
-                            { title: 'Competitive Exams',name:'COMPETITIVE_EXAMS', icon: Competitive },
+                            { title: 'Global Language',name:'GLOBAL_LANGUAGES', icon: Global },
+                            { title: 'Competitive Exams',name:' COMPETITIVE_EXAMS', icon: Competitive },
                             { title: 'Soft Skills', name:'SOFT_SKILLS',icon: Soft },
                             { title: 'Government Exam',name:'GOVERNMENT_EXAM', icon: Government },
                             { title: 'Entrance Exams', name:'ENTRANCE_EXAMS',icon: Entrance },
@@ -181,7 +181,7 @@ const Dashboard = () => {
                 {isModalOpen && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                         <div className="bg-white p-6 rounded-lg shadow-lg text-center relative">
-                            {/* Close Button with Icon */}
+                         
                             <button
                                 className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
                                 onClick={() => setIsModalOpen(false)}

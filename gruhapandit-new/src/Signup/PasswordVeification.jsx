@@ -3,33 +3,32 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import verificationImg from "../assets/ForgotPassword.png";
 import { FiArrowLeft } from "react-icons/fi";
+import axiosInstance from "../axiosInstance";
 
 const PasswordVerification = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [emailOrPhone, setEmailOrPhone] = useState(
-    location.state?.emailOrPhone || ""
-  );
+  const [userId, setuserId] = useState(location.state?.userId || "");
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [otpTimer, setOtpTimer] = useState(30);
+  const [otpTimer, setOtpTimer] = useState();
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    let timer;
     if (otpTimer > 0) {
-      timer = setInterval(() => setOtpTimer(otpTimer - 1), 1000);
+      const timerId = setTimeout(() => setOtpTimer(otpTimer - 1), 1000);
+      return () => clearTimeout(timerId);
     }
-    return () => clearInterval(timer);
   }, [otpTimer]);
 
   const validateForm = () => {
     const newErrors = {};
-    if (!emailOrPhone) {
-      newErrors.emailOrPhone = "Email or phone number is required.";
+    if (!userId) {
+      newErrors.userId = "UserId is required.";
     }
     if (!otp) {
       newErrors.otp = "OTP is required.";
@@ -48,22 +47,87 @@ const PasswordVerification = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const validationErrors = validateForm();
-    if (Object.keys(validationErrors).length === 0) {
-      alert("Your password has been successfully created!");
-      navigate("/LoginPage");
-    } else {
-      setErrors(validationErrors);
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) {
+      console.log("Validation failed:", validationErrors);
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      console.log("Sending API request with:", { userId, password, otp });
+
+      const response = await axiosInstance.patch(
+        `/authentication/resetPassword?userId=${userId}&password=${password}&otp=${otp}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Your password has been successfully created!");
+        navigate("/LoginPage");
+      }
+    } catch (error) {
+      console.error("API call error:", error);
+
+      if (error.response?.status === 400) {
+        const apiError = error.response.data?.message || "Invalid OTP";
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          otp: apiError,
+        }));
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          otp: "Invalid OTP",
+        }));
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleResendOtp = () => {
+  const handleResendOtp = async () => {
     setOtpTimer(30);
-    alert(
-      "Your OTP has successfully been sent to your registered Email / Phone Number."
-    );
+    setLoading(true);
+
+    try {
+      const response = await axiosInstance.post(
+        `/authentication/forgotPassword?userId=${userId}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert(
+          "Your OTP has successfully been sent to your registered Email / Phone Number."
+        );
+
+        // Clear the input fields
+        setOtp("");
+        setPassword("");
+        setConfirmPassword("");
+        setErrors({});
+      }
+    } catch (error) {
+      alert("Failed to resend OTP. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -87,22 +151,18 @@ const PasswordVerification = () => {
             <div className="relative">
               <input
                 type="text"
-                value={emailOrPhone}
+                value={userId}
                 readOnly
-                onChange={(e) => setEmailOrPhone(e.target.value)}
+                onChange={(e) => setuserId(e.target.value)}
                 placeholder="Email/Phone Number *"
                 className={`w-full px-3 py-2 border-2 ${
-                  errors.emailOrPhone ? "border-red-500" : "border-purple-300"
+                  errors.userId ? "border-red-500" : "border-purple-300"
                 } rounded-lg focus:outline-none focus:ring-2 ${
-                  errors.emailOrPhone
-                    ? "focus:ring-red-500"
-                    : "focus:ring-purple-500"
+                  errors.userId ? "focus:ring-red-500" : "focus:ring-purple-500"
                 }`}
               />
-              {errors.emailOrPhone && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.emailOrPhone}
-                </p>
+              {errors.userId && (
+                <p className="text-red-500 text-sm mt-1">{errors.userId}</p>
               )}
             </div>
 
@@ -197,6 +257,7 @@ const PasswordVerification = () => {
               <button
                 type="submit"
                 className="w-full md:w-36 lg:w-48 py-2 bg-[#FFFFFF] text-[#000000] font-bold rounded-md border-2 hover:border-blue-300 shadow-xl hover:bg-purple-500 hover:text-white transition duration-300"
+                onClick={handleSubmit}
               >
                 Create Password
               </button>
