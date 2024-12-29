@@ -1,9 +1,20 @@
-import React from "react";
+import React,{useState} from "react";
 import { FaBell } from "react-icons/fa";
 import Logo from "../assets/GruhapandithIcon.png";
 import { IoPersonSharp } from "react-icons/io5";
 
 const Navbar = () => {
+  const [isNotificationOpen, setNotificationOpen] = useState(false);
+
+
+  const toggleNotification = () => {
+    setNotificationOpen(!isNotificationOpen);
+    setTimeout(()=>{
+       setNotificationOpen(isNotificationOpen);
+    },3000);
+  }
+
+ 
   return (
     <div className="flex justify-between items-center bg-white text-black shadow-md border rounded-lg px-4">
       <div className="flex items-center space-x-2">
@@ -18,12 +29,19 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center space-x-6">
-        <FaBell className="text-blue-500 text-lg cursor-pointer" />
+        <FaBell onClick={toggleNotification}  className="text-blue-500 text-lg cursor-pointer" />
         <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
-          <IoPersonSharp className="text-red-500 text-2xl" />
+          <IoPersonSharp  className="text-red-500 text-2xl" />
         </div>
       </div>
+      {isNotificationOpen && (
+        <div className="absolute top-14 right-8 bg-white p-4 shadow-lg rounded-md z-10">
+          <p>No new notifications</p>
+        </div>
+      )}
+      
     </div>
+    
   );
 };
 
