@@ -81,29 +81,39 @@ const Details = () => {
     setValidationErrors({ ...validationErrors, [e.target.name]: "" }); 
   };
 
-  const handleSave = async () => {
-    if (!validateFields()) return; 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateFields()) {
+      const payload = {
+        highestQualification: formData.qualification || "",
+        timings: formData.timings || "",
+        experience: formData.experience || "",
+        chargesPerHour: formData.chargesPerHour || "",
+        modeOfTeaching: formData.modeOfTeaching || "",
+        studyingClass: formData.studyingClass || "",
+        modeOfLearning: formData.modeOfLearning || "",
+        ...(role === "TUTOR" ? { tutorId: userId } : { studentId: userId }),
+      };
 
-    const payload = {
-      highestQualification: formData.qualification || "",
-      timings: formData.timings || "",
-      experience: formData.experience || "",
-      chargesPerHour: formData.chargesPerHour || "",
-      modeOfTeaching: formData.modeOfTeaching || "",
-      studyingClass: formData.studyingClass || "",
-      modeOfLearning: formData.modeOfLearning || "",
-      ...(role === "TUTOR" ? { tutorId: userId } : { studentId: userId }),
-    };
-
-    try {
-      const url =
-        role === "STUDENT" ? `/studentdetails/` : `/tutorDetails/`;
-      const response = await axiosInstance.patch(url, payload);
-      console.log("Data updated:", response.data);
-
-      setIsEditable(false);
-    } catch (error) {
-      console.error("Error updating data:", error);
+      try {
+        let response;
+        if (formData.isUpdate) {
+          if (role === "STUDENT") {
+            response = await axiosInstance.patch(`/studentdetails/`, payload);
+          } else if (role === "TUTOR") {
+            response = await axiosInstance.patch(`/tutorDetails/`, payload);
+          }
+        } else {
+          if (role === "STUDENT") {
+            response = await axiosInstance.post(`/studentdetails/create`, payload);
+          } else if (role === "TUTOR") {
+            response = await axiosInstance.post(`/tutorDetails/`, payload);
+          }
+        }
+        console.log(`${role} data updated/submitted:`, response.data);
+      } catch (error) {
+        console.error("Error submitting data:", error);
+      }
     }
   };
 
@@ -232,7 +242,7 @@ const Details = () => {
             <button
               type="button"
               className="bg-green-500 text-white py-2 px-4 rounded"
-              onClick={handleSave}
+              onClick={handleSubmit}
             >
               Save
             </button>

@@ -119,7 +119,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="relative flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-100 to-white overflow-hidden px-4 sm:px-8 py-8 sm:py-12">
+    <div className="relative flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-100 to-white overflow-hidden px-4 sm:px-8 py-8 sm:py-12 top-10">
       <div className="relative bg-white shadow-lg rounded-lg flex flex-col md:flex-row max-w-6xl w-full overflow-hidden z-20 mx-auto p-6 md:p-8 space-y-6 md:space-y-0">
         <div className="flex justify-center items-center w-full bg-white p-6 md:w-1/2 md:justify-start">
           <img

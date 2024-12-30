@@ -132,6 +132,7 @@ import React, { useEffect, useState } from "react";
 import MainLayout from "../Layout/Mainlayout";
 import axiosInstance from "../axiosInstance";
 import { useLocation, useNavigate } from "react-router-dom";
+import { AiOutlineSearch,AiFillStar} from "react-icons/ai";
 
 const Subjects = () => {
   const [tutors, setTutors] = useState([]);
@@ -142,7 +143,7 @@ const Subjects = () => {
  const  {category}=location.state ;
  const navigate=useNavigate();
  const userId=localStorage.getItem('UserId');
-
+ const role=localStorage.getItem('UserRole')
 
  
 
@@ -189,20 +190,18 @@ const Subjects = () => {
               <label htmlFor="search" className="sr-only">
                 Search Tutors
               </label>
-              <input
-                id="search"
-                type="text"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="border rounded-full px-4 py-2 w-full focus:outline-none shadow-sm text-gray-600"
-              />
-              <button
-                className="absolute right-4 top-2.5 text-gray-400 hover:text-gray-600"
-                aria-label="Search"
-              >
-                🔍
-              </button>
+              <div className="flex items-center border rounded-full px-4 py-2 shadow-sm text-gray-600">
+                <AiOutlineSearch className="text-gray-400 mr-2" size={24} />
+                <input
+                  id="search"
+                  type="text"
+                  placeholder="Search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="focus:outline-none w-full text-gray-600"
+                />
+              </div>
+              
             </div>
           </div>
 
@@ -229,13 +228,13 @@ const Subjects = () => {
                       </p>
                       <p className="font-semibold text-gray-700 text-sm sm:text-base">
                         Subject:{""}
-                        <span className="font-normal">
+                        {/* <span className="font-normal"> */}
                           <ul className="list-disc pl-5 mt-2">
                             {tutor.subjects.map((subject, idx) => (
                               <li key={idx}>{subject}</li>
                             ))}
                           </ul>
-                        </span>
+                        {/* </span> */}
                       </p>
 
                       <p className="font-semibold text-gray-700 text-sm sm:text-base">
@@ -243,14 +242,12 @@ const Subjects = () => {
                       </p>
                       <div className="flex">
                         {[...Array(5)].map((_, starIndex) => (
-                          <span
+                          <AiFillStar
                             key={starIndex}
                             className={`text-yellow-400 ${
                               starIndex < tutor.ratings ? "" : "opacity-30"
                             }`}
-                          >
-                            ⭐
-                          </span>
+                          />
                         ))}
                       </div>
                     </div>
@@ -261,7 +258,12 @@ const Subjects = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-gray-600">No tutors found.</p>
+              <p className="text-center text-gray-600">
+  {role === "TUTOR" 
+    ? "No students found." 
+    :  "No  tutors found." 
+    }
+</p>
             )}
           </div>
         </div>

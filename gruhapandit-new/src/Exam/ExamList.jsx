@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import ExamPopUp from "./ExamPopUp";
 import axiosInstance from '../axiosInstance';
+import MainLayout from '../Layout/Mainlayout';
+import { FaLessThan,FaPlus } from "react-icons/fa";
+
 
 const CreateExam = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,10 +46,9 @@ const CreateExam = () => {
   };
 
   const handleSave = (newData) => {
-    // Validate fields before saving
     const { examName, startDate, endDate, examDuration, numberOfAttempts, assignedTo } = newData;
 
-    if (!examName || !startDate || !endDate || !examDuration || !numberOfAttempts || !d || assignedTo.length === 0) {
+    if (!examName || !startDate || !endDate || !examDuration || !numberOfAttempts || !passPercentage || !assignedTo.length === 0) {
       alert('Please fill in all fields.');
       return;
     }
@@ -67,7 +69,7 @@ const CreateExam = () => {
   };
 
   const handleBackNavigation = () => {
-    navigate('/adminDashboard');
+    navigate(`/Feeds/:userId`);
   };
 
   const handleDelete = async (index) => {
@@ -82,9 +84,9 @@ const CreateExam = () => {
     }
   
     try {
-      console.log("Deleting Exam ID:", examId); // Log the examId for debugging
+      console.log("Deleting Exam ID:", examId); 
       const response = await axiosInstance.delete(
-        `https://tution-application.onrender.com/tuition-application/exams/${examId}`,
+        `/exams/${examId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -116,34 +118,41 @@ const CreateExam = () => {
   
   return (
     <>
-      <div className="p-4">
-        <div className="flex justify-between mb-4">
-          <button
-            onClick={handleBackNavigation}
-            className="bg-black text-white px-4 py-2 rounded hover:bg-gray-600"
-          >
-            Previous
-          </button>
-          <button
-            onClick={handleAddButtonClick}
-            className="bg-black text-white px-4 py-2 rounded hover:bg-gray-600"
-          >
-            Create Exam 
-          </button>
-        </div>
+    <MainLayout>
+      <div className="p-4 ml-12">
+      <div className="flex justify-between mb-4">
+  <button
+    onClick={handleBackNavigation}
+    className="font-semibold border-2 border-gray-800 px-4 py-2 flex items-center rounded hover:bg-gray-600"
+    
+  >
+    <FaLessThan className="text-black mr-2" />
+    Previous
+  </button>
+  
+  <button
+    onClick={handleAddButtonClick}
+    className=" font-semibold border-2 border-gray-800 px-4 py-2 flex  justify-end rounded hover:bg-gray-600"
+    
+  >
+    Create Exam
+    {/* <FaPlus className="text-white ml-2" /> */}
+  </button>
+</div>
 
-        <table className="min-w-full border-collapse border rounded-sm border-gray-300">
-          <thead className="bg-black text-white">
+
+        <table className="min-w-full border-collapse border rounded-sm border-gray-800">
+          <thead className="text-black bg-gray-300">
             <tr>
-              <th className="border border-gray-300 px-4 py-2">Exam Name</th>
-              <th className="border border-gray-300 px-4 py-2">Start Date</th>
-              <th className="border border-gray-300 px-4 py-2">End Date</th>
-              <th className="border border-gray-300 px-4 py-2">Duration</th>
-              <th className="border border-gray-300 px-4 py-2">No. of Attempts</th>
-              <th className="border border-gray-300 px-4 py-2">passPercentage</th>
-              <th className="border border-gray-300 px-4 py-2">Assigned</th>
-              <th className="border border-gray-300 px-4 py-2">View</th>
-              <th className="border border-gray-300 px-4 py-2">Action</th>
+              <th className="border border-gray-500 px-4 py-2">Exam Name</th>
+              <th className="border border-gray-500 px-4 py-2">Start Date</th>
+              <th className="border border-gray-500 px-4 py-2">End Date</th>
+              <th className="border border-gray-500 px-4 py-2">Duration</th>
+              <th className="border border-gray-500 px-4 py-2">No. of Attempts</th>
+              <th className="border border-gray-500 px-4 py-2"> Pass Percentage</th>
+              <th className="border border-gray-500 px-4 py-2">Assigned</th>
+              <th className="border border-gray-500 px-4 py-2">View</th>
+              <th className="border border-gray-500 px-4 py-2">Action</th>
             </tr>
           </thead>
 
@@ -155,24 +164,26 @@ const CreateExam = () => {
             ) : (
               tableData.map((row, index) => (
                 <tr key={index} className="odd:bg-white even:bg-gray-50">
-                  <td className="border border-gray-300 text-center px-4 py-2">{row.examName}</td>
-                  <td className="border border-gray-300 text-center px-4 py-2">{row.startDate}</td>
-                  <td className="border border-gray-300 text-center px-4 py-2">{row.endDate}</td>
-                  <td className="border border-gray-300 text-center px-4 py-2">{row.examDuration}</td>
-                  <td className="border border-gray-300 text-center px-4 py-2">{row.numberOfAttempts}</td>
-                  <td className="border border-gray-300 text-center px-4 py-2">{row.passPercentage}</td>
-                  <td className="border border-gray-300 text-center px-4 py-2">
+                  <td className="border border-gray-500 text-center px-4 py-2">{row.examName}</td>
+                  <td className="border border-gray-500 text-center px-4 py-2">{row.startDate}</td>
+                  <td className="border border-gray-500 text-center px-4 py-2">{row.endDate}</td>
+                  <td className="border border-gray-500 text-center px-4 py-2">{row.examDuration}</td>
+                  <td className="border border-gray-500 text-center px-4 py-2">{row.numberOfAttempts}</td>
+                  <td className="border border-gray-500 text-center px-4 py-2">{row.passPercentage}</td>
+                  <td className="border border-gray-500 text-center px-4 py-2">
                     {row.assignedTo && Array.isArray(row.assignedTo) ? row.assignedTo.join(', ') : 'N/A'}
                   </td>
 
-                  <td className="border border-gray-300 px-4 py-2">
-                    <AiOutlineEye
-                      size={21}
-                      color="black"
-                      className="text-blue-500 cursor-pointer"
-                      title="View"
-                      onClick={() => handleView(row.examId)}  // Pass the examId here
-                    />
+                  <td className="border border-gray-500 px-4 py-2 ">
+                  <div className="flex justify-center">
+    <AiOutlineEye
+      size={21}
+      color="black"
+      className="text-blue-500 cursor-pointer"
+      title="View"
+      onClick={() => handleView(row.examId)} 
+    />
+  </div>
                   </td>
                   <td className="border border-gray-300 text-center px-4 py-3 flex justify-center space-x-2">
                     <AiOutlineEdit
@@ -203,6 +214,7 @@ const CreateExam = () => {
           />
         )}
       </div>
+      </MainLayout>
     </>
   );
 };
