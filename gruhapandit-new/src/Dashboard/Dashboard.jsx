@@ -143,7 +143,7 @@ const Dashboard = () => {
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {[
                             {  title: 'School Education', name: 'SCHOOL_EDUCATION', icon: SchoolImage},
-                            { title: 'Under/Post Graduate',name:' UG_PG_EDUCATION', icon: CollegeImage },
+                            { title: 'Under/Post Graduate',name:'UG_PG_EDUCATION', icon: CollegeImage },
                             { title: 'Technical Skills',name:'TECHNICAL_SKILLS', icon: Technical },
                             { title: 'Global Language',name:'GLOBAL_LANGUAGES', icon: Global },
                             { title: 'Competitive Exams',name:' COMPETITIVE_EXAMS', icon: Competitive },
