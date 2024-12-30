@@ -143,7 +143,7 @@ const Subjects = () => {
  const  {category}=location.state ;
  const navigate=useNavigate();
  const userId=localStorage.getItem('UserId');
-
+ const role=localStorage.getItem('UserRole')
 
  
 
@@ -258,7 +258,12 @@ const Subjects = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-gray-600">No tutors found.</p>
+              <p className="text-center text-gray-600">
+  {role === "TUTOR" 
+    ? "No students found." 
+    :  "No  tutors found." 
+    }
+</p>
             )}
           </div>
         </div>
