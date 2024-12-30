@@ -38,6 +38,7 @@ import Exam from "./Exam/SelfExam";
 import ExamPopUp from "./Exam/ExamPopUp";
 
 import RequestApproval from "./Admin Flow/Request";
+import DialogueBox from "./Dashboard/DialogueBox";
 
 
 function Layout({ children }) {
@@ -115,6 +116,7 @@ function App() {
             <Route path="/Payment" element={<Payment/>}></Route>
             <Route path="/SelfExam" element={<Exam/>}></Route>
             <Route path="/exampopup" element={<ExamPopUp/>}/>
+            <Route path="/dialoguebox" element={<DialogueBox/>}/>
             
 
 
