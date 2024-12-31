@@ -36,9 +36,12 @@ import Payment from "./Payment";
 import Exam from "./Exam/SelfExam";
 import ExamPopUp from "./Exam/ExamPopUp";
 import RequestApproval from "./Admin Flow/Request";
+import DialogueBox from "./Dashboard/DialogueBox";
 import Unauthorized from "./Authorized Access/Unauthorized";
 import Maintaience from './Authorized Access/undermaintaience';
 import ProtectedRoute from "./Authorized Access/ProtectedRoute";
+
+
 
 
 
@@ -136,6 +139,7 @@ function App() {
           {/*  TUTOR ACCESS with PREMIMUM USER */}
           <Route element={<ProtectedRoute allowedRoles={[{ userRole: "ROLE_PREMIUM_USER", role: "TUTOR" }]} />}>
               <Route path="/National/:userId" element={<National />} />
+                <Route path="/dialoguebox" element={<DialogueBox/>}/>
               <Route path="/ExamList"element={<ExamList/>}></Route>
               <Route path="/exampopup" element={<ExamPopUp/>}/>
             </Route> 

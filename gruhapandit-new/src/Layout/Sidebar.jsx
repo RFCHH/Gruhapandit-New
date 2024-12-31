@@ -1,7 +1,4 @@
-
-
 import React, { useState } from "react";
-
 import {
   FaUser,
   FaIdCard,
@@ -29,14 +26,27 @@ function Sidebar() {
   const location = useLocation();
   const userId=localStorage.getItem('UserId');
   const userRole=localStorage.getItem('UserRole')
-  console.log(userRole);
+  const role=localStorage.getItem('role');
+
+  // console.log(userRole);
 
   const userMenuItems = [
 
 
     { path: `/Dashboard/${userId}`, label: 'Dashboard', icon: <TbLayoutDashboardFilled className="text-gray-700 text-lg" /> },
     { path: `/Profile/${userId}`, label: 'Person', icon: <FaUser className="text-gray-700 text-lg" /> },
-    { path: `/National/${userId}`, label: 'National ID', icon: <FaIdCard className="text-gray-700 text-lg" /> },
+
+    ...(role === "TUTOR" && userRole === "ROLE_PREMIUM_USER"
+      ? [
+          {
+            path: `/National/${userId}`,
+            label: 'National ID',
+            icon: <FaIdCard className="text-gray-700 text-lg" />,
+          },
+        ]
+      : []),
+    
+
     { path: `/Feeds/${userId}`, label: 'My Feeds', icon: <SiGooglesheets className="text-gray-700 text-lg" /> },
     { path: `/plans/${userId}`, label: 'My Plans', icon: <FaBoxOpen className="text-gray-700 text-lg" /> },
     { path: `/Request/${userId}`, label: 'My Requests', icon: <MdPersonSearch className="text-gray-700 text-xl" /> },
