@@ -21,109 +21,114 @@ const CurrentLocation = () => {
   const [isDataPresent, setIsDataPresent] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    let Value = value;
-
-    if (["houseNum", "locality", "landMark"].includes(name)) {
-      Value = Value.replace(/^\s+/g, "");
-    } else if (name === "pincode") {
-      Value = Value.replace(/[^0-9]/g, "").slice(0, 6);
-    } else if (["district", "city", "state", "country"].includes(name)) {
-      Value = Value.replace(/^\s+/g, "");
-
-      Value = Value.replace(/[^A-Za-z\s]/g, "");
-
-      if (Value.length > 0 && Value[0] === " ") {
-        Value = Value.trimStart();
-      }
-      Value = Value.replace(/\s{2,}/g, " ");
-    } else {
-      Value = Value.replace(/[^A-Za-z]/g, "");
-    }
-
-    setFormData({
-      ...formData,
-      [name]: Value,
-    });
-
-    setErrors({
-      ...errors,
-      [name]: "",
-    });
-  };
-
-  const validateForm = () => {
+  const validateFields = () => {
     const newErrors = {};
-    let isValid = true;
+    if (!formData.houseNum.trim()) newErrors.houseNum = "House Number is required.";
+    if (!formData.locality.trim()) newErrors.locality = "Locality is required.";
+    if (!formData.landMark.trim()) newErrors.landMark = "Landmark is required.";
+    if (!formData.district.trim()) newErrors.district = "District is required.";
+    if (!formData.city.trim()) newErrors.city = "City is required.";
+    if (!formData.state.trim()) newErrors.state = "State is required.";
+    if (!formData.country.trim()) newErrors.country = "Country is required.";
+    if (!formData.pincode || !/^[0-9]{6}$/.test(formData.pincode)) {
+      newErrors.pincode = "Pincode must be a valid 6-digit number.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-    for (const [key, value] of Object.entries(formData)) {
-      if (!value) {
-        newErrors[key] = "This field is required.";
-        isValid = false;
-      } else if (/^\s/.test(value)) {
-        newErrors[key] = "This field cannot start with a space.";
-        isValid = false;
+  const fetchData = async () => {
+    const token = localStorage.getItem("Token");
+    const userId = localStorage.getItem("UserId");
+
+    if (!userId || !token) {
+      console.error("Missing userId or token");
+      return;
+    }
+
+    try {
+      const response = await axiosInstance.get(
+        `/address/${userId}?type=CURRENT`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data) {
+        setFormData(response.data);
+        setIsEditing(false);
+        setIsDataPresent(true);
+      } else {
+        setIsDataPresent(false);
+      }
+    } catch (error) {
+      console.error("Error fetching location data:", error);
+      setIsDataPresent(false);
+    }
+  };
+
+  const createData = async (payload) => {
+    const token = localStorage.getItem("Token");
+
+    try {
+      const response = await axiosInstance.post(`/address/`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("POST response:", response);
+      setIsEditing(false);
+      setIsDataPresent(true);
+    } catch (error) {
+      console.error("Error creating data:", error);
+      if (error.response) {
+        console.error("Error response data:", error.response.data);
       }
     }
-
-    if (formData.pincode && !/^\d{6}$/.test(formData.pincode)) {
-      newErrors.pincode = "Pin code must be a valid 6-digit number.";
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
   };
+
+  const updateData = async (payload) => {
+    const token = localStorage.getItem("Token");
+
+    try {
+      const response = await axiosInstance.patch(`/address/`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("PATCH response:", response);
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating data:", error);
+      if (error.response) {
+        console.error("Error response data:", error.response.data);
+      }
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (validateForm()) {
-      console.log("Form data submitted:", formData);
-
-      const token = localStorage.getItem("Token");
+    if (validateFields()) {
       const userId = localStorage.getItem("UserId");
 
-      if (!token || !userId) {
-        console.error("Missing token or userId.");
+      if (!userId) {
+        console.error("Missing userId.");
         return;
       }
 
-      const payload = {
-        ...formData,
-        type: "CURRENT",
-        userId,
-      };
+      const payload = { ...formData, type: "CURRENT", userId };
 
-      try {
-        let response;
-        if (isDataPresent) {
-          response = await axiosInstance.patch(`/address/`, payload, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          });
-        } else {
-          response = await axiosInstance.post(`/address/`, payload, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          });
-        }
-
-        console.log("Response:", response);
-
-        // Set the form as non-editable after a successful submission
-        setIsEditing(false);
-        setIsDataPresent(true);
-      } catch (error) {
-        console.error("Error submitting form:", error);
-        if (error.response) {
-          console.error("Error response data:", error.response.data);
-        }
+      if (isDataPresent) {
+        console.log("Existing data found, triggering PATCH");
+        await updateData(payload);
+      } else {
+        console.log("No existing data, triggering POST");
+        await createData(payload);
       }
     }
   };
@@ -133,6 +138,12 @@ const CurrentLocation = () => {
     setErrorMessage("");
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value.trimStart() });
+    setErrors({ ...errors, [name]: "" });
+  };
+
   const handleFieldFocus = () => {
     if (!isEditing) {
       setErrorMessage("Please click the Edit button to modify this field.");
@@ -140,36 +151,6 @@ const CurrentLocation = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("Token");
-      const userId = localStorage.getItem("UserId");
-      const type = "CURRENT";
-
-      if (!userId || !token) {
-        console.error("Missing userId or token");
-        return;
-      }
-
-      try {
-        const response = await axiosInstance.get(
-          `/address/${userId}?type=${type}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.data) {
-          setFormData(response.data);
-          setIsEditing(false);
-          setIsDataPresent(true);
-        }
-      } catch (error) {
-        console.error("Error fetching location data:", error);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -288,4 +269,3 @@ const CurrentLocation = () => {
 };
 
 export default CurrentLocation;
- 
