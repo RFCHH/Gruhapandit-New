@@ -31,6 +31,7 @@ import FooterMain from "./FooterMain"
 
 
 
+
 function Home() {
   const [stats, setStats] = useState(false);
 
@@ -38,7 +39,6 @@ function Home() {
     const fetchStatsData = async () => {
       try {
         const response = await axios.get(`https://tution-application.onrender.com/tuition-application/homepagedata/`);
-
         if (response.status === 200) {
           const statsArray = Object.entries(response.data).map(([key, value]) => ({
             label: key.toUpperCase(),
@@ -133,8 +133,8 @@ function Home() {
                     className="absolute rounded-full left-4 top-1/2 transform -translate-y-1/2 w-6 h-6"
                   />
                 </div>
-
                 <button onClick={() => navigate("/LoginPage")} className="border-4 border-purple-600 text-black px-6 py-2 rounded-full  ">
+
                   Search Now
                 </button>
               </div>
@@ -221,6 +221,7 @@ function Home() {
                     Take a free demo from our Home Tutors and Online Tutors. Compare amongst them and hire the best.
                   </p>
                 </div>
+
               </div>
 
               <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto  mr-80">
@@ -260,6 +261,7 @@ function Home() {
               <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto  mr-80">
                 <div className="flex-shrink-0">
                   <img src={Verified} alt="Verified Tutors" className="w-28 h-28" />
+
                 </div>
                 <div className="ml-6">
                   <h2 className="text-2xl font-semibold text-violet-800 mb-2">Get Verified Expert Tutors</h2>
@@ -272,6 +274,7 @@ function Home() {
                     Learn from experienced and certified tutors who provide reliable, high-quality education tailored to your needs.
                   </p>
                 </div>
+
               </div>
             </div>
           </div>
@@ -393,12 +396,13 @@ function Home() {
                 <div className="bg-white rounded-3xl shadow-lg p-6 w-full max-w-md">
                   <h2 className="text-xl font-semibold text-blue-600 mb-2">I'm a Student</h2>
                   <p className="mb-4">
-                    for students who are committed to their learning journey and motivated to achieve their academic
+                    For students who are committed to their learning journey and motivated to achieve their academic
                     goals. Whether it's excelling in school education, preparing for competitive exams, or enhancing technical skills,
                     we seek students who are eager to improve, actively participate in lessons, and remain focused on their progress.
                     We value students who are clear about their educational needs and are dedicated to achieving success.                  </p>
                   <div className="flex items-center px-4 py-2 border-black shadow-lg rounded-full w-40 mt-24">
                     <button onClick={() => navigate("/LoginPage")}><span className="font-semibold ml-2">Sign Up</span></button>
+
                     <FaGreaterThan className="text-black ml-10" />
                   </div>
                 </div>
@@ -447,8 +451,6 @@ function Home() {
                   <div key={index} className="flex flex-col items-center">
                     <h3 className="mt-2 text-7xl mb-4 ">{stat.count ? `${stat.count}+` : "0+"}</h3>
                     <p className=" text-2xl  font-serif">{stat.label || "No Label"}</p>
-
-
                   </div>
                 ))
               ) : (
@@ -528,6 +530,7 @@ function Home() {
         className="bg-cover bg-center min-h-screen bg-gradient-to-r from-cyan-500 to-teal-500"
         style={{ backgroundImage: `url(${Footer})`, transition: 'background 0.5s ease-in-out' }}
       /> */}
+
 
     </>
   )

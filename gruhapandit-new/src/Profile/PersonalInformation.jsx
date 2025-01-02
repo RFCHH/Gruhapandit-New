@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FormInput } from "./TutorProfile";
 import axiosInstance from "../axiosInstance";
-import { FaEdit } from "react-icons/fa";
-import { ImCancelCircle } from "react-icons/im";
 
 const PersonalInformation = () => {
   const [formData, setFormData] = useState({
@@ -103,10 +101,9 @@ const PersonalInformation = () => {
           },
         });
   
-        // Handle API response
         if (response.status === 200) {
           console.log("Form submitted successfully:", response.data);
-          setIsEditing(false); // Close editing mode
+          setIsEditing(false); 
         } else {
           console.error("Error in response:", response);
         }
@@ -205,8 +202,19 @@ const PersonalInformation = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
+  
         const userData = response.data;
+        const addressResponse = await axiosInstance.get(
+          `/users/basicAddress?userId=${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
+        const addressData = addressResponse.data;
+  
         setFormData({
           fullName: userData.fullName || "",
           emailId: userData.emailId || "",
@@ -214,27 +222,27 @@ const PersonalInformation = () => {
           mobileNumber: userData.mobileNumber || "",
           gender: userData.gender || "",
           dateOfBirth: userData.dateOfBirth || "",
-          city: userData.city || "",
-          state: userData.state || "",
-          district: userData.district || "",
-          country: userData.country || "",
+          city: addressData.city || userData.city || "",
+          state: addressData.state || userData.state || "",
+          district: addressData.district || userData.district || "",
+          country: addressData.country || userData.country || "",
           pinCode: userData.pinCode || "",
         });
       } catch (error) {
         console.error("Error fetching user data:", error.message);
       }
     };
-
+  
     fetchData();
   }, []);
-
+  
   return (
     <div className="relative">
       <button
         className="absolute -top-1 right-2 bg-cyan-600 text-white px-3 py-2 rounded"
         onClick={() => setIsEditing(!isEditing)}
       >
-        {isEditing ? <ImCancelCircle /> : <FaEdit />}
+        Edit
       </button>
       <h3 className="text-cyan-600 font-bold mb-4">Personal Information</h3>
       <form className="grid grid-cols-3 gap-1" onSubmit={handleSubmit}>
