@@ -69,6 +69,7 @@ const TutorProfile = () => {
   const [fullname, setFullname] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [profileCompletion, setProfileCompletion] = useState(0);
 
   const userId = localStorage.getItem("userId");
   const role = localStorage.getItem("role");
@@ -131,6 +132,12 @@ const TutorProfile = () => {
         const response = await axiosInstance.get(`/users/${userId}`);
         const data = response.data;
         setFullname(data.fullName);
+
+        const profileResponse = await axiosInstance.get(
+          `/profilecompletion/${userId}`
+        );
+        const profileData = profileResponse.data;
+        setProfileCompletion(profileData.completionPercentage);
       } catch (err) {
         console.error("Error fetching user data:", err);
         setError("Unable to fetch user data. Please try again later.");
@@ -171,7 +178,7 @@ const TutorProfile = () => {
                       data={{
                         datasets: [
                           {
-                            data: [30, 70],
+                            data: [profileCompletion, 100 - profileCompletion],
                             backgroundColor: ["#4A148C", "#EDE7F6"],
                             borderWidth: 0,
                           },
@@ -183,7 +190,7 @@ const TutorProfile = () => {
                       }}
                     />
                     <div className="absolute inset-0 flex items-center justify-center text-yellow-500 font-bold text-lg">
-                      30%
+                      {profileCompletion}%
                     </div>
                   </div>
                   <div className="text-center mt-4">
