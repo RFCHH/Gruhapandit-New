@@ -25,7 +25,10 @@ import BigMail from './../../assets/23.png';
 import Mail from './../../assets/24.png';
 import Footer from './../../assets/Footer.png';
 import { FaGreaterThan, FaQuoteLeft, FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import axiosInstance from '../../axiosInstance';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import FooterMain from "./FooterMain"
+
 
 
 
@@ -35,8 +38,7 @@ function Home() {
   useEffect(() => {
     const fetchStatsData = async () => {
       try {
-        const response = await axiosInstance.get(`/homepagedata/`);
-
+        const response = await axios.get(`https://tution-application.onrender.com/tuition-application/homepagedata/`);
         if (response.status === 200) {
           const statsArray = Object.entries(response.data).map(([key, value]) => ({
             label: key.toUpperCase(),
@@ -56,45 +58,46 @@ function Home() {
   const options = useMemo(() => [
     {
       title: 'School Education',
-      description: 'Expert guidance for UG and PG students across various academic streams.',
+      description: 'Gruhapandit Tuitions offers expert guidance for school education through personalized home tuitions and online tutoring, helping students excel in academics and build a strong foundation for success.',
       icon: SchoolImage,
     },
     {
       title: 'Under/Post Graduate',
-      description: 'Tailored programs for UG and PG students.',
+      description: 'Gruhapandit Tuitions provides specialized home tuition and online tutoring for undergraduate and postgraduate students, ensuring personalized academic and career success guidance.',
       icon: CollegeImage,
     },
     {
       title: 'Technical Skills',
-      description: 'Training in modern technologies like coding, data analytics, and more.',
+      description: 'Gruhapandit Tuitions offers personalized coaching in technical skills, empowering students and professionals with expertise in programming, data analysis, software tools, and industry-relevant technologies.',
       icon: Technical,
     },
     {
       title: 'Global Language',
-      description: 'Learn global and regional languages to enhance fluency and cultural understanding.',
+      description: 'Gruhapandit Tuitions provides expert guidance in global languages like English, Spanish, French, and more, through personalized home tuitions and online tutoring to enhance communication skills.',
       icon: Global,
     },
     {
       title: 'Competitive Exam',
-      description: 'Preparation strategies for exams like JEE, NEET, CAT, and GRE.',
+      description: 'Gruhapandit Tuitions offers personalized coaching for competitive exams, including IIT-JEE, NEET, UPSC, and more, through expert home tuitions and online tutoring, ensuring exam success.',
       icon: Competitive,
     },
     {
       title: 'Soft Skills',
-      description: 'Build communication, leadership, and personal growth skills.',
+      description: 'Gruhapandit Tuitions provides expert training in soft skills, including communication, leadership, time management, and teamwork, through personalized home tuitions and online tutoring sessions.',
       icon: Soft,
     },
     {
       title: 'Government Exam',
-      description: 'Guidance for exams like LPSC, SSC, and others.',
+      description: 'Gruhapandit Tuitions offers specialized coaching for government exams like SSC, Bank Exams, RRB, and UPSC through personalized home tuitions and online tutoring, ensuring focused preparation.',
       icon: Government,
     },
     {
       title: 'Entrance Exam',
-      description: 'Preparation for exams like IELTS, GMAT, and CAT.',
+      description: 'Gruhapandit Tuitions offers expert coaching for entrance exams such as JEE, NEET, CET, and more,  with personalized home tuitions and online tutoring to help students achieve their desired scores.',
       icon: Entrance,
     },
   ], []);
+  const navigate = useNavigate();
   return (
     <>
       <div className="bg-gradient-to-b from-purple-50 to-blue-100 min-h-screen mt-20">
@@ -130,8 +133,8 @@ function Home() {
                     className="absolute rounded-full left-4 top-1/2 transform -translate-y-1/2 w-6 h-6"
                   />
                 </div>
+                <button onClick={() => navigate("/LoginPage")} className="border-4 border-purple-600 text-black px-6 py-2 rounded-full  ">
 
-                <button className="border-4 border-purple-600 text-black px-6 py-2 rounded-full  ">
                   Search Now
                 </button>
               </div>
@@ -188,7 +191,7 @@ function Home() {
                 background: 'linear-gradient(to right, #7C14FD, transparent)'
               }}
               ></div>
-              <p className="text-xl text-white bg-violet-800 px-20 py-2 rounded-full inline-block font-medium mt-10 mb-30">
+              <p onClick={() => navigate("/LoginPage")} className="text-xl text-white bg-violet-800 px-20 py-2 rounded-full inline-block font-medium mt-10 mb-30">
                 For Student
               </p>
             </div>
@@ -218,6 +221,7 @@ function Home() {
                     Take a free demo from our Home Tutors and Online Tutors. Compare amongst them and hire the best.
                   </p>
                 </div>
+
               </div>
 
               <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto  mr-80">
@@ -257,6 +261,7 @@ function Home() {
               <div className="flex items-center py-10  px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto  mr-80">
                 <div className="flex-shrink-0">
                   <img src={Verified} alt="Verified Tutors" className="w-28 h-28" />
+
                 </div>
                 <div className="ml-6">
                   <h2 className="text-2xl font-semibold text-violet-800 mb-2">Get Verified Expert Tutors</h2>
@@ -269,6 +274,7 @@ function Home() {
                     Learn from experienced and certified tutors who provide reliable, high-quality education tailored to your needs.
                   </p>
                 </div>
+
               </div>
             </div>
           </div>
@@ -286,7 +292,7 @@ function Home() {
 
                 />
               </div>
-              <p className="text-xl text-white bg-violet-800 px-20 py-2 rounded-full inline-block font-medium mt-10 mb-44">
+              <p onClick={() => navigate("/LoginPage")} className="text-xl text-white bg-violet-800 px-20 py-2 rounded-full inline-block font-medium mt-10 mb-44">
                 For Tutors
               </p>
             </div>
@@ -376,21 +382,27 @@ function Home() {
                 <div className="bg-white rounded-3xl shadow-lg p-6 w-full max-w-md">
                   <h2 className="text-xl font-semibold text-blue-600 mb-2">I'm a Tutor</h2>
                   <p className="mb-4">
-                    Perfect Tutor connects Students with the Home Tutors and Online Tutors. We provide Full-time & part-time Home Tuition Jobs and Online Tuition Jobs.
-                    You can teach students of all Classes from K.G. to XII. You can also teach the students of Colleges, Universities, Competitive Exams, Hobby & Languages, etc.
+                    For tutors, we are looking for individuals with expertise in their subject areas and a passion for teaching.
+                    Our ideal tutors are patient, able to communicate effectively, and can tailor their teaching methods to suit
+                    the unique needs of each student. We want tutors who are reliable, professional, and dedicated to providing
+                    the best learning experience, whether through home tuition or online tutoring. Tutors who are adaptable and
+                    committed to student success will thrive with us.
                   </p>
                   <div className="flex items-center px-4 py-2 border-black shadow-md rounded-full w-40 mt-12">
-                    <button><span className="font-semibold ml-2">Sign Up</span></button>
+                    <button onClick={() => navigate("/LoginPage")}><span className="font-semibold ml-2">Sign Up</span></button>
                     <FaGreaterThan className="text-black ml-10" />
                   </div>
                 </div>
                 <div className="bg-white rounded-3xl shadow-lg p-6 w-full max-w-md">
                   <h2 className="text-xl font-semibold text-blue-600 mb-2">I'm a Student</h2>
                   <p className="mb-4">
-                    If you are looking for the top-qualified Tutor or Online Tutor for tuition classes at your Home or Online. You can simply post your learning requirement for Free on our Perfect Tutor Platform and get a list of qualified tutors.
-                  </p>
+                    For students who are committed to their learning journey and motivated to achieve their academic
+                    goals. Whether it's excelling in school education, preparing for competitive exams, or enhancing technical skills,
+                    we seek students who are eager to improve, actively participate in lessons, and remain focused on their progress.
+                    We value students who are clear about their educational needs and are dedicated to achieving success.                  </p>
                   <div className="flex items-center px-4 py-2 border-black shadow-lg rounded-full w-40 mt-24">
-                    <button><span className="font-semibold ml-2">Sign Up</span></button>
+                    <button onClick={() => navigate("/LoginPage")}><span className="font-semibold ml-2">Sign Up</span></button>
+
                     <FaGreaterThan className="text-black ml-10" />
                   </div>
                 </div>
@@ -411,8 +423,8 @@ function Home() {
               <div className="flex flex-col md:flex-row items-start md:items-center">
                 <div className="md:w-1/2 text-left mb-8 md:mb-0">
                   <p className="mx-auto text-2xl text-black font-medium w-[50%]">
-                    When you choose Perfect Tutor, you can be confident for investing
-                    in the most reliable tutoring services available in your area.
+                    A perfect tutor is someone who not only has expertise in their subject but also possesses the ability to connect
+                    with students, understand their individual learning needs, and guide them toward success.
                   </p>
                 </div>
                 <div className="md:w-1/2 flex flex-col space-y-4  ml-5 md:text-center w-[50%]">
@@ -429,7 +441,7 @@ function Home() {
             </div>
           </div>
 
-          <div className="bg-gradient-to-b from-[#26A3C9] via-[#208AAA] to-[#4999B2] py-8 rounded-2xl m-10">
+          <div className="bg-gradient-to-b from-[#26A3C9] via-[#208AAA] to-[#4999B2] py-12   rounded-2xl m-10">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 text-center text-white font-bold auto-rows-auto "
               style={{
                 gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
@@ -438,9 +450,7 @@ function Home() {
                 stats.map((stat, index) => (
                   <div key={index} className="flex flex-col items-center">
                     <h3 className="mt-2 text-7xl mb-4 ">{stat.count ? `${stat.count}+` : "0+"}</h3>
-                    <p className=" text-3xl  font-serif">{stat.label || "No Label"}</p>
-
-
+                    <p className=" text-2xl  font-serif">{stat.label || "No Label"}</p>
                   </div>
                 ))
               ) : (
@@ -500,7 +510,7 @@ function Home() {
                   />
                 </div>
 
-                <button className="border-2 border-purple-600 text-black px-6 py-2 rounded-full  hover:bg-orange-200">
+                <button onClick={() => navigate("/LoginPage")} className="border-2 border-purple-600 text-black px-6 py-2 rounded-full  hover:bg-orange-200">
                   Subscribe Now</button>
               </div>
 
@@ -514,11 +524,13 @@ function Home() {
             </div>
           </div>
         </section>
+        <FooterMain />
       </div>
-      <footer
+      {/* <footer
         className="bg-cover bg-center min-h-screen bg-gradient-to-r from-cyan-500 to-teal-500"
         style={{ backgroundImage: `url(${Footer})`, transition: 'background 0.5s ease-in-out' }}
-      />
+      /> */}
+
 
     </>
   )

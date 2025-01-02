@@ -2,12 +2,15 @@ import React from "react";
 import message from "../../assets/24.png";
 import Mails from "../../assets/23.png";
 import footer from "../../assets/Footer.png";
+import { useNavigate } from "react-router-dom";
+import FooterMain from "./FooterMain"
 
 const HomeReviews = () => {
+  const navigate=useNavigate();
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <div className="relative flex flex-col items-start min-h-screen px-4 sm:px-12 md:px-24">
-        <div className="flex flex-col gap-2 sm:mt-32 md:mt-56 mt-96">
+        <div className="flex flex-col gap-2 sm:mt-32 md:mt-56 mt-36">
           <h1
             className="text-[32px] sm:text-[40px] md:text-[64px] font-extrabold text-[#32046B] leading-tight text-center sm:text-left"
             style={{
@@ -26,7 +29,7 @@ const HomeReviews = () => {
           </p>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full -mt-12">
+        <div className="absolute bottom-0 left-0 w-full -mt-6 sm:-mt-12">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 1920 721"
@@ -52,6 +55,7 @@ const HomeReviews = () => {
             </defs>
           </svg>
         </div>
+
       </div>
 
       <div className="text-center mt-10 mb-8">
@@ -96,7 +100,7 @@ const HomeReviews = () => {
             </div>
           ))}
       </div>
-      <div className="flex justify-center items-center space-x-1 my-8">
+      {/* <div className="flex justify-center items-center space-x-1 my-8">
         <button className="text-[#000000] hover:underline font-bold">
           Previous
         </button>
@@ -112,7 +116,7 @@ const HomeReviews = () => {
         <button className="text-[#B070FF] hover:underline font-bold">
           Next
         </button>
-      </div>
+      </div> */}
       <section className="bg-purple-50 py-12 sm:py-16 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
           <div className="absolute top-2 left-72 text-pink-300 text-2xl">★</div>
@@ -169,6 +173,7 @@ const HomeReviews = () => {
                 />
               </div>
               <button
+              onClick={() => navigate("/LoginPage")}
                 className="w-full sm:w-auto px-6 py-3 rounded-full border-2 border-purple-600 text-black bg-white hover:bg-purple-100 transition flex-shrink-0"
                 style={{
                   height: "3rem",
@@ -188,9 +193,8 @@ const HomeReviews = () => {
         </div>
       </section>
 
-      <div>
-        <img src={footer} alt="footer icon" />
-      </div>
+      
+      <FooterMain/>
     </div>
   );
 };
