@@ -44,8 +44,14 @@ const MyFeedStudent = () => {
             My Feed
           </button>
           <button className="bg-blue-500 text-white px-8 py-2 mr-36 mt-16 rounded-tr-xl rounded-bl-xl hover:bg-blue-600"
-            onClick={()=>navigate('/ExamList')
-            }> Exam
+            onClick={()=> {
+              if(role === "TUTOR"){
+                navigate('/ExamList');
+              }else{
+                navigate('/SelfExam')
+              }
+             
+            }}> Exam
           </button>
         </nav>
 

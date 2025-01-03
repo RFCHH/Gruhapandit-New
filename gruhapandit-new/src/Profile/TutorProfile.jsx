@@ -73,6 +73,7 @@ const TutorProfile = () => {
 
   const userId = localStorage.getItem("userId");
   const role = localStorage.getItem("role");
+  const profile =localStorage.getItem("Profile");
 
   const sections = [
     "Personal Information",
@@ -156,7 +157,7 @@ const TutorProfile = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <div className="bg-white p-6 rounded-lg shadow flex items-center">
               <img
-                src={profileIcon}
+                src={profile}
                 alt="Profile Icon"
                 className="w-24 h-24 rounded-full mr-8"
               />
