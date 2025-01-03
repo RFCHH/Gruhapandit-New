@@ -95,8 +95,9 @@ const National = () => {
                                     {fileName || "Drag & drop your file here"}
                                 </p>
                                 <input
-                                    type="file"
+                                    type="text"
                                     onChange={handleFileChange}
+                                    onClick={handleUploadClick}
                                     className="hidden"
                                     id="fileInput"
                                 />

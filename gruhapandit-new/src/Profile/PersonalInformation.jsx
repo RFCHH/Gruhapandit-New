@@ -133,6 +133,11 @@ const PersonalInformation = () => {
       newErrors.emailId = "Invalid Email ID.";
       isValid = false;
     }
+
+    if(!formData.countryCode){
+      newErrors.countryCode="Country Code is required"
+      isValid=false;
+    }
   
     if (!formData.mobileNumber) {
       newErrors.mobileNumber = "Mobile Number is required.";
@@ -274,6 +279,22 @@ const PersonalInformation = () => {
             <p className="text-red-500 text-sm">{errors.emailId}</p>
           )}
         </div>
+
+        <div className="flex flex-col">
+          <FormInput
+            label="Country Code"
+            name="countryCode"
+            type="countryCode"
+            value={formData.countryCode}
+            onChange={handleChange}
+            disabled={!isEditing}
+            placeholder="Enter the Number"
+          />
+          {errors.countryCode && (
+            <p className="text-red-500 text-sm">{errors.countryCode}</p>
+          )}
+        </div>
+
 
         <div className="flex flex-col">
           <FormInput
