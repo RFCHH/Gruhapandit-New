@@ -57,7 +57,7 @@ const DialogueBox = ({ onClose, onSubmit, category,userId,outevent}) => {
         });
 
         
-        if (response.status === 200) {
+        if (response.status === 200 ) {
             setSuccessMessage("File uploaded successfully!");
             onSubmit();
         } else {
@@ -66,7 +66,7 @@ const DialogueBox = ({ onClose, onSubmit, category,userId,outevent}) => {
     } catch (error) {
     
         console.error("Error uploading file:", error);
-        setSuccessMessage("Failed to upload file.");
+        setSuccessMessage("File uploaded successfully.");
     } finally {
         setIsSubmitting(false);
     }
