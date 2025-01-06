@@ -226,8 +226,8 @@ const LoginPage = () => {
             <p className="text-center text-sm text-black mt-4 font-semibold">
               Don't have an account?{" "}
               <a
-                onClick={() => navigate("/SignUp")}
-                className="text-[#2AB0FF] hover:text-purple-500 transition duration-300"
+                onClick={() => navigate("/userselection")}
+                className="text-[#2AB0FF] hover:text-purple-500 transition cursor-pointer duration-300"
               >
                 Sign Up
               </a>

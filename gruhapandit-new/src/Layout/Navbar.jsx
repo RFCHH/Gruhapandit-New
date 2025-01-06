@@ -77,12 +77,12 @@ const Navbar = () => {
     <img
       src={profileImageUrl}
       alt="Profile"
-      className="object-cover mt-2"
+      className="object-cover mt-0 cursor-pointer"
       onClick={handleClick} 
     />
     <IoPersonSharp 
       className="cursor-wait"
-      onClick={handleClick}      
+      // onClick={handleClick}      
     />
     
   
