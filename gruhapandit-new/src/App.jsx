@@ -40,6 +40,7 @@ import DialogueBox from "./Dashboard/DialogueBox";
 import Unauthorized from "./Authorized Access/Unauthorized";
 import Maintaience from './Authorized Access/undermaintaience';
 import ProtectedRoute from "./Authorized Access/ProtectedRoute";
+import CreateQuestion from "./Exam/CreateQuestion";
 
 
 
@@ -70,6 +71,7 @@ function Layout({ children }) {
     '/subject',
     '/SelfExam',
     "/Request",
+    "/createquestion"
 
   ];
 
@@ -142,6 +144,7 @@ function App() {
                 <Route path="/dialoguebox" element={<DialogueBox/>}/>
               <Route path="/ExamList"element={<ExamList/>}></Route>
               <Route path="/exampopup" element={<ExamPopUp/>}/>
+              <Route path="/createquestion/:assignedTo" element={<CreateQuestion/>}/>
             </Route> 
 
           {/*  STUDENT ACCESS with PREMIMUM USER */}

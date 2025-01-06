@@ -64,8 +64,8 @@ const CreateExam = () => {
   };
 
 
-  const handleView = (examId) => {
-    navigate(`/CreateQuestion/${examId}`);
+  const handleView = (assignedTo) => {
+    navigate(`/createquestion/${assignedTo}`);
   };
 
   const handleBackNavigation = () => {
@@ -76,6 +76,7 @@ const CreateExam = () => {
     const token = localStorage.getItem("Token");
     const examId = tableData[index]?.examId; 
     const userId = localStorage.getItem("UserId");
+    
   
     if (!examId) {
       alert("Exam ID is undefined. Please check the data.");
@@ -181,7 +182,7 @@ const CreateExam = () => {
       color="black"
       className="text-blue-500 cursor-pointer"
       title="View"
-      onClick={() => handleView(row.examId)} 
+      onClick={() => handleView(row.assignedTo)} 
     />
   </div>
                   </td>
