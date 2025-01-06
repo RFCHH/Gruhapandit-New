@@ -96,7 +96,7 @@ const CreatePassword = () => {
       if (error.response) {
         alert(
           `Error: ${
-            error.response.data.message || "Failed to create password."
+            error.response.data.message || "Failed to create password or email already exists"
           }`
         );
       } else {

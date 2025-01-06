@@ -143,14 +143,14 @@ const Subjects = () => {
  const  {category}=location.state ;
  const navigate=useNavigate();
  const userId=localStorage.getItem('UserId');
- const role=localStorage.getItem('UserRole')
+ const role=localStorage.getItem('role')
 
  
 
   useEffect(() => {
     const fetchTutors = async () => {
       try {
-        const userId = localStorage.getItem("userId");
+        const userId = localStorage.getItem("UserId");
          const categorys = category ;
         const page = 0;
         const size = 10;

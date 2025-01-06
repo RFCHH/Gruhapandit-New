@@ -93,11 +93,9 @@ const CreateExamDetailsPopUp = ({ initialData, onSave, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validateForm()) {
       return;
     }
-
     const examDetails = {
       userId: localStorage.getItem("UserId"),
       examName: formData.examName,
@@ -108,18 +106,23 @@ const CreateExamDetailsPopUp = ({ initialData, onSave, onClose }) => {
       examDuration: formData.examDuration || 0,
       assignedTo: formData.assignedTo,
     };
-
+  
     try {
+      let response;
       if (formData.examId) {
-        await axiosInstance.patch(`/exams/`, { ...examDetails, examId: formData.examId });
+        response = await axiosInstance.patch(`/exams/`, { ...examDetails, examId: formData.examId });
+        localStorage.setItem("examId", formData.examId); // Store examId in localStorage
       } else {
-        await axiosInstance.post(`/exams/createExams`, examDetails);
+        response = await axiosInstance.post(`/exams/createExams`, examDetails);
+        const createdExamId = response.data?.examId; // Extract examId from the response
+        if (createdExamId) {
+          localStorage.setItem("examId", createdExamId); // Store examId in localStorage
+        }
       }
       onSave(examDetails);
       onClose();
     } catch (error) {
       console.error("Error during POST or PATCH operations:", error);
-      
     }
   };
 
