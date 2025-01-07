@@ -41,6 +41,8 @@ import Unauthorized from "./Authorized Access/Unauthorized";
 import Maintaience from './Authorized Access/undermaintaience';
 import ProtectedRoute from "./Authorized Access/ProtectedRoute";
 import CreateQuestion from "./Exam/CreateQuestion";
+import ExamStart from "./Exam/ExamStart";
+import Data from "./Exam/Data";
 
 
 
@@ -71,8 +73,9 @@ function Layout({ children }) {
     '/subject',
     '/SelfExam',
     "/Request",
-    "/createquestion"
-
+    "/createquestion",
+    "/examstart",
+    "/data"
   ];
 
   const shouldHideNavbar =
@@ -109,7 +112,8 @@ function App() {
             <Route path="/PasswordVerification" element={<PasswordVerification />}/>
             <Route path="/successfull" element={<LoginSuccess />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
-            <Route path="/undermaintaience" element={< Maintaience />} /> 
+            <Route path="/undermaintaience" element={< Maintaience />} />
+           
             
           {/*  TUTOR AND STUDENT ACCESS WITH Regular and premium  */}
             <Route element={<ProtectedRoute allowedRoles={[
@@ -144,12 +148,14 @@ function App() {
                 <Route path="/dialoguebox" element={<DialogueBox/>}/>
               <Route path="/ExamList"element={<ExamList/>}></Route>
               <Route path="/exampopup" element={<ExamPopUp/>}/>
-              <Route path="/createquestion/:assignedTo" element={<CreateQuestion/>}/>
-            </Route> 
+              <Route path="/createquestion/:examId/:assignedTo" element={<CreateQuestion/>}/>
+            </Route>  
 
           {/*  STUDENT ACCESS with PREMIMUM USER */}
           <Route element={<ProtectedRoute allowedRoles={[{ userRole: "ROLE_PREMIUM_USER", role: "STUDENT" }]} />}>
               <Route path="/SelfExam" element={<Exam/>}></Route>
+              <Route path="/examstart/:examId" element={<ExamStart/>}></Route>
+              <Route path="/data/:examId" element={<Data/>}></Route> 
           </Route> 
             
 
