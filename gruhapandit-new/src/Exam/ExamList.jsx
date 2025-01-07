@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AiOutlineEye, AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import ExamPopUp from "./ExamPopUp";
-import axiosInstance from '../axiosInstance';
-import MainLayout from '../Layout/Mainlayout';
-import { FaLessThan,FaPlus } from "react-icons/fa";
-
+import axiosInstance from "../axiosInstance";
+import MainLayout from "../Layout/Mainlayout";
+import { FaLessThan, FaPlus } from "react-icons/fa";
 
 const CreateExam = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,14 +18,16 @@ const CreateExam = () => {
     const fetchExamData = async () => {
       const userId=localStorage.getItem("UserId");
       try {
-        const response = await axiosInstance.get(`/exams/getAllExams/${userId}`);
+        const response = await axiosInstance.get(
+          `/exams/getAllTeacherExams/${userId}`
+        );
         if (response.data && Array.isArray(response.data)) {
           setTableData(response.data);
         } else {
-          console.error('API response is not in expected format.');
+          console.error("API response is not in expected format.");
         }
       } catch (error) {
-        console.error('Error fetching exam data:', error);
+        console.error("Error fetching exam data:", error);
       }
     };
     fetchExamData();
@@ -46,10 +47,10 @@ const CreateExam = () => {
   };
 
   const handleSave = (newData) => {
-    const { examName, startDate, endDate, examDuration, numberOfAttempts, assignedTo } = newData;
+    const { examName, startDate, endDate, examDuration, numberOfAttempts, passPercentage, assignedTo,} = newData;
 
-    if (!examName || !startDate || !endDate || !examDuration || !numberOfAttempts || !passPercentage || !assignedTo.length === 0) {
-      alert('Please fill in all fields.');
+    if (!examName || !startDate || !endDate || !examDuration ||  !numberOfAttempts || !passPercentage || !assignedTo.length === 0) {
+      alert("Please fill in all fields.");
       return;
     }
 
@@ -63,10 +64,15 @@ const CreateExam = () => {
     setIsModalOpen(false);
   };
 
-
-  const handleView = (assignedTo) => {
-    navigate(`/createquestion/${assignedTo}`);
-  };
+  // const handleView = (assignedTo) => {
+  //   navigate(`/createquestion/:userId/:examId`);
+  //   const examId = localStorage.getItem("examId");
+  //   console.log(examId);
+  //   if (!examId) {
+  //     console.log("examId are came");
+  //     return;
+  //   }
+  // };
 
   const handleBackNavigation = () => {
     navigate(`/Feeds/:userId`);
@@ -74,30 +80,26 @@ const CreateExam = () => {
 
   const handleDelete = async (index) => {
     const token = localStorage.getItem("Token");
-    const examId = tableData[index]?.examId; 
+    const examId = tableData[index]?.examId;
     const userId = localStorage.getItem("UserId");
-    
-  
+
     if (!examId) {
       alert("Exam ID is undefined. Please check the data.");
       console.error("Exam ID is missing for index:", index);
       return;
     }
-  
+
     try {
-      console.log("Deleting Exam ID:", examId); 
-      const response = await axiosInstance.delete(
-        `/exams/${examId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          data: {
-            userId,
-          },
-        }
-      );
-  
+      console.log("Deleting Exam ID:", examId);
+      const response = await axiosInstance.delete(`/exams/${examId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          userId,
+        },
+      });
+
       if (response.status === 200) {
         alert("Exam deleted successfully!");
         // Remove the deleted exam from the tableData state
@@ -108,113 +110,137 @@ const CreateExam = () => {
         console.error("Unexpected response:", response);
       }
     } catch (error) {
-      console.error("Error deleting exam:", error.response?.data || error.message);
+      console.error(
+        "Error deleting exam:",
+        error.response?.data || error.message
+      );
       alert(
-        error.response?.data?.detail || "An error occurred while deleting the exam."
+        error.response?.data?.detail ||
+          "An error occurred while deleting the exam."
       );
     }
   };
-  
 
-  
   return (
     <>
-    <MainLayout>
-      <div className="p-4 ml-12">
-      <div className="flex justify-between mb-4">
-  <button
-    onClick={handleBackNavigation}
-    className="font-semibold border-2 border-gray-800 px-4 py-2 flex items-center rounded hover:bg-gray-600"
-    
-  >
-    <FaLessThan className="text-black mr-2" />
-    Previous
-  </button>
-  
-  <button
-    onClick={handleAddButtonClick}
-    className=" font-semibold border-2 border-gray-800 px-4 py-2 flex  justify-end rounded hover:bg-gray-600"
-    
-  >
-    Create Exam
-    {/* <FaPlus className="text-white ml-2" /> */}
-  </button>
-</div>
+      <MainLayout>
+        <div className="p-4 ml-12">
+          <div className="flex justify-between mb-4">
+            <button
+              onClick={handleBackNavigation}
+              className="font-semibold border-2 border-gray-800 px-4 py-2 flex items-center rounded hover:bg-gray-600"
+            >
+              <FaLessThan className="text-black mr-2" />
+              Previous
+            </button>
 
+            <button
+              onClick={handleAddButtonClick}
+              className=" font-semibold border-2 border-gray-800 px-4 py-2 flex  justify-end rounded hover:bg-gray-600"
+            >
+              Create Exam
+              {/* <FaPlus className="text-white ml-2" /> */}
+            </button>
+          </div>
 
-        <table className="min-w-full border-collapse border rounded-sm border-gray-800">
-          <thead className="text-black bg-gray-300">
-            <tr>
-              <th className="border border-gray-500 px-4 py-2">Exam Name</th>
-              <th className="border border-gray-500 px-4 py-2">Start Date</th>
-              <th className="border border-gray-500 px-4 py-2">End Date</th>
-              <th className="border border-gray-500 px-4 py-2">Duration</th>
-              <th className="border border-gray-500 px-4 py-2">No. of Attempts</th>
-              <th className="border border-gray-500 px-4 py-2"> Pass Percentage</th>
-              <th className="border border-gray-500 px-4 py-2">Assigned</th>
-              <th className="border border-gray-500 px-4 py-2">View</th>
-              <th className="border border-gray-500 px-4 py-2">Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {tableData.length === 0 ? (
+          <table className="min-w-full border-collapse border rounded-sm border-gray-800">
+            <thead className="text-black bg-gray-300">
               <tr>
-                <td colSpan="8" className="text-center py-4">No exams available</td>
+              <th className="border border-gray-500 px-4 py-2">Exam Id</th>
+                <th className="border border-gray-500 px-4 py-2">Exam Name</th>
+                <th className="border border-gray-500 px-4 py-2">Start Date</th>
+                <th className="border border-gray-500 px-4 py-2">End Date</th>
+                <th className="border border-gray-500 px-4 py-2">Duration</th>
+                <th className="border border-gray-500 px-4 py-2">
+                  No. of Attempts
+                </th>
+                <th className="border border-gray-500 px-4 py-2">
+                  {" "}
+                  Pass Percentage
+                </th>
+                <th className="border border-gray-500 px-4 py-2">Assigned</th>
+                <th className="border border-gray-500 px-4 py-2">View</th>
+                <th className="border border-gray-500 px-4 py-2">Action</th>
               </tr>
-            ) : (
-              tableData.map((row, index) => (
-                <tr key={index} className="odd:bg-white even:bg-gray-50">
-                  <td className="border border-gray-500 text-center px-4 py-2">{row.examName}</td>
-                  <td className="border border-gray-500 text-center px-4 py-2">{row.startDate}</td>
-                  <td className="border border-gray-500 text-center px-4 py-2">{row.endDate}</td>
-                  <td className="border border-gray-500 text-center px-4 py-2">{row.examDuration}</td>
-                  <td className="border border-gray-500 text-center px-4 py-2">{row.numberOfAttempts}</td>
-                  <td className="border border-gray-500 text-center px-4 py-2">{row.passPercentage}</td>
-                  <td className="border border-gray-500 text-center px-4 py-2">
-                    {row.assignedTo && Array.isArray(row.assignedTo) ? row.assignedTo.join(', ') : 'N/A'}
-                  </td>
-
-                  <td className="border border-gray-500 px-4 py-2 ">
-                  <div className="flex justify-center">
-    <AiOutlineEye
-      size={21}
-      color="black"
-      className="text-blue-500 cursor-pointer"
-      title="View"
-      onClick={() => handleView(row.assignedTo)} 
-    />
-  </div>
-                  </td>
-                  <td className="border border-gray-300 text-center px-4 py-3 flex justify-center space-x-2">
-                    <AiOutlineEdit
-                      size={21}
-                      color="black"
-                      className="text-green-500 cursor-pointer"
-                      title="Edit"
-                      onClick={() => handleEdit(index)}
-                    />
-                    <AiOutlineDelete
-                      size={21}
-                      className="text-red-500 cursor-pointer"
-                      title="Delete"
-                      onClick={() => handleDelete(index)}
-                    />
+            </thead>
+          
+            <tbody>
+              {tableData.length === 0 ? (
+                <tr>
+                  <td colSpan="8" className="text-center py-4">
+                    No exams available
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                tableData.map((row, index) => (
+                  <tr key={index} className="odd:bg-white even:bg-gray-50">
+                     <td className="border border-gray-500 text-center px-4 py-2">
+                      {row.examId}
+                    </td>
+                    <td className="border border-gray-500 text-center px-4 py-2">
+                      {row.examName}
+                    </td>
+                    <td className="border border-gray-500 text-center px-4 py-2">
+                      {row.startDate}
+                    </td>
+                    <td className="border border-gray-500 text-center px-4 py-2">
+                      {row.endDate}
+                    </td>
+                    <td className="border border-gray-500 text-center px-4 py-2">
+                      {row.examDuration}
+                    </td>
+                    <td className="border border-gray-500 text-center px-4 py-2">
+                      {row.numberOfAttempts}
+                    </td>
+                    <td className="border border-gray-500 text-center px-4 py-2">
+                      {row.passPercentage}
+                    </td>
+                    <td className="border border-gray-500 text-center px-4 py-2">
+                      {row.assignedTo && Array.isArray(row.assignedTo)
+                        ? row.assignedTo.join(", ")
+                        : "N/A"}
+                    </td>
 
-        {isModalOpen && (
-          <ExamPopUp
-            initialData={currentData}
-            onSave={handleSave}
-            onClose={() => setIsModalOpen(false)}
-          />
-        )}
-      </div>
+                    <td className="border border-gray-500 px-4 py-2 ">
+                      <div className="flex justify-center">
+                        <AiOutlineEye
+                          size={21}
+                          color="black"
+                          className="text-blue-500 cursor-pointer"
+                          title="View"
+                          onClick={() => navigate(`/createquestion/${row.examId}/${row.assignedTo}`)}
+                        />
+                      </div>
+                    </td>
+                    <td className="border border-gray-300 text-center px-4 py-3 flex justify-center space-x-2">
+                      <AiOutlineEdit
+                        size={21}
+                        color="black"
+                        className="text-green-500 cursor-pointer"
+                        title="Edit"
+                        onClick={() => handleEdit(index)}
+                      />
+                      <AiOutlineDelete
+                        size={21}
+                        className="text-red-500 cursor-pointer"
+                        title="Delete"
+                        onClick={() => handleDelete(index)}
+                      />
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+
+          {isModalOpen && (
+            <ExamPopUp
+              initialData={currentData}
+              onSave={handleSave}
+              onClose={() => setIsModalOpen(false)}
+            />
+          )}
+        </div>
       </MainLayout>
     </>
   );
@@ -480,28 +506,27 @@ export default CreateExam;
 //   //   }
 //   // };
 
-
 //   const [isLoading, setIsLoading] = useState(false);
 
 //   const handleCreateExam = async () => {
 //     const token = localStorage.getItem("Token");
 //     const userId = localStorage.getItem("UserId");
-  
+
 //     if (!userId || !token) {
 //       alert("User is not authenticated. Please log in again.");
 //       return;
 //     }
-  
+
 //     // Validate input fields
 //     if (!newExam.examName || !newExam.startDate || !newExam.endDate) {
 //       alert("Please fill in all required fields.");
 //       return;
 //     }
-  
+
 //     const passPercentage = parseInt(newExam.passPercentage, 10);
 //     const numberOfAttempts = parseInt(newExam.numberOfAttempts, 10);
 //     const examDuration = parseInt(newExam.examDuration, 10);
-  
+
 //     // Build the payload object
 //     const payload = {
 //       userId: userId,
@@ -515,21 +540,21 @@ export default CreateExam;
 //         ? newExam.assigned.split(",").map((id) => id.trim())
 //         : [],
 //     };
-  
+
 //     try {
 //       // Set loading state
 //       setIsLoading(true);
-  
+
 //       const response = await axiosInstance.post(`/exams/createExams`, payload, {
 //         headers: {
 //           "Content-Type": "application/json",
 //           Authorization: `Bearer ${token}`,
 //         },
 //       });
-  
+
 //       if (response.status === 201 || response.status === 200) {
 //         const data = response.data;
-  
+
 //         // Update state with new exam
 //         setExams([...exams, data]);
 //         setShowPopup(false); // Close the popup
@@ -559,7 +584,7 @@ export default CreateExam;
 //     event.preventDefault();
 //     navigate(-1);
 //   })
-  
+
 //   return (
 //     <MainLayout>
 //        <div className="flex items-center justify-center px-2 py-2  border-2 border-gray-800 rounded-md w-40 ml-14 mb-5 mt-5">
@@ -724,5 +749,3 @@ export default CreateExam;
 // };
 
 // export default ExamList;
-
-

@@ -117,9 +117,19 @@ const CreateExamDetailsPopUp = ({ initialData, onSave, onClose }) => {
         const createdExamId = response.data?.examId; // Extract examId from the response
         if (createdExamId) {
           localStorage.setItem("examId", createdExamId); // Store examId in localStorage
+        }else{
+          console.log("exam Id not found in the response.");
         }
       }
       onSave(examDetails);
+
+      const storedExamId=localStorage.getItem("examId");
+      if(storedExamId){
+        console.log("Stored Exam ID:", storedExamId); // Log the retrieved examId
+    } else {
+      console.warn("No Exam ID found in localStorage.");
+    }
+
       onClose();
     } catch (error) {
       console.error("Error during POST or PATCH operations:", error);
