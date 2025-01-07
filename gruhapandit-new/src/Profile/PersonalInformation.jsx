@@ -133,7 +133,7 @@ const PersonalInformation = () => {
       newErrors.emailId = "Invalid Email ID.";
       isValid = false;
     }
-
+  
     if(!formData.countryCode){
       newErrors.countryCode="Country Code is required"
       isValid=false;
