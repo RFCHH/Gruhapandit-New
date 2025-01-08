@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../axiosInstance";
-// import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaLessThan } from "react-icons/fa";
 import MainLayout from "../Layout/Mainlayout";
