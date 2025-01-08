@@ -11,12 +11,19 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("--select--");
+  const [termsAccepted, setTermsAccepted] = useState(false); 
+
+  const handleTermsChange = (e) => {
+    setTermsAccepted(e.target.checked);
+  };
 
   const [errors, setErrors] = useState({
     userId: "",
     password: "",
     role: "",
+    termsAccepted:""
   });
+  
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -36,72 +43,81 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    let formErrors = { userId: "", password: "", role: "" };
-
+  
+    let formErrors = { userId: "", password: "", role: "", termsAccepted: "" };
+  
     if (!userId) {
       formErrors.userId = "Please enter a userId.";
     } else if (!validateuserId(userId)) {
       formErrors.userId = "Please enter a valid userId.";
     }
-
-    if (!validatePassword(password)) {
+  
+    if (!password) {
+      formErrors.password = "Please enter a password.";
+    } else if (!validatePassword(password)) {
       formErrors.password =
         "Password must be 8-15 characters long, include uppercase, lowercase, a number, and a special character.";
     }
-
+  
     if (role === "--select--") {
       formErrors.role = "Please select a role.";
     }
-
+  
+    if (!termsAccepted) {
+      formErrors.termsAccepted = "You must agree to the Terms and Conditions.";
+    }
+  
     setErrors(formErrors);
-
-    if (!formErrors.userId && !formErrors.password && !formErrors.role) {
+  
+    if (
+      !formErrors.userId &&
+      !formErrors.password &&
+      !formErrors.role &&
+      !formErrors.termsAccepted
+    ) {
       const formData = {
         userId,
         password,
         type: role.toUpperCase(),
       };
-
+  
       localStorage.setItem("userId", userId);
       localStorage.setItem("role", role);
+  
       try {
-        
         const response = await axiosInstance.post(
           `/authentication/login`,
           formData
         );
-
+  
         if (response.status === 200) {
           const data = response.data;
           console.log("Login successful:", data);
-
+  
           alert(response.data.message || "Login successful!");
-
+  
           const { token, userRole, userId } = data;
-
+  
           localStorage.setItem("UserId", userId);
           localStorage.setItem("Token", token);
           localStorage.setItem("UserRole", userRole);
-
-          if(userRole === 'ROLE_ADMIN'){  
+  
+          if (userRole === "ROLE_ADMIN") {
             navigate("/Registration");
-          }else if(userRole === 'ROLE_PREMIUM_USER'){
-            navigate("/successfull")
-             setTimeout(() => {
-             navigate(`/Dashboard/${userId}`);
+          } else if (userRole === "ROLE_PREMIUM_USER") {
+            navigate("/successfull");
+            setTimeout(() => {
+              navigate(`/Dashboard/${userId}`);
             }, 3000);
-          }else if(userRole === 'ROLE_REGULAR_USER'){
-          navigate("/successfull")
-           setTimeout(() => {
-           navigate(`/Dashboard/${userId}`);
-          }, 3000);
-        }
-           else {
-            console.log('navigated to employeeDashboard');
-            navigate(`/userdashboard`);          
-          } 
-
+          } else if (userRole === "ROLE_REGULAR_USER") {
+            navigate("/successfull");
+            setTimeout(() => {
+              navigate(`/Dashboard/${userId}`);
+            }, 3000);
+          } else {
+            console.log("Navigated to employeeDashboard");
+            navigate(`/userdashboard`);
+          }
         } else {
           setErrors((prevErrors) => ({
             ...prevErrors,
@@ -117,6 +133,7 @@ const LoginPage = () => {
       }
     }
   };
+  
 
   return (
     <div className="relative flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-100 to-white overflow-hidden px-4 sm:px-8 py-8 sm:py-12 top-10">
@@ -214,6 +231,32 @@ const LoginPage = () => {
                 <p className="text-red-500 text-sm mt-1">{errors.role}</p>
               )}
             </div>
+            <div>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="agreeCheckbox"
+                  checked={termsAccepted}
+                  onChange={handleTermsChange}
+                />
+                <p className="text-sm">
+                  I have read and agree to the {" "}
+                  <a
+                    onClick={() => window.open('/TermsAndConditions_4.pdf', '_blank')}
+                    className="text-blue-500 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Terms and Conditions
+                  </a>
+                </p>
+              </div>
+              {errors.termsAccepted && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.termsAccepted}
+                </p>
+              )}
+            </div>
 
             <div className="flex justify-center mt-4">
               <button
@@ -226,8 +269,8 @@ const LoginPage = () => {
             <p className="text-center text-sm text-black mt-4 font-semibold">
               Don't have an account?{" "}
               <a
-                onClick={() => navigate("/userselection")}
-                className="text-[#2AB0FF] hover:text-purple-500 transition cursor-pointer duration-300"
+                onClick={() => navigate("/SignUp")}
+                className="text-[#2AB0FF] hover:text-purple-500 transition duration-300"
               >
                 Sign Up
               </a>

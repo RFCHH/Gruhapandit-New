@@ -194,8 +194,8 @@ function CreateQuestion() {
 
   return (
     <MainLayout>
-    <div className="container mx-auto p-6">
-      <div className='flex flex-row justify-between'>
+    <div className="container mx-auto p-6 ml-4 ">
+      <div className='flex flex-row justify-between '>
         <NavLink
           to='/ExamList'
           className="flex items-center justify-start px-2 py-2 overflow-x-auto border-2 border-gray-800 rounded-md w-40 ml-5 mb-5 mt-5">
@@ -211,7 +211,7 @@ function CreateQuestion() {
         </button>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-6 ml-10">
         <h2 className="text-2xl font-semibold mb-4">Existing Questions</h2>
         {questions.length === 0 ? (
           <p>No questions available for this exam.</p>
