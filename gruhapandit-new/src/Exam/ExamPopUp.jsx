@@ -130,6 +130,12 @@ const CreateExamDetailsPopUp = ({ initialData, onSave, onClose }) => {
       console.warn("No Exam ID found in localStorage.");
     }
 
+    if(response.status === 200){
+      onSave(examDetails);
+      onClose();
+      window.location.reload();
+    }
+
       onClose();
     } catch (error) {
       console.error("Error during POST or PATCH operations:", error);
