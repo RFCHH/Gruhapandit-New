@@ -8,7 +8,7 @@ import Technical from './../../src/assets/7.png';
 import Global from './../../src/assets/8.png';
 import Competitive from './../../src/assets/9.png';
 import Soft from './../../src/assets/10.png';
-import Government from './../../src/assets/11.png';
+import Government from './../../src/assets/31.png';
 import Entrance from './../../src/assets/12.png';
 import MainLayout from '../Layout/Mainlayout';
 import axiosInstance from '../axiosInstance';
@@ -78,18 +78,18 @@ const Dashboard = () => {
         const fetchCategoryCounts = async () => {
             try {
                 const response = await axiosInstance.get(`/users/categoryCount?userId=${userId}`);
-                console.log('API Response:', response.data); 
+                console.log('API Response:', response.data);
 
                 const transformedData = response.data.reduce((acc, { category, count }) => {
-                    const key = category.replace(/_/g, ' ').toLowerCase(); 
-                    acc[key] = count; 
+                    acc[category] = count;
                     return acc;
                 }, {});
-                setCategoryCounts(transformedData); 
+                setCategoryCounts(transformedData);
             } catch (error) {
                 console.error('Error fetching category counts:', error);
             }
         };
+
         fetchCategoryCounts();
     }, []);
 
@@ -145,13 +145,14 @@ const Dashboard = () => {
                             {  title: 'School Education', name: 'SCHOOL_EDUCATION', icon: SchoolImage},
                             { title: 'Under/Post Graduate',name:'UG_PG_EDUCATION', icon: CollegeImage },
                             { title: 'Technical Skills',name:'TECHNICAL_SKILLS', icon: Technical },
-                            { title: 'Global Language',name:'GLOBAL_LANGUAGES', icon: Global },
-                            { title: 'Competitive Exams',name:' COMPETITIVE_EXAMS', icon: Competitive },
-                            { title: 'Soft Skills', name:'SOFT_SKILLS',icon: Soft },
-                            { title: 'Government Exam',name:'GOVERNMENT_EXAM', icon: Government },
+                            { title: 'Competitive Exams',name:'COMPETITIVE_EXAMS', icon: Competitive },
                             { title: 'Entrance Exams', name:'ENTRANCE_EXAMS',icon: Entrance },
+                            { title: 'Global Language',name:'GLOBAL_LANGUAGES', icon: Global },
+                            { title: 'Soft Skills', name:'SOFT_SKILLS',icon: Soft },
+                            { title: 'HOBBIES',name:'HOBBIES', icon: Government },
+                            
                         ].map((card, index) => {
-                            const count = categoryCounts[card.title.toLowerCase()] 
+                            const count = categoryCounts[card.name] 
                             
                             return (
                                 <div
@@ -160,6 +161,7 @@ const Dashboard = () => {
                                     onClick={() => {
                                         if (userRole === "ROLE_PREMIUM_USER") {
                                             navigate(`/subject/${userId}`, { state: { category: card.name } })
+                                           
                                         } else {
                                             setIsModalOpen(true);
                                             

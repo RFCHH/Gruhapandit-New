@@ -36,12 +36,11 @@ function Footer() {
             </p>
           </div>
 
-          {/* Navigation Links (Centered) */}
-          <div className="flex flex-col items-center space-y-3">
+          <div className="flex flex-col  space-y-3">
             <h3 className="text-xl font-semibold text-blue-400 mb-2">
               Quick Links
             </h3>
-            <ul className="space-y-1 text-center">
+            <ul className="space-y-1 ">
               <li>
                 <a href="#home" className="hover:text-blue-300">
                   Home
@@ -66,7 +65,7 @@ function Footer() {
           </div>
 
           {/* Social Media Links (Centered) */}
-          <div className="flex flex-col items-center space-y-3">
+          <div className="flex flex-col  space-y-3">
             <h3 className="text-xl font-semibold text-blue-400 mb-2">
               Stay Connected
             </h3>
@@ -111,10 +110,14 @@ function Footer() {
             <h3 className="text-xl font-semibold text-blue-400 mb-3">
               Contact Us
             </h3>
-            <p className="text-sm text-gray-100">Email: info@gruhapandit.com</p>
-            <p className="text-sm text-gray-100">Phone: +91 12345 67890</p>
             <p className="text-sm text-gray-100">
-              Address: Hyderabad, Telangana, India
+                Mail: 
+                <a href="mailto:gruhapandittutions@gmail.com" className="text-blue-500 underline"> gruhapandittutions@gmail.com</a>
+              </p>
+
+            <p className="text-sm text-gray-100">Phone: +91 9618859004</p>
+            <p className="text-sm text-gray-100">
+              Address: Nagole, Hyderabad, Telangana, India
             </p>
           </div>
         </div>
