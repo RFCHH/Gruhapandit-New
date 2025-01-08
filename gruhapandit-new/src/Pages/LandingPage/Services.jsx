@@ -109,7 +109,7 @@ function OurServices() {
                 <h2 className="text-purple-800 text-2xl font-bold mb-4">
                   I'm a Tutor
                 </h2>
-                <p className="text-gray-900 mb-6">
+                <p className="text-gray-900 mb-6 text-justify">
                   For tutors, we are looking for individuals with expertise in
                   their subject areas and a passion for teaching. Our ideal
                   tutors are patient, able to communicate effectively, and can
@@ -121,7 +121,7 @@ function OurServices() {
                   us.
                 </p>
                 <button
-                  onClick={() => navigate("/LoginPage")}
+                  onClick={() => navigate("/userselection")}
                   className="bg-white text-black px-6 py-2 rounded-md shadow-md hover:bg-purple-800 hover:text-white transition"
                 >
                   Sign Up
@@ -132,7 +132,7 @@ function OurServices() {
                 <h2 className="text-purple-800 text-2xl font-bold mb-4">
                   I'm a Student
                 </h2>
-                <p className="text-gray-900 mb-6">
+                <p className="text-gray-900 mb-6 text-justify">
                   for students who are committed to their learning journey and
                   motivated to achieve their academic goals. Whether it's
                   excelling in school education, preparing for competitive
@@ -143,7 +143,7 @@ function OurServices() {
                   success
                 </p>
                 <button
-                  onClick={() => navigate("/LoginPage")}
+                  onClick={() => navigate("/userselection")}
                   className="bg-white text-black px-6 py-2 rounded-md shadow-md hover:bg-purple-800 hover:text-white transition"
                 >
                   Sign Up
