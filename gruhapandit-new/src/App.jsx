@@ -43,6 +43,9 @@ import ProtectedRoute from "./Authorized Access/ProtectedRoute";
 import CreateQuestion from "./Exam/CreateQuestion";
 import ExamStart from "./Exam/ExamStart";
 import Data from "./Exam/Data";
+import { generateToken,messaging } from './Notification/firebase';
+import { onMessage } from "firebase/messaging";
+import { useEffect } from "react";
 
 
 
@@ -91,6 +94,14 @@ function Layout({ children }) {
 }
 
 function App() {
+
+  useEffect(() => {
+    generateToken();
+    onMessage(messaging,(payload) =>{
+      console.log(payload);
+      
+    })
+  }, []);
    
   return (
     <>
