@@ -19,7 +19,7 @@ const Details = () => {
   });
 
   const [validationErrors, setValidationErrors] = useState({});
-  const [isEditable, setIsEditable] = useState(false);
+  const [isEditable, setIsEditable] = useState(true); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,6 +46,7 @@ const Details = () => {
           modeOfLearning: fetchedData.modeOfLearning || "",
           isUpdate: true,
         });
+        setIsEditable(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -73,12 +74,12 @@ const Details = () => {
     }
 
     setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
+    return Object.keys(errors).length === 0; 
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setValidationErrors({ ...validationErrors, [e.target.name]: "" });
+    setValidationErrors({ ...validationErrors, [e.target.name]: "" }); 
   };
 
   const handleSubmit = async (e) => {
@@ -109,8 +110,15 @@ const Details = () => {
           } else if (role === "TUTOR") {
             response = await axiosInstance.post(`/tutorDetails/`, payload);
           }
+
+          setFormData ((prev)=>({
+            ...prev,
+            isUpdate:true,
+          }));
         }
         console.log(`${role} data updated/submitted:`, response.data);
+        setIsEditable(false);
+        alert(`${role.toLowerCase()} data updated/submitted:`);
       } catch (error) {
         console.error("Error submitting data:", error);
       }
@@ -123,17 +131,7 @@ const Details = () => {
         {role === "TUTOR" ? "Tutor Details" : "Student Details"}
       </h3>
 
-      {!isEditable && (
-        <button
-          type="button"
-          className="absolute top-0 right-0 bg-cyan-500 text-white py-2 px-4 rounded"
-          onClick={() => setIsEditable(true)}
-        >
-          Edit
-        </button>
-      )}
-
-      <form className="grid grid-cols-1 sm:grid-cols-2 gap-4" onSubmit={handleSubmit}>
+      <form className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {role === "TUTOR" && (
           <>
             <FormInput
@@ -236,21 +234,28 @@ const Details = () => {
             </div>
           </>
         )}
-        {isEditable && (
+        {isEditable ? (
           <div className="col-span-1 sm:col-span-2 text-right mt-4">
             <button
               type="submit"
-              className="bg-green-500 text-white py-2 px-4 rounded"
+              className="bg-cyan-500 text-white py-2 px-4 rounded"
+              onClick={handleSubmit}
             >
               Save
             </button>
           </div>
+        ) : (
+          <button
+          type="button"
+          className="absolute -top-1  right-0 bg-cyan-500 text-white py-2 px-4 rounded"
+          onClick={() => setIsEditable(true)}
+        >
+          Edit
+        </button>
         )}
       </form>
     </div>
-
   );
 };
 
 export default Details;
-

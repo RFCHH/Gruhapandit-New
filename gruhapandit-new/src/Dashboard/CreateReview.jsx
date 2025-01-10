@@ -83,12 +83,12 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
       if (reviewToEdit) {
         // Update review
         reviewData.reviewId = reviewToEdit.id;
-        await axiosInstance.patch(`/tuition-application/reviews/`, reviewData, {
+        await axiosInstance.patch(`/reviews/`, reviewData, {
           headers: { 'Content-Type': 'application/json' },
         });
       } else {
         // Create new review
-        await axiosInstance.post('/tuition-application/reviews/create', reviewData, {
+        await axiosInstance.post('/reviews/create', reviewData, {
           headers: { 'Content-Type': 'application/json' },
         });
       }
