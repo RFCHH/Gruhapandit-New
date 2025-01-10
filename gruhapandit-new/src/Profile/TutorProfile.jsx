@@ -197,29 +197,33 @@ const TutorProfile = () => {
               <p className="text-blue-600 font-bold mt-4">Profile</p>
             </div>
 
-            <div className="flex flex-col items-center">
-              <div className="relative w-24 h-24 sm:w-36 sm:h-36">
-                <Doughnut
-                  data={{
-                    datasets: [
-                      {
-                        data: [30, 70],
-                        backgroundColor: ["#FF9800", "#FFF3E0"],
-                        borderWidth: 0,
-                      },
-                    ],
-                  }}
-                  options={{
-                    cutout: "70%",
-                    plugins: { tooltip: { enabled: false } },
-                  }}
-                />
-                <div className="absolute inset-0 top-3 left-2 flex items-center justify-center text-yellow-500 font-bold text-sm sm:text-lg">
-                  30%
-                </div>
-              </div>
-              <p className="text-blue-600 font-bold mt-4">KYC</p>
-            </div>
+            {role === "TUTOR" && (
+                  <div className="flex flex-col items-center">
+                    <div className="relative w-36 h-36">
+                      <Doughnut
+                        data={{
+                          datasets: [
+                            {
+                              data: [30, 70],
+                              backgroundColor: ["#FF9800", "#FFF3E0"],
+                              borderWidth: 0,
+                            },
+                          ],
+                        }}
+                        options={{
+                          cutout: "70%",
+                          plugins: { tooltip: { enabled: false } },
+                        }}
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center text-yellow-500 font-bold text-lg">
+                        30%
+                      </div>
+                    </div>
+                    <div className="text-center mt-4">
+                      <p className="text-blue-600 font-bold">KYC</p>
+                    </div>
+                  </div>
+                )}
           </div>
         </div>
       </div>

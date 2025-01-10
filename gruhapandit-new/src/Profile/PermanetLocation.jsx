@@ -71,6 +71,7 @@ const PermanentLocation = () => {
 
   const createData = async (payload) => {
     const token = localStorage.getItem("Token");
+    const role=localStorage.getItem("role");
 
     try {
       const response = await axiosInstance.post(`/address/`, payload, {
@@ -81,7 +82,9 @@ const PermanentLocation = () => {
       });
       console.log("POST response:", response);
       setIsEditing(false);
+      alert(`${role.toLowerCase()} data updated/submitted:`);
       setIsDataPresent(true);
+      
     } catch (error) {
       console.error("Error creating data:", error);
       if (error.response) {

@@ -14,7 +14,6 @@ const PersonalInformation = () => {
     state: "",
     district: "",
     country: "",
-    pinCode: "",
   });
 
   const [errors, setErrors] = useState({
@@ -28,10 +27,9 @@ const PersonalInformation = () => {
     state: "",
     district: "",
     country: "",
-    pinCode: "",
   });
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,12 +37,6 @@ const PersonalInformation = () => {
 
     switch (name) {
       case "mobileNumber":
-      case "pinCode":
-        sanitizedValue = value.replace(/[^0-9]/g, "");
-
-        if (name === "pinCode" && sanitizedValue.length > 6) {
-          sanitizedValue = sanitizedValue.slice(0, 6);
-        }
         break;
       case "fullName":
       case "city":
@@ -107,6 +99,7 @@ const PersonalInformation = () => {
         } else {
           console.error("Error in response:", response);
         }
+        setIsEditing(false); 
       } catch (error) {
         console.error("Error submitting form:", error);
       }
@@ -183,15 +176,6 @@ const PersonalInformation = () => {
       newErrors.country = "Country is required.";
       isValid = false;
     }
-  
-    if (!formData.pinCode) {
-      newErrors.pinCode = "Pin Code is required.";
-      isValid = false;
-    } else if (formData.pinCode.length !== 6) {
-      newErrors.pinCode = "Pin Code must be exactly 6 digits.";
-      isValid = false;
-    }
-  
     setErrors(newErrors);
     return isValid;
   };
@@ -231,8 +215,8 @@ const PersonalInformation = () => {
           state: addressData.state || userData.state || "",
           district: addressData.district || userData.district || "",
           country: addressData.country || userData.country || "",
-          pinCode: userData.pinCode || "",
         });
+        setIsEditing(false);
       } catch (error) {
         console.error("Error fetching user data:", error.message);
       }
@@ -243,181 +227,178 @@ const PersonalInformation = () => {
   
   return (
     <div className="relative">
-    <button
-      className="absolute -top-1 right-2 bg-cyan-600 text-white px-3 py-2 rounded"
-      onClick={() => setIsEditing(!isEditing)}
-    >
-      Edit
-    </button>
-    <h3 className="text-cyan-600 font-bold mb-4">Personal Information</h3>
-    <form
-      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
-      onSubmit={handleSubmit}
-    >
-      <div className="flex flex-col">
-        <FormInput
-          label="Full Name"
-          name="fullName"
-          value={formData.fullName}
-          onChange={handleChange}
-          disabled={!isEditing}
-          placeholder="Enter the Name"
-        />
-        {errors.fullName && (
-          <p className="text-red-500 text-sm">{errors.fullName}</p>
-        )}
-      </div>
-  
-      <div className="flex flex-col">
-        <FormInput
-          label="Email ID"
-          name="emailId"
-          type="email"
-          value={formData.emailId}
-          onChange={handleChange}
-          disabled={!isEditing}
-          placeholder="Enter the Email ID"
-        />
-        {errors.emailId && (
-          <p className="text-red-500 text-sm">{errors.emailId}</p>
-        )}
-      </div>
-  
-      <div className="flex flex-col">
-        <FormInput
-          label="Country Code"
-          name="countryCode"
-          type="text"
-          value={formData.countryCode}
-          onChange={handleChange}
-          disabled={!isEditing}
-          placeholder="Enter the Country Code"
-        />
-        {errors.countryCode && (
-          <p className="text-red-500 text-sm">{errors.countryCode}</p>
-        )}
-      </div>
-  
-      <div className="flex flex-col">
-        <FormInput
-          label="Mobile Number"
-          name="mobileNumber"
-          type="tel"
-          value={formData.mobileNumber}
-          onChange={handleChange}
-          disabled={!isEditing}
-          placeholder="Enter the Mobile Number"
-        />
-        {errors.mobileNumber && (
-          <p className="text-red-500 text-sm">{errors.mobileNumber}</p>
-        )}
-      </div>
-  
-      <div className="flex flex-col mt-1">
-        <label className="font-bold">Gender</label>
-        <select
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
-          disabled={!isEditing}
-          className="w-full border p-2 rounded"
-        >
-          <option value="">Select</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-        </select>
-        {errors.gender && <p className="text-red-500 text-sm">{errors.gender}</p>}
-      </div>
-  
-      <div className="flex flex-col">
-        <FormInput
-          label="Date of Birth"
-          name="dateOfBirth"
-          type="date"
-          value={formData.dateOfBirth}
-          onChange={handleChange}
-          disabled={!isEditing}
-        />
-        {errors.dateOfBirth && (
-          <p className="text-red-500 text-sm">{errors.dateOfBirth}</p>
-        )}
-      </div>
-  
-      <div className="flex flex-col">
-        <FormInput
-          label="City"
-          name="city"
-          value={formData.city}
-          onChange={handleChange}
-          disabled={!isEditing}
-          placeholder="Enter the City"
-        />
-        {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
-      </div>
-  
-      <div className="flex flex-col">
-        <FormInput
-          label="State"
-          name="state"
-          value={formData.state}
-          onChange={handleChange}
-          disabled={!isEditing}
-          placeholder="Enter the State"
-        />
-        {errors.state && <p className="text-red-500 text-sm">{errors.state}</p>}
-      </div>
-  
-      <div className="flex flex-col">
-        <FormInput
-          label="District"
-          name="district"
-          value={formData.district}
-          onChange={handleChange}
-          disabled={!isEditing}
-          placeholder="Enter the District"
-        />
-        {errors.district && (
-          <p className="text-red-500 text-sm">{errors.district}</p>
-        )}
-      </div>
-  
-      <div className="flex flex-col">
-        <FormInput
-          label="Country"
-          name="country"
-          value={formData.country}
-          onChange={handleChange}
-          disabled={!isEditing}
-          placeholder="Enter the Country"
-        />
-        {errors.country && <p className="text-red-500 text-sm">{errors.country}</p>}
-      </div>
-  
-      <div className="flex flex-col">
-        <FormInput
-          label="Pin Code"
-          name="pinCode"
-          value={formData.pinCode}
-          onChange={handleChange}
-          disabled={!isEditing}
-          placeholder="Enter the Pin Code"
-        />
-        {errors.pinCode && <p className="text-red-500 text-sm">{errors.pinCode}</p>}
-      </div>
-  
-      <div className="col-span-1 sm:col-span-2 md:col-span-3 mt-4 text-end">
-        {isEditing && (
-          <button
-            type="submit"
-            className="bg-cyan-600 text-white px-4 py-2 rounded"
+      <h3 className="text-cyan-600 font-bold mb-4">Personal Information</h3>
+      <form className="grid grid-cols-3 gap-1" onSubmit={handleSubmit}>
+        <div className="flex flex-col">
+          <FormInput
+            label="Full Name"
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleChange}
+            disabled={!isEditing}
+            placeholder="Enter the Name"
+          />
+          {errors.fullName && (
+            <p className="text-red-500 text-sm">{errors.fullName}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <FormInput
+            label="Email ID"
+            name="emailId"
+            type="email"
+            value={formData.emailId}
+            onChange={handleChange}
+            disabled={!isEditing}
+            placeholder="Enter the Email ID"
+          />
+          {errors.emailId && (
+            <p className="text-red-500 text-sm">{errors.emailId}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <FormInput
+            label="Country Code"
+            name="countryCode"
+            type="countryCode"
+            value={formData.countryCode}
+            onChange={handleChange}
+            disabled={!isEditing}
+            placeholder="Enter the Number"
+          />
+          {errors.countryCode && (
+            <p className="text-red-500 text-sm">{errors.countryCode}</p>
+          )}
+        </div>
+
+
+        <div className="flex flex-col">
+          <FormInput
+            label="Mobile Number"
+            name="mobileNumber"
+            type="tel"
+            value={formData.mobileNumber}
+            onChange={handleChange}
+            disabled={!isEditing}
+            placeholder="Enter the Number"
+          />
+          {errors.mobileNumber && (
+            <p className="text-red-500 text-sm">{errors.mobileNumber}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col mt-1">
+          <label className=" font-bold">Gender</label>
+          <select
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+            disabled={!isEditing}
+            className="w-full border p-2 rounded"
           >
-            Save
-          </button>
+            <option value="">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+          {errors.gender && (
+            <p className="text-red-500 text-sm">{errors.gender}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <FormInput
+            label="Date of Birth"
+            name="dateOfBirth"
+            type="date"
+            value={formData.dateOfBirth}
+            onChange={handleChange}
+            disabled={!isEditing}
+          />
+          {errors.dateOfBirth && (
+            <p className="text-red-500 text-sm">{errors.dateOfBirth}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <FormInput
+            label="City"
+            name="city"
+            value={formData.city}
+            onChange={handleChange}
+            disabled={!isEditing}
+            placeholder="Enter the City"
+          />
+          {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
+        </div>
+
+        <div className="flex flex-col">
+          <FormInput
+            label="State"
+            name="state"
+            value={formData.state}
+            onChange={handleChange}
+            disabled={!isEditing}
+            placeholder="Enter the State"
+          />
+          {errors.state && (
+            <p className="text-red-500 text-sm">{errors.state}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <FormInput
+            label="District"
+            name="district"
+            value={formData.district}
+            onChange={handleChange}
+            disabled={!isEditing}
+            placeholder="Enter the District"
+          />
+          {errors.district && (
+            <p className="text-red-500 text-sm">{errors.district}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <FormInput
+            label="Country"
+            name="country"
+            value={formData.country}
+            onChange={handleChange}
+            disabled={!isEditing}
+            placeholder="Enter the Country"
+          />
+          {errors.country && (
+            <p className="text-red-500 text-sm">{errors.country}</p>
+          )}
+        </div>
+
+        <div className="col-span-3 mt-4 text-end">
+          {isEditing ? (
+          <div className="absolute bottom-0 right-0 mb-4 mr-4">
+            <button
+              type="submit"
+              className="bg-cyan-500 text-white py-2 px-4 rounded"
+              onClick={handleSubmit}
+            >
+             
+              Save
+            </button>
+          </div>
+        ) : (
+          <button
+          type="button"
+          className="absolute top-1  right-0 bg-cyan-500 text-white py-2 px-4 rounded"
+          onClick={() => setIsEditable(true)}
+        >
+          Edit
+        </button>
         )}
-      </div>
-    </form>
-  </div>
-  
+        </div>
+      </form>
+    </div>
   );
 };
 

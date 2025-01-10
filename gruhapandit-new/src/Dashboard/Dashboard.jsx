@@ -122,12 +122,14 @@ const Dashboard = () => {
 
                                 <div className="flex flex-col space-y-6">
                                     <h3 className="text-md font-bold text-gray-700">Complete Your Profile</h3>
-                                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+                                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={()=>navigate(`/Profile/${userId}`)}>
                                         Profile
                                     </button>
-                                    <button className="bg-green-500 text-white px-4 py-2 rounded-lg">
-                                        KYC
-                                    </button>
+                                    {localStorage.getItem("role") === "TUTOR" && (
+                      <button className="bg-green-500 text-white px-4 py-2 rounded-lg">
+                        KYC
+                      </button>
+                    )} 
                                 </div>
                             </div>
                         </div>
