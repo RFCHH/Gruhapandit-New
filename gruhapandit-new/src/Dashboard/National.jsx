@@ -69,64 +69,68 @@ const National = () => {
 
     return (
         <>
-            <MainLayout>
-                <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-white to-blue-200 -mt-16">
-                    <div className="flex bg-white rounded-lg shadow-lg overflow-hidden w-[80%] max-w-4xl">
-                        <div className="flex flex-col items-center justify-center bg-purple-200 p-6 w-full md:w-1/2">
-                            <img
-                                src={Id}
-                                alt="National ID"
-                                className="w-96 h-auto mb-4"
-                            />
-                        </div>
+           <MainLayout>
+  <div className="flex items-center pl-16 pr-4 pb-2 pt-20 justify-center min-h-screen bg-gradient-to-b from-white to-blue-200 -mt-16 lg:p-4">
+    <div className="flex flex-col lg:  md:flex-row bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-4xl">
+      {/* Left Section */}
+      <div className="flex flex-col items-center justify-center bg-purple-200 p-6 w-full md:w-1/2">
+        <img
+          src={Id}
+          alt="National ID"
+          className="w-48 h-auto md:w-96 mb-4"
+        />
+      </div>
 
-                        <div className="p-8 max-w-md w-full md:w-1/2">
-                            <h2 className="text-xl text-center font-semibold mb-4">
-                                Upload Your National ID
-                            </h2>
-                            <div
-                                className="border-2 shadow-lg border-gray-300 rounded-lg p-10 text-center cursor-pointer flex flex-col items-center justify-center mb-5 mt-20"
-                                onDragOver={handleDragOver}
-                                onDrop={handleDrop}
-                                role="button"
-                                aria-label="Drag and drop area for file upload"
-                            >
-                                <p className="text-gray-400 mb-2">
-                                    {fileName || "Drag & drop your file here"}
-                                </p>
-                                <input
-                                    type="text"
-                                    onChange={handleFileChange}
-                                    onClick={handleUploadClick}
-                                    className="hidden"
-                                    id="fileInput"
-                                />
-                                <label htmlFor="fileInput">
-                                    <FaCloudUploadAlt className="text-blue-500 text-6xl cursor-pointer" />
-                                </label>
-                            </div>
-                            <label className="block text-gray-700 mb-2">File Name:</label>
-                            <input
-                                type="text"
-                                readOnly
-                                value={fileName} // Display fetched data here
-                                onChange={(e) => setFileName(e.target.value)} // Allow editing
-                                className="border-2 border-gray-400 p-2 rounded-md w-full"
-                            />
-                        </div>
-                    </div>
+      {/* Right Section */}
+      <div className="p-4 md:p-8 max-w-md w-full md:w-1/2">
+        <h2 className="text-lg md:text-xl text-center font-semibold mb-4">
+          Upload Your National ID
+        </h2>
+        <div
+          className="border-2 shadow-lg border-gray-300 rounded-lg p-6 md:p-10 text-center cursor-pointer flex flex-col items-center justify-center mb-5 mt-10 md:mt-20"
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          role="button"
+          aria-label="Drag and drop area for file upload"
+        >
+          <p className="text-gray-400 mb-2 text-sm md:text-base">
+            {fileName || "Drag & drop your file here"}
+          </p>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            className="hidden"
+            id="fileInput"
+          />
+          <label htmlFor="fileInput">
+            <FaCloudUploadAlt className="text-blue-500 text-4xl md:text-6xl cursor-pointer" />
+          </label>
+        </div>
+        <label className="block text-gray-700 mb-2 text-sm md:text-base">
+          File Name:
+        </label>
+        <input
+          type="text"
+          readOnly
+          value={fileName}
+          onChange={(e) => setFileName(e.target.value)}
+          className="border-2 border-gray-400 p-2 rounded-md w-full"
+        />
+      </div>
+    </div>
 
-                    {/* Dialog Box */}
-                    {isDialogOpen && (
-                        <DialogueBox
-                            userId={userId}
-                            category="NATIONAL_ID"
-                            onClose={handleCloseDialog}
-                            onSubmit={(data) => console.log("Submitted data:", data)}
-                        />
-                    )}
-                </div>
-            </MainLayout>
+    {/* Dialog Box */}
+    {isDialogOpen && (
+      <DialogueBox
+        userId={userId}
+        category="NATIONAL_ID"
+        onClose={handleCloseDialog}
+        onSubmit={(data) => console.log("Submitted data:", data)}
+      />
+    )}
+  </div>
+</MainLayout>
+
         </>
     );
 };

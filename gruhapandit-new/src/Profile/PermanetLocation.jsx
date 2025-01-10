@@ -157,112 +157,118 @@ const PermanentLocation = () => {
   return (
     <>
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-cyan-600 font-bold">Permanent Location</h3>
+  <h3 className="text-cyan-600 font-bold">Permanent Location</h3>
 
-        {isDataPresent && !isEditing && (
-          <button
-            onClick={handleEdit}
-            className="bg-cyan-500 text-white py-2 px-3 rounded"
-          >
-            Edit
-          </button>
-        )}
-      </div>
-      {errorMessage && (
-        <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
-      )}
-      <form className="grid grid-cols-3 gap-4" onSubmit={handleSubmit}>
-        <FormInput
-          label="House Number"
-          name="houseNum"
-          placeholder="Enter the House Number"
-          value={formData.houseNum}
-          onChange={handleChange}
-          onFocus={handleFieldFocus}
-          disabled={!isEditing}
-          error={errors.houseNum}
-        />
-        <FormInput
-          label="Locality"
-          name="locality"
-          placeholder="Enter the Locality"
-          value={formData.locality}
-          onChange={handleChange}
-          onFocus={handleFieldFocus}
-          disabled={!isEditing}
-          error={errors.locality}
-        />
-        <FormInput
-          label="Landmark"
-          name="landMark"
-          placeholder="Enter the Landmark"
-          value={formData.landMark}
-          onChange={handleChange}
-          onFocus={handleFieldFocus}
-          disabled={!isEditing}
-          error={errors.landMark}
-        />
-        <FormInput
-          label="District"
-          name="district"
-          placeholder="Enter the District"
-          value={formData.district}
-          onChange={handleChange}
-          onFocus={handleFieldFocus}
-          disabled={!isEditing}
-          error={errors.district}
-        />
-        <FormInput
-          label="City"
-          name="city"
-          placeholder="Enter the City"
-          value={formData.city}
-          onChange={handleChange}
-          onFocus={handleFieldFocus}
-          disabled={!isEditing}
-          error={errors.city}
-        />
-        <FormInput
-          label="State"
-          name="state"
-          placeholder="Enter the State"
-          value={formData.state}
-          onChange={handleChange}
-          onFocus={handleFieldFocus}
-          disabled={!isEditing}
-          error={errors.state}
-        />
-        <FormInput
-          label="Pin Code"
-          name="pincode"
-          placeholder="Enter the Pin Code"
-          value={formData.pincode}
-          onChange={handleChange}
-          onFocus={handleFieldFocus}
-          disabled={!isEditing}
-          error={errors.pincode}
-        />
-        <FormInput
-          label="Country"
-          name="country"
-          placeholder="Enter the Country"
-          value={formData.country}
-          onChange={handleChange}
-          onFocus={handleFieldFocus}
-          disabled={!isEditing}
-          error={errors.country}
-        />
-        {isEditing && (
-          <div className="col-span-3 flex justify-end">
-            <button
-              type="submit"
-              className="bg-cyan-600 text-white py-2 px-4 rounded"
-            >
-              Save
-            </button>
-          </div>
-        )}
-      </form>
+  {isDataPresent && !isEditing && (
+    <button
+      onClick={handleEdit}
+      className="bg-cyan-500 text-white py-2 px-3 rounded"
+    >
+      Edit
+    </button>
+  )}
+</div>
+
+{errorMessage && (
+  <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
+)}
+
+<form
+  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+  onSubmit={handleSubmit}
+>
+  <FormInput
+    label="House Number"
+    name="houseNum"
+    placeholder="Enter the House Number"
+    value={formData.houseNum}
+    onChange={handleChange}
+    onFocus={handleFieldFocus}
+    disabled={!isEditing}
+    error={errors.houseNum}
+  />
+  <FormInput
+    label="Locality"
+    name="locality"
+    placeholder="Enter the Locality"
+    value={formData.locality}
+    onChange={handleChange}
+    onFocus={handleFieldFocus}
+    disabled={!isEditing}
+    error={errors.locality}
+  />
+  <FormInput
+    label="Landmark"
+    name="landMark"
+    placeholder="Enter the Landmark"
+    value={formData.landMark}
+    onChange={handleChange}
+    onFocus={handleFieldFocus}
+    disabled={!isEditing}
+    error={errors.landMark}
+  />
+  <FormInput
+    label="District"
+    name="district"
+    placeholder="Enter the District"
+    value={formData.district}
+    onChange={handleChange}
+    onFocus={handleFieldFocus}
+    disabled={!isEditing}
+    error={errors.district}
+  />
+  <FormInput
+    label="City"
+    name="city"
+    placeholder="Enter the City"
+    value={formData.city}
+    onChange={handleChange}
+    onFocus={handleFieldFocus}
+    disabled={!isEditing}
+    error={errors.city}
+  />
+  <FormInput
+    label="State"
+    name="state"
+    placeholder="Enter the State"
+    value={formData.state}
+    onChange={handleChange}
+    onFocus={handleFieldFocus}
+    disabled={!isEditing}
+    error={errors.state}
+  />
+  <FormInput
+    label="Pin Code"
+    name="pincode"
+    placeholder="Enter the Pin Code"
+    value={formData.pincode}
+    onChange={handleChange}
+    onFocus={handleFieldFocus}
+    disabled={!isEditing}
+    error={errors.pincode}
+  />
+  <FormInput
+    label="Country"
+    name="country"
+    placeholder="Enter the Country"
+    value={formData.country}
+    onChange={handleChange}
+    onFocus={handleFieldFocus}
+    disabled={!isEditing}
+    error={errors.country}
+  />
+  {isEditing && (
+    <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-end">
+      <button
+        type="submit"
+        className="bg-cyan-600 text-white py-2 px-4 rounded"
+      >
+        Save
+      </button>
+    </div>
+  )}
+</form>
+
     </>
   );
 };

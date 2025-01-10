@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { useSpring, animated } from 'react-spring'; 
+import { useSpring, animated } from 'react-spring';
 import SchoolImage from './../../src/assets/5.png';
 import CollegeImage from './../../src/assets/6.png';
 import Technical from './../../src/assets/7.png';
@@ -12,7 +12,7 @@ import Government from './../../src/assets/31.png';
 import Entrance from './../../src/assets/12.png';
 import MainLayout from '../Layout/Mainlayout';
 import axiosInstance from '../axiosInstance';
-import christmas from '../assets/christmas.png'
+import christmas from '../assets/pongal.png'
 import { useNavigate } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 
@@ -24,9 +24,9 @@ const Dashboard = () => {
     const [categoryCounts, setCategoryCounts] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
     const userId = localStorage.getItem('UserId');
-    const  userRole =localStorage.getItem('UserRole')
+    const userRole = localStorage.getItem('UserRole')
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const animatedCount = (count) => {
         const { number } = useSpring({
@@ -42,7 +42,7 @@ const Dashboard = () => {
         labels: ["Completed", "Remaining"],
         datasets: [
             {
-                data: [40, 60], 
+                data: [40, 60],
                 backgroundColor: ["#10b981", "#e5e7eb"],
                 hoverBackgroundColor: ["#059669", "#d1d5db"],
                 borderWidth: 0,
@@ -62,7 +62,7 @@ const Dashboard = () => {
             try {
                 const response = await axiosInstance.get(`/users/${userId}`);
                 const data = response.data;
-                setFullname(data.fullName); 
+                setFullname(data.fullName);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching user data:', error);
@@ -72,7 +72,7 @@ const Dashboard = () => {
         fetchUserData();
     }, []);
 
-    
+
 
     useEffect(() => {
         const fetchCategoryCounts = async () => {
@@ -81,6 +81,7 @@ const Dashboard = () => {
                 console.log('API Response:', response.data);
 
                 const transformedData = response.data.reduce((acc, { category, count }) => {
+
                     acc[category] = count;
                     return acc;
                 }, {});
@@ -96,41 +97,41 @@ const Dashboard = () => {
     const handlePaymentNavigation = () => {
         navigate('/Payment');
     };
-
     return (
         <>
-        <MainLayout>
-            <div className="flex min-h-screen bg-gradient-to-b from-white to-blue-200">
-                <main className="flex-1 p-6 ml-10">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                        <div className="bg-white p-6 rounded-lg shadow">
-                            <h2 className="text-2xl font-bold">
-                                {loading ? 'Loading...' : `Welcome ${fullname}`}
-                            </h2>
-                            <p className="text-lg text-gray-600">
-                                Every step you take today shapes your future tomorrow. Let's make it count!
-                            </p>
-                        </div>
-                        <div className="bg-white p-6 rounded-lg shadow flex flex-col items-center">
-                            <div className="flex items-center space-x-16">
-                                <div className="relative w-40 h-40">
-                                    <Doughnut data={data} options={options} />
-                                    <div className="absolute inset-0 flex items-center justify-center text-green-600 font-bold text-lg">
-                                        40%
+            <MainLayout>
+                <div className="flex flex-col min-h-screen bg-gradient-to-b from-white to-blue-200">
+                    <main className="flex-1 pl-16 pr-4 pt-2 sm:p-8 md:pl-16 lg:pl-20 sm:pl-6">
+                        <div className="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-2">
+                            <div className="bg-white p-6 sm:p-8 rounded-lg shadow">
+                                <h2 className="text-xl md:text-2xl font-bold">
+                                    {loading ? 'Loading...' : `Welcome ${fullname}`}
+                                </h2>
+                                <p className="text-sm md:text-lg text-gray-600">
+                                    Every step you take today shapes your future tomorrow. Let's make it count!
+                                </p>
+                            </div>
+                            <div className="bg-white p-6 sm:p-8 rounded-lg shadow flex flex-col items-center">
+                                <div className="flex flex-col items-center space-y-4 md:flex-row md:space-x-16 md:space-y-0">
+                                    <div className="relative w-32 h-32 md:w-40 md:h-40">
+                                        <Doughnut data={data} options={options} />
+                                        <div className="absolute inset-0  left-2 flex items-center justify-center text-green-600 font-bold text-sm md:text-lg">
+                                            40%
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div className="flex flex-col space-y-6">
-                                    <h3 className="text-md font-bold text-gray-700">Complete Your Profile</h3>
-                                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-                                        Profile
-                                    </button>
-                                    <button className="bg-green-500 text-white px-4 py-2 rounded-lg">
-                                        KYC
-                                    </button>
+                                    <div className="flex flex-col space-y-4 md:space-y-6">
+                                        <h3 className="text-sm md:text-md font-bold text-gray-700">Complete Your Profile</h3>
+                                        <button className="bg-blue-500 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg">
+                                            Profile
+                                        </button>
+                                        <button className="bg-green-500 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg">
+                                            KYC
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     <div className="rounded-lg shadow mb-6">
@@ -171,38 +172,37 @@ const Dashboard = () => {
                                     <div className="text-center">
                                         <img src={card.icon} alt={`${card.title} Icon`} className="w-16 h-16 mx-auto" />
                                     </div>
-                                    <h3 className="text-lg text-center font-semibold mb-4">{card.title}</h3>
-                                    <animated.p className="text-3xl text-center font-extrabold">
-                                        {animatedCount(count)}
-                                    </animated.p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </main>
-                {isModalOpen && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                        <div className="bg-white p-6 rounded-lg shadow-lg text-center relative">
-                         
-                            <button
-                                className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
-                                onClick={() => setIsModalOpen(false)}
-                            >
-                                <IoClose size={24} />
-                            </button>
-                            <h2 className="text-4xl font-bold mb-4 text-blue-600">Complete Your Payment</h2>
-                            <p className="mb-6">To proceed, kindly make a payment to continue exploring additional options.</p>
-                            <button
-                                className="bg-purple-600 text-white px-6 py-2 rounded-lg"
-                                onClick={handlePaymentNavigation}
-                            >
-                                Pay
-                            </button>
+                                );
+                            })}
                         </div>
-                    </div>
-                )}
-            </div>
-        </MainLayout>
+                    </main>
+
+                    {isModalOpen && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                            <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg text-center relative">
+                                <button
+                                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+                                    onClick={() => setIsModalOpen(false)}
+                                >
+                                    <IoClose size={24} />
+                                </button>
+                                <h2 className="text-2xl md:text-4xl font-bold mb-4 text-blue-600">
+                                    Complete Your Payment
+                                </h2>
+                                <p className="text-sm md:text-base mb-4 md:mb-6">
+                                    To proceed, kindly make a payment to continue exploring additional options.
+                                </p>
+                                <button
+                                    className="bg-purple-600 text-white px-4 py-2 md:px-6 md:py-2 rounded-lg"
+                                    onClick={handlePaymentNavigation}
+                                >
+                                    Pay
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </MainLayout>
         </>
     );
 };

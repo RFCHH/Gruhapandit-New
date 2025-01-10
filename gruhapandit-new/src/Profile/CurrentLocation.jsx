@@ -168,10 +168,15 @@ const CurrentLocation = () => {
           </button>
         )}
       </div>
+
       {errorMessage && (
         <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
       )}
-      <form className="grid grid-cols-3 gap-4" onSubmit={handleSubmit}>
+
+      <form
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        onSubmit={handleSubmit}
+      >
         <FormInput
           label="House Number"
           name="houseNum"
@@ -254,7 +259,7 @@ const CurrentLocation = () => {
         />
 
         {isEditing && (
-          <div className="col-span-3 flex justify-end">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-end">
             <button
               type="submit"
               className="bg-cyan-600 text-white py-2 px-4 rounded"
@@ -264,6 +269,7 @@ const CurrentLocation = () => {
           </div>
         )}
       </form>
+
     </>
   );
 };
