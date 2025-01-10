@@ -12,7 +12,7 @@ import Government from './../../src/assets/31.png';
 import Entrance from './../../src/assets/12.png';
 import MainLayout from '../Layout/Mainlayout';
 import axiosInstance from '../axiosInstance';
-import christmas from '../assets/christmas.png'
+import christmas from '../assets/pongal.png'
 import { useNavigate } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 
@@ -122,24 +122,26 @@ const Dashboard = () => {
 
                                 <div className="flex flex-col space-y-6">
                                     <h3 className="text-md font-bold text-gray-700">Complete Your Profile</h3>
-                                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+                                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={()=>navigate(`/Profile/${userId}`)}>
                                         Profile
                                     </button>
-                                    <button className="bg-green-500 text-white px-4 py-2 rounded-lg">
-                                        KYC
-                                    </button>
+                                    {localStorage.getItem("role") === "TUTOR" && (
+                      <button className="bg-green-500 text-white px-4 py-2 rounded-lg">
+                        KYC
+                      </button>
+                    )} 
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div className="rounded-lg shadow mb-6">
-            <img
-              src={christmas}
-              alt="Ad Section"
-              className="w-full h-auto object-cover rounded-lg"
-            />
-          </div>
+              <img
+                src={christmas}
+                alt="Ad Section"
+                className="w-full max-h-[400px] object-cover rounded-lg"
+              />
+            </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {[
                             {  title: 'School Education', name: 'SCHOOL_EDUCATION', icon: SchoolImage},

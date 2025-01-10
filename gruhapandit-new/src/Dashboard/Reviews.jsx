@@ -14,7 +14,7 @@ function App() {
   const fetchReviews = async () => {
     try {
       const response = await axiosInstance.get(
-        `tuition-application/reviews/getAll/${userId}`
+        `/reviews/getAll/${userId}`
       );
       setReviews(response.data);
     } catch (error) {
@@ -47,7 +47,7 @@ function App() {
 
   const handleDeleteReview = async (reviewId) => {
     try {
-      await axiosInstance.delete(`tuition-application/reviews/${reviewId}?userId=${userId}`);
+      await axiosInstance.delete(`/reviews/${reviewId}?userId=${userId}`);
       fetchReviews();
     } catch (error) {
       console.error('Error deleting review:', error);
