@@ -8,7 +8,7 @@ import CurrentLocation from "./CurrentLocation";
 import PermanetLocation from "./PermanetLocation";
 import Details from "./Details";
 import axiosInstance from "../axiosInstance";
-import profileIcon from "../assets/profileIcon.png";
+// import profileIcon from "../assets/profileIcon.png";
 
 export const FormInput = ({
   label,
@@ -152,111 +152,111 @@ const TutorProfile = () => {
 
   return (
     <MainLayout>
-      <div className="flex min-h-screen bg-gradient-to-b from-white to-blue-200">
-        <main className="flex-1 p-6 ml-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            <div className="bg-white p-6 rounded-lg shadow flex items-center">
-              <img
-                src={profile}
-                alt="Profile Icon"
-                className="w-24 h-24 rounded-full mr-8"
-              />
-              <div>
-                <h2 className="text-2xl font-bold">
-                  {loading ? "Loading..." : `Welcome ${fullname}`}
-                </h2>
-                <p className="text-lg text-black mt-4">
-                  Every step you take today shapes your future tomorrow. Let's
-                  make it count!
-                </p>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow flex flex-col items-center">
-              <div className="flex items-center space-x-12">
-                <div className="flex flex-col items-center">
-                  <div className="relative w-36 h-36">
-                    <Doughnut
-                      data={{
-                        datasets: [
-                          {
-                            data: [profileCompletion, 100 - profileCompletion],
-                            backgroundColor: ["#4A148C", "#EDE7F6"],
-                            borderWidth: 0,
-                          },
-                        ],
-                      }}
-                      options={{
-                        cutout: "70%",
-                        plugins: { tooltip: { enabled: false } },
-                      }}
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center text-yellow-500 font-bold text-lg">
-                      {profileCompletion}%
-                    </div>
-                  </div>
-                  <div className="text-center mt-4">
-                    <p className="text-blue-600 font-bold">Profile</p>
-                  </div>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="relative w-36 h-36">
-                    <Doughnut
-                      data={{
-                        datasets: [
-                          {
-                            data: [30, 70],
-                            backgroundColor: ["#FF9800", "#FFF3E0"],
-                            borderWidth: 0,
-                          },
-                        ],
-                      }}
-                      options={{
-                        cutout: "70%",
-                        plugins: { tooltip: { enabled: false } },
-                      }}
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center text-yellow-500 font-bold text-lg">
-                      30%
-                    </div>
-                  </div>
-                  <div className="text-center mt-4">
-                    <p className="text-blue-600 font-bold">KYC</p>
-                  </div>
+  <div className="flex min-h-screen pl-10 md:pl-14 bg-gradient-to-b from-white to-blue-200">
+    <main className="flex-1 p-6 sm:p-4">
+      <div className="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-2">
+        <div className="bg-white p-6 rounded-lg shadow flex items-center">
+          <img
+            src={profile}
+            alt="Profile Icon"
+            className="w-16 h-16 sm:w-24 sm:h-24 rounded-full mr-4 sm:mr-8"
+          />
+          <div>
+            <h2 className="text-lg sm:text-2xl font-bold">
+              {loading ? "Loading..." : `Welcome ${fullname}`}
+            </h2>
+            <p className="text-sm sm:text-lg text-black mt-2 sm:mt-4">
+              Every step you take today shapes your future tomorrow. Let's make it count!
+            </p>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 sm:p-6 rounded-lg shadow flex flex-col items-center">
+          <div className="flex flex-col sm:flex-row items-center sm:space-x-12 space-y-6 sm:space-y-0">
+            <div className="flex flex-col items-center">
+              <div className="relative w-24 h-24 sm:w-36 sm:h-36">
+                <Doughnut
+                  data={{
+                    datasets: [
+                      {
+                        data: [profileCompletion, 100 - profileCompletion],
+                        backgroundColor: ["#4A148C", "#EDE7F6"],
+                        borderWidth: 0,
+                      },
+                    ],
+                  }}
+                  options={{
+                    cutout: "70%",
+                    plugins: { tooltip: { enabled: false } },
+                  }}
+                />
+                <div className="absolute inset-0 top-3 left-2 flex items-center justify-center text-yellow-500 font-bold text-sm sm:text-lg">
+                  {profileCompletion}%
                 </div>
               </div>
+              <p className="text-blue-600 font-bold mt-4">Profile</p>
             </div>
-          </div>
-          <div className="grid grid-cols-3 gap-6">
-            <div className="bg-white shadow-lg rounded-lg p-4">
-              <div className="space-y-4">
-                {sections.map((section) => (
-                  <button
-                    key={section}
-                    className={`w-full flex items-center justify-between p-2 rounded-lg ${
-                      activeSection === section
-                        ? "bg-[#26A3C9] text-[#FFFFFF]"
-                        : "bg-white text-[#000000] hover:bg-blue-300"
-                    }`}
-                    onClick={() => setActiveSection(section)}
-                  >
-                    <span>{section}</span>
-                    <IoIosArrowForward
-                      className={
-                        activeSection === section
-                          ? "text-[#FFFFFF]"
-                          : "text-gray-400"
-                      }
-                    />
-                  </button>
-                ))}
+
+            <div className="flex flex-col items-center">
+              <div className="relative w-24 h-24 sm:w-36 sm:h-36">
+                <Doughnut
+                  data={{
+                    datasets: [
+                      {
+                        data: [30, 70],
+                        backgroundColor: ["#FF9800", "#FFF3E0"],
+                        borderWidth: 0,
+                      },
+                    ],
+                  }}
+                  options={{
+                    cutout: "70%",
+                    plugins: { tooltip: { enabled: false } },
+                  }}
+                />
+                <div className="absolute inset-0 top-3 left-2 flex items-center justify-center text-yellow-500 font-bold text-sm sm:text-lg">
+                  30%
+                </div>
               </div>
+              <p className="text-blue-600 font-bold mt-4">KYC</p>
             </div>
-            <div className="col-span-2">{renderSectionContent()}</div>
           </div>
-        </main>
+        </div>
       </div>
-    </MainLayout>
+
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="bg-white shadow-lg rounded-lg p-4">
+          <div className="space-y-4">
+            {sections.map((section) => (
+              <button
+                key={section}
+                className={`w-full flex items-center justify-between p-2 rounded-lg ${
+                  activeSection === section
+                    ? "bg-[#26A3C9] text-[#FFFFFF]"
+                    : "bg-white text-[#000000] hover:bg-blue-300"
+                }`}
+                onClick={() => setActiveSection(section)}
+              >
+                <span>{section}</span>
+                <IoIosArrowForward
+                  className={
+                    activeSection === section
+                      ? "text-[#FFFFFF]"
+                      : "text-gray-400"
+                  }
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="col-span-1 sm:col-span-2">{renderSectionContent()}</div>
+      </div>
+    </main>
+  </div>
+</MainLayout>
+
   );
 };
 
 export default TutorProfile;
+ 

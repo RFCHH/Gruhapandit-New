@@ -75,7 +75,8 @@ function Layout({ children }) {
     "/Request",
     "/createquestion",
     "/examstart",
-    "/data"
+    "/data",
+    "/edit-email-template"
   ];
 
   const shouldHideNavbar =

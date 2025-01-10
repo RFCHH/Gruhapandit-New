@@ -19,7 +19,7 @@ const Details = () => {
   });
 
   const [validationErrors, setValidationErrors] = useState({});
-  const [isEditable, setIsEditable] = useState(false); 
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,12 +73,12 @@ const Details = () => {
     }
 
     setValidationErrors(errors);
-    return Object.keys(errors).length === 0; 
+    return Object.keys(errors).length === 0;
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setValidationErrors({ ...validationErrors, [e.target.name]: "" }); 
+    setValidationErrors({ ...validationErrors, [e.target.name]: "" });
   };
 
   const handleSubmit = async (e) => {
@@ -133,8 +133,7 @@ const Details = () => {
         </button>
       )}
 
-
-      <form className="grid grid-cols-2 gap-4 relative">
+      <form className="grid grid-cols-1 sm:grid-cols-2 gap-4" onSubmit={handleSubmit}>
         {role === "TUTOR" && (
           <>
             <FormInput
@@ -238,11 +237,10 @@ const Details = () => {
           </>
         )}
         {isEditable && (
-          <div className="absolute bottom-0 right-0 mb-4 mr-4">
+          <div className="col-span-1 sm:col-span-2 text-right mt-4">
             <button
-              type="button"
+              type="submit"
               className="bg-green-500 text-white py-2 px-4 rounded"
-              onClick={handleSubmit}
             >
               Save
             </button>
@@ -250,6 +248,7 @@ const Details = () => {
         )}
       </form>
     </div>
+
   );
 };
 
