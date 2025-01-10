@@ -66,25 +66,25 @@ function Footer() {
           <ul className="space-y-1 text-center">
             <li>
               <a
-                href="termsandconditions"
+                href="/"
                 className="hover:text-blue-300"
-                onClick={() => window.open("/TermsAndConditions_4.pdf")}
+                onClick={()=> window.open("/TermsAndConditions_4.pdf")}
               >
                 Terms and Conditions
               </a>
             </li>
             <li>
               <a
-                href="privacypolicy"
+                href="/"
                 className="hover:text-blue-300"
-                onClick={() => window.open("/PrivacyPolicy_2.pdf")}
+                onClick={() => window.open("/PrivacyPolicy1.pdf")}
               >
                 Privacy Policy
               </a>
             </li>
             <li>
               <a
-                href="privacypolicy"
+                href="/"
                 className="hover:text-blue-300"
                 onClick={() => window.open("/RefundPolicy.pdf")}
               >
