@@ -75,7 +75,7 @@ function Sidebar() {
       path: `/PrivacyPolicy_2.pdf`,
       label: "Policy",
       icon: <MdPolicy className="text-gray-700 text-lg" />,
-      action:() => window.open("/PrivacyPolicy_2.pdf", "_blank"),
+      action:() => window.open("/PrivacyPolicy1.pdf", "_blank"),
     },
   ];
   const adminMenuItems = [

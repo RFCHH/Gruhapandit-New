@@ -12,7 +12,7 @@ import Government from './../../src/assets/31.png';
 import Entrance from './../../src/assets/12.png';
 import MainLayout from '../Layout/Mainlayout';
 import axiosInstance from '../axiosInstance';
-import christmas from '../assets/christmas.png'
+import christmas from '../assets/pongal.png'
 import { useNavigate } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 
@@ -134,12 +134,12 @@ const Dashboard = () => {
                     </div>
 
                     <div className="rounded-lg shadow mb-6">
-            <img
-              src={christmas}
-              alt="Ad Section"
-              className="w-full h-auto object-cover rounded-lg"
-            />
-          </div>
+              <img
+                src={christmas}
+                alt="Ad Section"
+                className="w-full max-h-[400px] object-cover rounded-lg"
+              />
+            </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {[
                             {  title: 'School Education', name: 'SCHOOL_EDUCATION', icon: SchoolImage},

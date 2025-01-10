@@ -149,7 +149,7 @@ function Footer() {
               gruhapandittutions@gmail.com
             </a>
           </p>
-          <p className="text-sm text-gray-100">Phone: +91 9618859004</p>
+          <p className="text-sm text-gray-100">Phone: +91 9618853331</p>
           <p className="text-sm text-gray-100">
             Address: Hyderabad, Telangana, India
           </p>
