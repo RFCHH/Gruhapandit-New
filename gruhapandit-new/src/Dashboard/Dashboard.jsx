@@ -8,7 +8,7 @@ import Technical from './../../src/assets/7.png';
 import Global from './../../src/assets/8.png';
 import Competitive from './../../src/assets/9.png';
 import Soft from './../../src/assets/10.png';
-import Government from './../../src/assets/11.png';
+import Government from './../../src/assets/31.png';
 import Entrance from './../../src/assets/12.png';
 import MainLayout from '../Layout/Mainlayout';
 import axiosInstance from '../axiosInstance';
@@ -81,8 +81,8 @@ const Dashboard = () => {
                 console.log('API Response:', response.data);
 
                 const transformedData = response.data.reduce((acc, { category, count }) => {
-                    const key = category.replace(/_/g, ' ').toLowerCase();
-                    acc[key] = count;
+
+                    acc[category] = count;
                     return acc;
                 }, {});
                 setCategoryCounts(transformedData);
@@ -90,6 +90,7 @@ const Dashboard = () => {
                 console.error('Error fetching category counts:', error);
             }
         };
+
         fetchCategoryCounts();
     }, []);
 
@@ -131,56 +132,45 @@ const Dashboard = () => {
                             </div>
                         </div>
 
-                        <div className="rounded-lg shadow mb-6">
-                            <img
-                                src={christmas}
-                                alt="Ad Section"
-                                className="w-full max-h-[400px] object-cover rounded-lg"
-                            />
-                        </div>
+                    </div>
 
-
-                        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                            {[{
-                                title: 'School Education', name: 'SCHOOL_EDUCATION', icon: SchoolImage
-                            }, {
-                                title: 'Under/Post Graduate', name: 'UG_PG_EDUCATION', icon: CollegeImage
-                            }, {
-                                title: 'Technical Skills', name: 'TECHNICAL_SKILLS', icon: Technical
-                            }, {
-                                title: 'Global Language', name: 'GLOBAL_LANGUAGES', icon: Global
-                            }, {
-                                title: 'Competitive Exams', name: ' COMPETITIVE_EXAMS', icon: Competitive
-                            }, {
-                                title: 'Soft Skills', name: 'SOFT_SKILLS', icon: Soft
-                            }, {
-                                title: 'Government Exam', name: 'GOVERNMENT_EXAM', icon: Government
-                            }, {
-                                title: 'Entrance Exams', name: 'ENTRANCE_EXAMS', icon: Entrance
-                            }].map((card, index) => {
-                                const count = categoryCounts[card.title.toLowerCase()];
-
-                                return (
-                                    <div
-                                        className="option-card border rounded-xl bg-white p-6 sm:p-8 shadow-md hover:shadow-lg transition"
-                                        key={index}
-                                        onClick={() => {
-                                            if (userRole === "ROLE_PREMIUM_USER") {
-                                                navigate(`/subject/${userId}`, { state: { category: card.name } });
-                                            } else {
-                                                setIsModalOpen(true);
-                                            }
-                                        }}
-                                    >
-                                        <div className="text-center">
-                                            <img src={card.icon} alt={`${card.title} Icon`} className="w-12 h-12 md:w-16 md:h-16 mx-auto" />
-                                        </div>
-                                        <h3 className="text-sm md:text-lg text-center font-semibold mb-2 md:mb-4">
-                                            {card.title}
-                                        </h3>
-                                        <animated.p className="text-xl md:text-3xl text-center font-extrabold">
-                                            {animatedCount(count)}
-                                        </animated.p>
+                    <div className="rounded-lg shadow mb-6">
+            <img
+              src={christmas}
+              alt="Ad Section"
+              className="w-full h-auto object-cover rounded-lg"
+            />
+          </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {[
+                            {  title: 'School Education', name: 'SCHOOL_EDUCATION', icon: SchoolImage},
+                            { title: 'Under/Post Graduate',name:'UG_PG_EDUCATION', icon: CollegeImage },
+                            { title: 'Technical Skills',name:'TECHNICAL_SKILLS', icon: Technical },
+                            { title: 'Competitive Exams',name:'COMPETITIVE_EXAMS', icon: Competitive },
+                            { title: 'Entrance Exams', name:'ENTRANCE_EXAMS',icon: Entrance },
+                            { title: 'Global Language',name:'GLOBAL_LANGUAGES', icon: Global },
+                            { title: 'Soft Skills', name:'SOFT_SKILLS',icon: Soft },
+                            { title: 'HOBBIES',name:'HOBBIES', icon: Government },
+                            
+                        ].map((card, index) => {
+                            const count = categoryCounts[card.name] 
+                            
+                            return (
+                                <div
+                                    className="option-card border rounded-3xl bg-white p-6 shadow-2xl shadow-zinc-500 hover:shadow-current transition"
+                                    key={index}
+                                    onClick={() => {
+                                        if (userRole === "ROLE_PREMIUM_USER") {
+                                            navigate(`/subject/${userId}`, { state: { category: card.name } })
+                                           
+                                        } else {
+                                            setIsModalOpen(true);
+                                            
+                                        }
+                                    }}
+                                >
+                                    <div className="text-center">
+                                        <img src={card.icon} alt={`${card.title} Icon`} className="w-16 h-16 mx-auto" />
                                     </div>
                                 );
                             })}

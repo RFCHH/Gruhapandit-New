@@ -30,10 +30,74 @@ import { useNavigate } from 'react-router-dom';
 import FooterMain from "./FooterMain"
 
 
+const LOCATIONIQ_API_KEY = 'pk.530c664f58a82993701a9f281205ad8e';
+
 
 
 function Home() {
   const [stats, setStats] = useState(false);
+  const [address, setAddress] = useState('');
+  const [results, setResults] = useState([]);
+  const [apiResponse, setApiResponse] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
+
+
+  const handleChange = async (event) => {
+    const newAddress = event.target.value;
+    setAddress(newAddress);
+
+    if (newAddress.length >= 2) {
+      const res = await fetch(
+        `https://us1.locationiq.com/v1/search.php?key=${LOCATIONIQ_API_KEY}&q=${newAddress}&format=json`
+      );
+      const data = await res.json();
+      setResults(data); 
+    } else {
+      setResults([]); 
+    }
+  };
+
+ 
+  const handleSelect = (item) => {
+    const displayName = item.display_name; 
+    const components = displayName.split(','); 
+    const city = components[components.length - 6]?.trim();
+    const district = components[components.length - 4]?.trim();
+    const state = components[components.length - 3]?.trim();
+    const country = components[components.length - 1]?.trim();
+
+    const formattedAddress = `${city}, ${district}, ${state}, ${country}`;
+    
+    setAddress(formattedAddress);
+    setResults([]); 
+};
+
+const handleSearch = async () => {
+  if (!address) {
+    alert("Please select an address before searching.");
+    return;
+  }
+
+  try {
+    const cleanedAddress = address.trim().replace(/\s+/g, ' '); 
+    const [city, district, state, country] = cleanedAddress.split(",").map((item) => item.trim());
+
+    if (!city || !district || !state || !country) {
+      alert("Address is incomplete. Please select a valid address.");
+      return;
+    }
+    const url = `https://tution-application.onrender.com/tuition-application/homepagedata/search?city=${encodeURIComponent(city)}&district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&country=${encodeURIComponent(country)}`;
+
+    const response = await axios.get(url);
+
+    setApiResponse(response.data);
+  } catch (error) {
+    console.error("Error during the GET request:", error);
+    alert("Failed to fetch data. Please try again.");
+  }
+  setShowPopup(true);
+};
 
   useEffect(() => {
     const fetchStatsData = async () => {
@@ -53,6 +117,7 @@ function Home() {
 
     fetchStatsData();
   }, []);
+
 
 
   const options = useMemo(() => [
@@ -97,7 +162,7 @@ function Home() {
       icon: Entrance,
     },
   ], []);
-  const navigate = useNavigate();
+  
   return (
     <>
       <div className=" bg-gradient-to-b from-purple-50 to-blue-100 min-h-screen mt-20 absolute overflow-x-hidden">
@@ -124,7 +189,9 @@ function Home() {
                 <div className="relative w-80">
                   <input
                     type="text"
-                    placeholder=" Nearby Location "
+                    value={address}
+                    onChange={handleChange}
+                    placeholder="Nearby Location "
                     className="px-4 py-2 border rounded-full w-full pl-12 bg-blue-900 text-white"
                   />
                   <img
@@ -132,19 +199,65 @@ function Home() {
                     alt="Location Icon"
                     className="absolute rounded-full left-4 top-1/2 transform -translate-y-1/2 w-6 h-6"
                   />
-                </div>
-                <button onClick={() => navigate("/LoginPage")} className="border-4 border-purple-600 text-black px-6 py-2 rounded-full  ">
+                  {results.length > 0 && (
+                    <div className="absolute z-10 w-full bg-white rounded-lg shadow-md mt-1">
+                      <ul className="max-h-60 overflow-y-auto">
+                        {results.map((item) => {
+                          const displayName = item.display_name; 
+                          const components = displayName.split(',');
+                          const city = components[components.length - 6]?.trim();
+                          const district = components[components.length - 4]?.trim();
+                          const state = components[components.length - 3]?.trim();
+                          const country = components[components.length - 1]?.trim();
 
-                  Search Now
+                          return (
+                            <li
+                              key={item.place_id}
+                              onClick={() => handleSelect(item)}
+                              className="px-4 py-2 text-black cursor-pointer hover:bg-gray-200"
+                            >
+                              {city},{district},{state} , {country} 
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+                <button 
+                    onClick={handleSearch}
+                    className="border-4 border-purple-600 text-black px-6 py-2 rounded-full  ">
+                      Search Now
                 </button>
+                {showPopup && (
+                  <div className="fixed inset-0 z-20 flex items-center justify-center  bg-black bg-opacity-50">
+                    <div className="bg-white rounded-lg shadow-md p-4 max-w-md">
+                      <ul className="mt-2">
+                        {apiResponse.map((data, index) => (
+                          <li key={index} className="mb-2">
+                            {data.category}: {data.count}
+                          </li>
+                        ))}
+                      </ul>
+                      <button
+                        onClick={() => {
+                          setShowPopup(false); 
+                          setAddress(''); 
+                        }}
+                        className="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="md:w-1/2  md:mt-0 flex justify-center relative">
+              <div className="flex justify-center md:justify-start mt-8">
                 <img
                   src={Books}
                   alt="Books"
-                  className="w-[400px] h-[400px] md:w-[500px] md:h-[300px] relative z-10"
+                  className="w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] object-contain"
                 />
-                {/* <div className="absolute inset-0 rounded-full w-96 h-96 md:max-w-lg md:max-h-lg top-12 z-0"></div> */}
               </div>
             </div>
             <div className="md:w-1/2 mt-8 md:mt-0 flex justify-center relative">
@@ -157,7 +270,7 @@ function Home() {
             </div>
           </div>
         </section>
-        <section  >
+        <section>
           <div >
             <h2 className="text-center text-3xl font-bold text-gray-800  mt-5 mb-24">
               Personalized Learning for Every Need
@@ -175,14 +288,7 @@ function Home() {
             </div>
           </div>
         </section>
-        <section
-        // className=" bg-gradient-to-b from-blue-200 to-pink-100 bg-cover bg-center "
-        // style={{
-        //   backgroundImage: `url(${Background})`,
-        //   transition: 'background 0.5s ease-in-out',
-        // }}
-        >
-          {/* <div className="bg-white bg-opacity-80 p-10 rounded-lg shadow-lg max-w-6xl mx-auto mt-10"> */}
+        <section>
           <div className="relative flexbox  py-10 mt-10">
             <div className="text-center ">
               <h2 className="text-3xl font-bold text-gray-800">How it works</h2>
@@ -206,7 +312,6 @@ function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-1  gap-8 items-center ">
             <div className='space-y-2'>
-              {/* Card 1 */}
               <div className="flex flex-col sm:flex-row items-center py-4 px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto md:ml-30">
                 <div className="flex-shrink-0 mb-4 sm:mb-0">
                   <img src={Compare} alt="Compare" className="w-20 h-20 sm:w-28 sm:h-28" />
@@ -226,7 +331,6 @@ function Home() {
                 </div>
               </div>
 
-              {/* Card 2 */}
               <div className="flex flex-col sm:flex-row items-center py-4 px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto md:mr-40">
                 <div className="flex-shrink-0 mb-4 sm:mb-0">
                   <img src={Instant} alt="Instant" className="w-20 h-20 sm:w-28 sm:h-28" />
@@ -246,7 +350,6 @@ function Home() {
                 </div>
               </div>
 
-              {/* Card 3 */}
               <div className="flex flex-col sm:flex-row items-center py-4 px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto md:ml-30">
                 <div className="flex-shrink-0 mb-4 sm:mb-0">
                   <img src={Flexible} alt="Flexible" className="w-20 h-20 sm:w-28 sm:h-28" />
@@ -266,7 +369,6 @@ function Home() {
                 </div>
               </div>
 
-              {/* Card 4 */}
               <div className="flex flex-col sm:flex-row items-center py-4 px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto md:mr-44">
                 <div className="flex-shrink-0 mb-4 sm:mb-0">
                   <img src={Verified} alt="Verified Tutors" className="w-20 h-20 sm:w-28 sm:h-28" />
@@ -309,7 +411,6 @@ function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-1 gap-8 items-center mb-6">
               <div className="space-y-2 -mt-24">
-                {/* Card 1 */}
                 <div className="flex flex-col sm:flex-row items-center py-4 px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto md:mr-36">
                   <div className="flex-shrink-0 mb-4 sm:mb-0">
                     <img src={Accurate} alt="Accurate" className="w-20 h-20 sm:w-32 sm:h-28" />
@@ -331,7 +432,6 @@ function Home() {
                   </div>
                 </div>
 
-                {/* Card 2 */}
                 <div className="flex flex-col sm:flex-row items-center py-4 px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto md:ml-36">
                   <div className="flex-shrink-0 mb-4 sm:mb-0">
                     <img src={Homes} alt="home" className="w-20 h-20 sm:w-28 sm:h-28" />
@@ -353,7 +453,6 @@ function Home() {
                   </div>
                 </div>
 
-                {/* Card 3 */}
                 <div className="flex flex-col sm:flex-row items-center py-4 px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto md:mr-36">
                   <div className="flex-shrink-0 mb-4 sm:mb-0">
                     <img src={Branding} alt="Branding" className="w-20 h-20 sm:w-28 sm:h-28" />
@@ -375,7 +474,6 @@ function Home() {
                   </div>
                 </div>
 
-                {/* Card 4 */}
                 <div className="flex flex-col sm:flex-row items-center py-4 px-6 bg-white rounded-lg shadow-2xl shadow-blue-300 max-w-xl mx-auto md:ml-36">
                   <div className="flex-shrink-0 mb-4 sm:mb-0">
                     <img src={Experience} alt="Experience" className="w-20 h-20 sm:w-28 sm:h-28" />
@@ -398,9 +496,7 @@ function Home() {
                 </div>
               </div>
             </div>
-
           </div>
-
 
           <div className="flex min-h-screen bg-gradient-to-r from-blue-300 to-green-200 flex-col md:flex-row">
             <div className="flex-1 flex items-center justify-center p-10">
@@ -433,7 +529,6 @@ function Home() {
                     We value students who are clear about their educational needs and are dedicated to achieving success.                  </p>
                   <div className="flex items-center px-4 py-2 border-black shadow-lg rounded-full w-40 mt-24">
                     <button onClick={() => navigate("/userselection")}><span className="font-semibold ml-2">Sign Up</span></button>
-
                     <FaGreaterThan className="text-black ml-10" />
                   </div>
                 </div>
@@ -469,7 +564,6 @@ function Home() {
                     Get the best Online Platform
                   </p>
                 </div>
-
               </div>
             </div>
           </div>
@@ -543,7 +637,7 @@ function Home() {
                   />
                 </div>
 
-                <button onClick={() => navigate("/LoginPage")} className="border-2 border-purple-600 text-black px-6 py-2 rounded-full  hover:bg-orange-200">
+                <button onClick={() => navigate("/userselection")} className="border-2 border-purple-600 text-black px-6 py-2 rounded-full  hover:bg-orange-200">
                   Subscribe Now</button>
               </div>
 
@@ -559,12 +653,6 @@ function Home() {
         </section>
         <FooterMain />
       </div>
-      {/* <footer
-        className="bg-cover bg-center min-h-screen bg-gradient-to-r from-cyan-500 to-teal-500"
-        style={{ backgroundImage: `url(${Footer})`, transition: 'background 0.5s ease-in-out' }}
-      /> */}
-
-
     </>
   )
 }
