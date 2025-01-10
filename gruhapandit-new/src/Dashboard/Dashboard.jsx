@@ -8,7 +8,7 @@ import Technical from './../../src/assets/7.png';
 import Global from './../../src/assets/8.png';
 import Competitive from './../../src/assets/9.png';
 import Soft from './../../src/assets/10.png';
-import Government from './../../src/assets/11.png';
+import Government from './../../src/assets/31.png';
 import Entrance from './../../src/assets/12.png';
 import MainLayout from '../Layout/Mainlayout';
 import axiosInstance from '../axiosInstance';
@@ -81,8 +81,12 @@ const Dashboard = () => {
                 console.log('API Response:', response.data);
 
                 const transformedData = response.data.reduce((acc, { category, count }) => {
+<<<<<<< HEAD
                     const key = category.replace(/_/g, ' ').toLowerCase();
                     acc[key] = count;
+=======
+                    acc[category] = count;
+>>>>>>> origin
                     return acc;
                 }, {});
                 setCategoryCounts(transformedData);
@@ -90,6 +94,7 @@ const Dashboard = () => {
                 console.error('Error fetching category counts:', error);
             }
         };
+
         fetchCategoryCounts();
     }, []);
 
@@ -131,12 +136,80 @@ const Dashboard = () => {
                             </div>
                         </div>
 
+<<<<<<< HEAD
                         <div className="rounded-lg shadow mb-6">
                             <img
                                 src={christmas}
                                 alt="Ad Section"
                                 className="w-full max-h-[400px] object-cover rounded-lg"
                             />
+=======
+                    <div className="rounded-lg shadow mb-6">
+            <img
+              src={christmas}
+              alt="Ad Section"
+              className="w-full h-auto object-cover rounded-lg"
+            />
+          </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {[
+                            {  title: 'School Education', name: 'SCHOOL_EDUCATION', icon: SchoolImage},
+                            { title: 'Under/Post Graduate',name:'UG_PG_EDUCATION', icon: CollegeImage },
+                            { title: 'Technical Skills',name:'TECHNICAL_SKILLS', icon: Technical },
+                            { title: 'Competitive Exams',name:'COMPETITIVE_EXAMS', icon: Competitive },
+                            { title: 'Entrance Exams', name:'ENTRANCE_EXAMS',icon: Entrance },
+                            { title: 'Global Language',name:'GLOBAL_LANGUAGES', icon: Global },
+                            { title: 'Soft Skills', name:'SOFT_SKILLS',icon: Soft },
+                            { title: 'HOBBIES',name:'HOBBIES', icon: Government },
+                            
+                        ].map((card, index) => {
+                            const count = categoryCounts[card.name] 
+                            
+                            return (
+                                <div
+                                    className="option-card border rounded-3xl bg-white p-6 shadow-2xl shadow-zinc-500 hover:shadow-current transition"
+                                    key={index}
+                                    onClick={() => {
+                                        if (userRole === "ROLE_PREMIUM_USER") {
+                                            navigate(`/subject/${userId}`, { state: { category: card.name } })
+                                           
+                                        } else {
+                                            setIsModalOpen(true);
+                                            
+                                        }
+                                    }}
+                                >
+                                    <div className="text-center">
+                                        <img src={card.icon} alt={`${card.title} Icon`} className="w-16 h-16 mx-auto" />
+                                    </div>
+                                    <h3 className="text-lg text-center font-semibold mb-4">{card.title}</h3>
+                                    <animated.p className="text-3xl text-center font-extrabold">
+                                        {animatedCount(count)}
+                                    </animated.p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </main>
+                {isModalOpen && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg text-center relative">
+                         
+                            <button
+                                className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+                                onClick={() => setIsModalOpen(false)}
+                            >
+                                <IoClose size={24} />
+                            </button>
+                            <h2 className="text-4xl font-bold mb-4 text-blue-600">Complete Your Payment</h2>
+                            <p className="mb-6">To proceed, kindly make a payment to continue exploring additional options.</p>
+                            <button
+                                className="bg-purple-600 text-white px-6 py-2 rounded-lg"
+                                onClick={handlePaymentNavigation}
+                            >
+                                Pay
+                            </button>
+>>>>>>> origin
                         </div>
 
 
