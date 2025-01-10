@@ -86,7 +86,7 @@ const LoginPage = () => {
   
       try {
         const response = await axiosInstance.post(
-          "https://tution-application.onrender.com/tuition-application/authentication/login",
+          `/authentication/login`,
           formData
         );
   
@@ -242,9 +242,8 @@ const LoginPage = () => {
                 <p className="text-sm">
                   I have read and agree to the {" "}
                   <a
-                    onClick={() => window.open('/TermsAndConditions_4.pdf', '_blank')}
+                    onClick={() => window.open('TermsAndConditions_4.pdf')}
                     className="text-blue-500 hover:underline"
-                    target="_blank"
                     rel="noopener noreferrer"
                   >
                     Terms and Conditions
@@ -269,7 +268,7 @@ const LoginPage = () => {
             <p className="text-center text-sm text-black mt-4 font-semibold">
               Don't have an account?{" "}
               <a
-                onClick={() => navigate("/SignUp")}
+                onClick={() => navigate("/userselection")}
                 className="text-[#2AB0FF] hover:text-purple-500 transition duration-300"
               >
                 Sign Up

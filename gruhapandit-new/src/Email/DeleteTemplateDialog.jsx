@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { softDeleteTemplate } from '../services/EmailTemplatesService';
+import { softDeleteTemplate } from '../Services/EmailTemplatesService';
 import {Trash, Trash2} from "lucide-react";
 
 const DeleteTemplateDialog = ({ templateId, onDelete }) => {

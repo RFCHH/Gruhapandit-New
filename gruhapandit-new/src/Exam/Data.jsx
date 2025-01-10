@@ -33,8 +33,6 @@ function Data() {
             errorMessage = error.response.data.message;
           }
         }
-
-        toast.error(errorMessage);
       }
     };
     fetchdata();
