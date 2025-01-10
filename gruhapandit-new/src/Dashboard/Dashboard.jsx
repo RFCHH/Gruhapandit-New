@@ -82,7 +82,7 @@ const Dashboard = () => {
 
                 const transformedData = response.data.reduce((acc, { category, count }) => {
                     acc[category] = count;
->>>>>>> origin
+
                     return acc;
                 }, {});
                 setCategoryCounts(transformedData);
