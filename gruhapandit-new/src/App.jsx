@@ -79,7 +79,8 @@ function Layout({ children }) {
     "/createquestion",
     "/examstart",
     "/data",
-    "/edit-email-template"
+    "/edit-email-template",
+    "/unauthorized",
   ];
 
   const shouldHideNavbar =
@@ -139,12 +140,12 @@ function App() {
                 <Route path="/Payment" element={<Payment/>}></Route>
             </Route> 
 
-              
+
           {/*  TUTOR AND STUDENT ACCESS with PREMIMUM USER */}
             <Route element={<ProtectedRoute allowedRoles={[
               { userRole: "ROLE_PREMIUM_USER", role: "TUTOR" },
               { userRole: "ROLE_PREMIUM_USER", role: "STUDENT" }]} />}>
-
+              
               <Route path="/createReviews" element={<CreateReview />} />
               <Route path="/review" element={<Review />} />
               <Route path="/Request/:userId" element={<MyRequest />} />

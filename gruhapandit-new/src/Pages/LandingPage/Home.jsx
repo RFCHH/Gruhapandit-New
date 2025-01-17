@@ -103,6 +103,8 @@ const handleSearch = async () => {
     const fetchStatsData = async () => {
       try {
         const response = await axios.get(`https://tution-application.onrender.com/tuition-application/homepagedata/`);
+         // const response = await axios.get(`https://gruhapandith-backend.onrender.com/tuition-application/homepagedata/`);
+         
         if (response.status === 200) {
           const statsArray = Object.entries(response.data).map(([key, value]) => ({
             label: key.toUpperCase(),

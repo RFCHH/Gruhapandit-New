@@ -126,7 +126,9 @@ const Dashboard = () => {
                                         Profile
                                     </button>
                                     {localStorage.getItem("role") === "TUTOR" && (
-                      <button className="bg-green-500 text-white px-4 py-2 rounded-lg">
+                      <button 
+                      onClick={()=>navigate(`/National/${userId}`)}
+                      className="bg-green-500 text-white px-4 py-2 rounded-lg">
                         KYC
                       </button>
                     )} 

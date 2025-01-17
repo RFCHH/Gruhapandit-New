@@ -14,7 +14,7 @@ function App() {
   const fetchReviews = async () => {
     try {
       const response = await axiosInstance.get(
-        `/reviews/getAll/${userId}`
+        `/reviews/raisedReviews/getAll/${userId}`
       );
       setReviews(response.data);
     } catch (error) {

@@ -5,13 +5,14 @@ import userIdIcon from "../assets/email.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginPage = () => {
   const [userId, setuserId] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("--select--");
-  const [termsAccepted, setTermsAccepted] = useState(false); 
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const handleTermsChange = (e) => {
     setTermsAccepted(e.target.checked);
@@ -21,9 +22,9 @@ const LoginPage = () => {
     userId: "",
     password: "",
     role: "",
-    termsAccepted:""
+    termsAccepted: "",
   });
-  
+
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -43,32 +44,32 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     let formErrors = { userId: "", password: "", role: "", termsAccepted: "" };
-  
+
     if (!userId) {
       formErrors.userId = "Please enter a userId.";
     } else if (!validateuserId(userId)) {
       formErrors.userId = "Please enter a valid userId.";
     }
-  
+
     if (!password) {
       formErrors.password = "Please enter a password.";
     } else if (!validatePassword(password)) {
       formErrors.password =
         "Password must be 8-15 characters long, include uppercase, lowercase, a number, and a special character.";
     }
-  
+
     if (role === "--select--") {
       formErrors.role = "Please select a role.";
     }
-  
+
     if (!termsAccepted) {
       formErrors.termsAccepted = "You must agree to the Terms and Conditions.";
     }
-  
+
     setErrors(formErrors);
-  
+
     if (
       !formErrors.userId &&
       !formErrors.password &&
@@ -80,43 +81,43 @@ const LoginPage = () => {
         password,
         type: role.toUpperCase(),
       };
-  
+
       localStorage.setItem("userId", userId);
       localStorage.setItem("role", role);
-  
+
       try {
-        const response = await axiosInstance.post(
-          `/authentication/login`,
+        const response = await axios.post(
+          `https://tution-application.onrender.com/tuition-application/authentication/login`,
           formData
         );
-  
+
         if (response.status === 200) {
           const data = response.data;
           console.log("Login successful:", data);
-  
+
           alert(response.data.message || "Login successful!");
-  
+
           const { token, userRole, userId } = data;
-  
+
           localStorage.setItem("UserId", userId);
           localStorage.setItem("Token", token);
           localStorage.setItem("UserRole", userRole);
-  
+
           if (userRole === "ROLE_ADMIN") {
             navigate("/Registration");
           } else if (userRole === "ROLE_PREMIUM_USER") {
-            navigate("/successfull");
-            setTimeout(() => {
-              navigate(`/Dashboard/${userId}`);
-            }, 3000);
+            navigate(`/Dashboard/${userId}`);
+
+            // setTimeout(() => {
+            // }, 1000);
           } else if (userRole === "ROLE_REGULAR_USER") {
-            navigate("/successfull");
-            setTimeout(() => {
-              navigate(`/Dashboard/${userId}`);
-            }, 3000);
+            navigate(`/Dashboard/${userId}`);
+            // setTimeout(() => {
+            //   navigate(`/Dashboard/${userId}`);
+            // }, 1000);
           } else {
             console.log("Navigated to employeeDashboard");
-            navigate(`/userdashboard`);
+            navigate(`/Dashboard/${userId}`);
           }
         } else {
           setErrors((prevErrors) => ({
@@ -133,7 +134,6 @@ const LoginPage = () => {
       }
     }
   };
-  
 
   return (
     <div className="relative flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-100 to-white overflow-hidden px-4 sm:px-8 py-8 sm:py-12 top-10">
@@ -240,9 +240,9 @@ const LoginPage = () => {
                   onChange={handleTermsChange}
                 />
                 <p className="text-sm">
-                  I have read and agree to the {" "}
+                  I have read and agree to the{" "}
                   <a
-                    onClick={() => window.open('TermsAndConditions_4.pdf')}
+                    onClick={() => window.open("TermsAndConditions_4.pdf")}
                     className="text-blue-500 hover:underline"
                     rel="noopener noreferrer"
                   >
