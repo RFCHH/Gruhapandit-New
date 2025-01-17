@@ -41,7 +41,7 @@ function Sidebar() {
       icon: <FaUser className="text-gray-700 text-lg" />,
     },
 
-    ...(role === "TUTOR" && userRole === "ROLE_PREMIUM_USER"
+    ...(role === "TUTOR"
       ? [
           {
             path: `/National/${userId}`,

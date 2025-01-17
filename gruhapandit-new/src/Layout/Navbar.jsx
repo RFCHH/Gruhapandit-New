@@ -45,7 +45,7 @@ const Navbar = () => {
 
   const handleClick = () => {
     setIsDialogOpen(true);
-    console.log("Icon clicked");
+ 
    
   };
   
