@@ -150,7 +150,6 @@ const Subjects = () => {
   useEffect(() => {
     const fetchTutors = async () => {
       try {
-        const userId = localStorage.getItem("UserId");
          const categorys = category ;
         const page = 0;
         const size = 10;
@@ -173,10 +172,21 @@ const Subjects = () => {
   const filteredTutors = tutors.filter((tutor) =>
     tutor.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const handlerequest= ((event) => {
-    event.preventDefault();
-    navigate(`/Request/${userId}`);
-  })
+
+  const handlerequest = async (tutors) => {
+    try {
+      const { userId: tutorUserId, subjects } = tutors;
+
+      const subjectsParam = subjects.join(",");
+      const response = await axiosInstance.post(`/requests/?requestBy=${userId}&requestTo=${tutorUserId}&subjects=${subjectsParam}`);
+  
+      console.log("Request submitted successfully!");
+      navigate(`/Request/${userId}`);
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to submit the request.");
+    }
+  };
+  
 
   return (
     <MainLayout>
@@ -251,7 +261,7 @@ const Subjects = () => {
                         ))}
                       </div>
                     </div>
-                    <button  onClick={handlerequest} className="bg-blue-500 text-white font-medium rounded py-2 hover:bg-blue-600">
+                    <button    onClick={() => handlerequest(tutor)}className="bg-blue-500 text-white font-medium rounded py-2 hover:bg-blue-600">
                       Request
                     </button>
                   </div>

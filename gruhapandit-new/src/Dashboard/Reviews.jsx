@@ -60,14 +60,14 @@ function App() {
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gray-100 p-8">
+      <div className="min-h-screen bg-blue-50 p-8">
         <button
           onClick={handleAddReview}
           className="mt-auto bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700 transition justify-end ml-[4rem]"
         >
           Add Review +
         </button>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 ml-[4rem] mt-[4rem]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 ml-[3rem] mt-[3rem]">
           {reviews.map((review) => (
             <div key={review.id} className="p-4 bg-white rounded-lg shadow relative">
               <div className="absolute top-2 right-2 flex space-x-2">
