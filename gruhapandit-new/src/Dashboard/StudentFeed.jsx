@@ -38,7 +38,7 @@ const MyFeedStudent = () => {
 
   return (
     <MainLayout>
-      <div className="bg-blue-100 min-h-screen">
+      <div className="bg-blue-50 min-h-screen">
         <nav className="flex justify-between items-center px-4 py-4">
           <button className="bg-blue-500 text-white px-8 py-2 ml-40 mb-10 rounded-tr-xl rounded-bl-xl hover:bg-blue-600">
             My Feed

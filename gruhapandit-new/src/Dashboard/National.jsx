@@ -70,7 +70,7 @@ const National = () => {
     return (
         <>
            <MainLayout>
-  <div className="flex items-center pl-16 pr-4 pb-2 pt-20 justify-center min-h-screen bg-gradient-to-b from-white to-blue-200 -mt-16 lg:p-4">
+  <div className="flex items-center pl-16 pr-4 pb-2 pt-20 justify-center min-h-screen bg-blue-50 -mt-16 lg:p-4">
     <div className="flex flex-col lg:  md:flex-row bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-4xl">
       {/* Left Section */}
       <div className="flex flex-col items-center justify-center bg-purple-200 p-6 w-full md:w-1/2">

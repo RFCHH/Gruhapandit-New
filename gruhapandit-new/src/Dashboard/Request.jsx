@@ -10,34 +10,42 @@ const MyRequest = () => {
     const [requestId,setRequestId]=useState();
     const [successMessage, setSuccessMessage] = useState(null);
 
+    const token = localStorage.getItem("Token");
+    const userId = localStorage.getItem("UserId");
+
     useEffect(() => {
         const fetchData = async () => {
-            const token = localStorage.getItem("Token");
-            const userId = localStorage.getItem("UserId");
-
+            
+    
             if (!userId || !token) {
                 console.error("userId, token are missing");
                 return;
             }
-
+    
+            let url = "";
+            
+            if (activeTab === "My Request") {
+                url = `/requests/requests?userId=${userId}&page=${page}&size=${size}`;
+            } else if (activeTab === "Received Request") {
+                url = `/requests/approvals?userId=${userId}&page=${page}&size=${size}`;
+            }
+    
             try {
-                const response = await axiosInstance.get(
-                    `/requests/requests?userId=${userId}&page=${page}&size=${size}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-
-                setRequests(response.data); 
+                const response = await axiosInstance.get(url, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+    
+                setRequests(response.data);
             } catch (error) {
                 console.error("Error fetching requests:", error);
             }
         };
-
+    
         fetchData();
-    }, [page, size]);
+    }, [page, size, activeTab]); 
+    
 
 
     const handleStatusUpdate = async (requestId, status) => {
@@ -53,7 +61,7 @@ const MyRequest = () => {
 
         try {
             const response = await axiosInstance.patch(
-                `/tuition-application/requests/updateStatus?userId=${userId}&requestId=${requestId}&status=${status}`,
+                `/requests/updateStatus?userId=${userId}&requestId=${requestId}&status=${status}`,
                 {},
                 {
                     headers: {
@@ -62,8 +70,7 @@ const MyRequest = () => {
                 }
             );
 
-            if (response.status === 200) {
-                // Remove the updated request from the list
+            if (response.status === 204) {
                 setRequests((prevRequests) =>
                     prevRequests.filter((req) => req.id !== requestId)
                 );
@@ -95,8 +102,7 @@ const MyRequest = () => {
                 }
             );
 
-            if (response.status === 200) {
-                // Remove the deleted request from the list
+            if (response.status === 204) {
                 setRequests((prevRequests) =>
                     prevRequests.filter((req) => req.id !== requestId)
                 );
@@ -150,23 +156,13 @@ const MyRequest = () => {
                 {requests.map((request) => (
                     <div
                         key={request.id}
-                        className="p-6 border-2 border-blue-500 rounded-lg shadow-lg bg-gray-50 text-center transition-transform hover:shadow-xl hover:scale-105"
+                        className="p-2 border-2 border-blue-500 rounded-lg shadow-lg bg-gray-50  transition-transform hover:shadow-xl hover:scale-105"
                     >
                        
-                        <div className="grid grid-cols-2 gap-4 mb-4">
-                            <p className="text-lg font-semibold">
-                                <strong>Name:</strong> {request.name}
-                            </p>
-                            <p className="text-sm">
-                                <strong>Location:</strong> {request.location}
-                            </p>
-                        </div>
-
-                       
-                        <div className="grid grid-cols-2 gap-4 mb-4">
-                            <p className="text-sm">
-                                <strong>Subjects:</strong> {request.subjects}
-                            </p>
+                        <div className="grid grid-cols-1 gap-2 ">
+                            <p className="text-sm "><strong>Name:</strong> {request.name}</p>
+                            <p className="text-sm"><strong>Location:</strong> {request.location}</p>
+                            <p className="text-sm"><strong>Subjects:</strong> {request.subjects}</p>
                             <p className="text-sm">
                                 <strong>Rating:</strong>{" "}
                                 {request.rating === 0 ? (
@@ -175,11 +171,11 @@ const MyRequest = () => {
                                     <span className="text-yellow-500">{request.rating} ★</span>
                                 )}
                             </p>
-                        </div>
+                        {/* </div>
 
                       
-                        <div className="mb-4">
-                            <p className="text-xs">
+                        <div className="mb-4"> */}
+                            <p className="text-sm">
                                 <strong>Status:</strong>{" "}
                                 <span
                                     className={`text-lg font-semibold ${
@@ -187,32 +183,32 @@ const MyRequest = () => {
                                     }`}
                                 >
                                     {request.status}
-                                    {request.status === "Approved" ? (
+                                    {/* {request.status === "Approved" ? (
                                         <span className="ml-1">✔</span>
                                     ) : (
                                         <span className="ml-1">✘</span>
-                                    )}
+                                    )} */}
                                 </span>
                             </p>
                         </div>
 
                        
                         {activeTab === "Received Request" && (
-                          <div className="flex flex-wrap justify-center gap-3 mt-4 md:gap-2 md:flex-nowrap md:justify-between">
+                          <div className="flex flex-wrap justify-center gap-2 mt-4 md:gap-2 md:flex-wrap ">
                           <button
-                              className="bg-blue-500 text-white text-xs px-2 py-1 rounded-md shadow hover:bg-blue-600 transition-all md:px-3 md:py-1.5"
+                              className="bg-green-500 text-white text-xs px-2 py-1 rounded-md shadow  transition-all md:px-3 md:py-1.5"
                               onClick={() => handleStatusUpdate(request.id, "Approved")}
                           >
                               Approve
                           </button>
                           <button
-                              className="bg-blue-500 text-white text-xs px-2 py-1 rounded-md shadow hover:bg-blue-600 transition-all md:px-3 md:py-1.5"
+                              className="bg-red-500 text-white text-xs px-2 py-1 rounded-md shadow  transition-all md:px-3 md:py-1.5"
                               onClick={() => handleStatusUpdate(request.id, "Rejected")}
                           >
                               Reject
                           </button>
                           <button
-                              className="bg-blue-500 text-white text-xs px-2 py-1 rounded-md shadow hover:bg-blue-600 transition-all md:px-3 md:py-1.5"
+                              className="bg-yellow-500 text-white text-xs px-2 py-1 rounded-md shadow transition-all md:px-3 md:py-1.5"
                               onClick={() => handleDelete(request.id)}
                           >
                               Delete
@@ -230,12 +226,6 @@ const MyRequest = () => {
         )}
     </div>
 </div>
-
-
-
-
-
-
             </div>
         </MainLayout>
     );
