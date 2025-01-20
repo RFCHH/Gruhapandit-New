@@ -89,6 +89,7 @@ const National = () => {
         <div
           className="border-2 shadow-lg border-gray-300 rounded-lg p-6 md:p-10 text-center cursor-pointer flex flex-col items-center justify-center mb-5 mt-10 md:mt-20"
           onDragOver={handleDragOver}
+          onClick={handleUploadClick}
           onDrop={handleDrop}
           role="button"
           aria-label="Drag and drop area for file upload"
