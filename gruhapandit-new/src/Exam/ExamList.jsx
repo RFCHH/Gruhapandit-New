@@ -124,124 +124,124 @@ const CreateExam = () => {
   return (
     <>
       <MainLayout>
-        <div className="p-4 ml-12">
-          <div className="flex justify-between mb-4">
-            <button
-              onClick={handleBackNavigation}
-              className="font-semibold border-2 border-gray-800 px-4 py-2 flex items-center rounded hover:bg-gray-600"
-            >
-              <FaLessThan className="text-black mr-2" />
-              Previous
-            </button>
+  <div className="p-4 ml-12">
+    {/* Fixed Buttons Section */}
+    <div className="flex justify-between mb-4 sticky top-0   p-2 ">
+      <button
+        onClick={handleBackNavigation}
+        className="text-sm lg:text-base font-semibold border-2 border-gray-800 px-3 lg:px-4 py-2 flex items-center rounded hover:bg-gray-600"
+      >
+        <FaLessThan className="text-black mr-2" />
+        Previous
+      </button>
 
-            <button
-              onClick={handleAddButtonClick}
-              className=" font-semibold border-2 border-gray-800 px-4 py-2 flex  justify-end rounded hover:bg-gray-600"
-            >
-              Create Exam
-              {/* <FaPlus className="text-white ml-2" /> */}
-            </button>
-          </div>
+      <button
+        onClick={handleAddButtonClick}
+        className="text-sm lg:text-base font-semibold border-2 border-gray-800 px-3 lg:px-4 py-2 flex justify-center rounded hover:bg-gray-600"
+      >
+        Create Exam
+      </button>
+    </div>
 
-          <table className="min-w-full border-collapse border rounded-sm border-gray-800">
-            <thead className="text-black bg-gray-300">
-              <tr>
-              <th className="border border-gray-500 px-4 py-2">Exam Id</th>
-                <th className="border border-gray-500 px-4 py-2">Exam Name</th>
-                <th className="border border-gray-500 px-4 py-2">Start Date</th>
-                <th className="border border-gray-500 px-4 py-2">End Date</th>
-                <th className="border border-gray-500 px-4 py-2">Duration</th>
-                <th className="border border-gray-500 px-4 py-2">
-                  No. of Attempts
-                </th>
-                <th className="border border-gray-500 px-4 py-2">
-                  {" "}
-                  Pass Percentage
-                </th>
-                <th className="border border-gray-500 px-4 py-2">Assigned</th>
-                <th className="border border-gray-500 px-4 py-2">View</th>
-                <th className="border border-gray-500 px-4 py-2">Action</th>
+    {/* Scrollable Table Section */}
+    <div className="overflow-x-auto">
+      <table className="min-w-full border-collapse border rounded-sm border-gray-800">
+        <thead className="text-black bg-gray-300">
+          <tr>
+            <th className="border border-gray-500 px-4 py-2">Exam Id</th>
+            <th className="border border-gray-500 px-4 py-2">Exam Name</th>
+            <th className="border border-gray-500 px-4 py-2">Start Date</th>
+            <th className="border border-gray-500 px-4 py-2">End Date</th>
+            <th className="border border-gray-500 px-4 py-2">Duration</th>
+            <th className="border border-gray-500 px-4 py-2">No. of Attempts</th>
+            <th className="border border-gray-500 px-4 py-2">Pass Percentage</th>
+            <th className="border border-gray-500 px-4 py-2">Assigned</th>
+            <th className="border border-gray-500 px-4 py-2">View</th>
+            <th className="border border-gray-500 px-4 py-2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.length === 0 ? (
+            <tr>
+              <td colSpan="10" className="text-center py-4">
+                No exams available
+              </td>
+            </tr>
+          ) : (
+            tableData.map((row, index) => (
+              <tr key={index} className="odd:bg-white even:bg-gray-50">
+                <td className="border border-gray-500 text-center px-4 py-2">
+                  {row.examId}
+                </td>
+                <td className="border border-gray-500 text-center px-4 py-2">
+                  {row.examName}
+                </td>
+                <td className="border border-gray-500 text-center px-4 py-2">
+                  {row.startDate}
+                </td>
+                <td className="border border-gray-500 text-center px-4 py-2">
+                  {row.endDate}
+                </td>
+                <td className="border border-gray-500 text-center px-4 py-2">
+                  {row.examDuration}
+                </td>
+                <td className="border border-gray-500 text-center px-4 py-2">
+                  {row.numberOfAttempts}
+                </td>
+                <td className="border border-gray-500 text-center px-4 py-2">
+                  {row.passPercentage}
+                </td>
+                <td className="border border-gray-500 text-center px-4 py-2">
+                  {row.assignedTo && Array.isArray(row.assignedTo)
+                    ? row.assignedTo.join(", ")
+                    : "N/A"}
+                </td>
+                <td className="border border-gray-500 px-4 py-2">
+                  <div className="flex justify-center">
+                    <AiOutlineEye
+                      size={21}
+                      color="black"
+                      className="text-blue-500 cursor-pointer"
+                      title="View"
+                      onClick={() =>
+                        navigate(`/createquestion/${row.examId}/${row.assignedTo}`)
+                      }
+                    />
+                  </div>
+                </td>
+                <td className="border border-gray-300 text-center px-4 py-3 flex justify-center space-x-2">
+                  <AiOutlineEdit
+                    size={21}
+                    color="black"
+                    className="text-green-500 cursor-pointer"
+                    title="Edit"
+                    onClick={() => handleEdit(index)}
+                  />
+                  <AiOutlineDelete
+                    size={21}
+                    className="text-red-500 cursor-pointer"
+                    title="Delete"
+                    onClick={() => handleDelete(index)}
+                  />
+                </td>
               </tr>
-            </thead>
-          
-            <tbody>
-              {tableData.length === 0 ? (
-                <tr>
-                  <td colSpan="8" className="text-center py-4">
-                    No exams available
-                  </td>
-                </tr>
-              ) : (
-                tableData.map((row, index) => (
-                  <tr key={index} className="odd:bg-white even:bg-gray-50">
-                     <td className="border border-gray-500 text-center px-4 py-2">
-                      {row.examId}
-                    </td>
-                    <td className="border border-gray-500 text-center px-4 py-2">
-                      {row.examName}
-                    </td>
-                    <td className="border border-gray-500 text-center px-4 py-2">
-                      {row.startDate}
-                    </td>
-                    <td className="border border-gray-500 text-center px-4 py-2">
-                      {row.endDate}
-                    </td>
-                    <td className="border border-gray-500 text-center px-4 py-2">
-                      {row.examDuration}
-                    </td>
-                    <td className="border border-gray-500 text-center px-4 py-2">
-                      {row.numberOfAttempts}
-                    </td>
-                    <td className="border border-gray-500 text-center px-4 py-2">
-                      {row.passPercentage}
-                    </td>
-                    <td className="border border-gray-500 text-center px-4 py-2">
-                      {row.assignedTo && Array.isArray(row.assignedTo)
-                        ? row.assignedTo.join(", ")
-                        : "N/A"}
-                    </td>
-
-                    <td className="border border-gray-500 px-4 py-2 ">
-                      <div className="flex justify-center">
-                        <AiOutlineEye
-                          size={21}
-                          color="black"
-                          className="text-blue-500 cursor-pointer"
-                          title="View"
-                          onClick={() => navigate(`/createquestion/${row.examId}/${row.assignedTo}`)}
-                        />
-                      </div>
-                    </td>
-                    <td className="border border-gray-300 text-center px-4 py-3 flex justify-center space-x-2">
-                      <AiOutlineEdit
-                        size={21}
-                        color="black"
-                        className="text-green-500 cursor-pointer"
-                        title="Edit"
-                        onClick={() => handleEdit(index)}
-                      />
-                      <AiOutlineDelete
-                        size={21}
-                        className="text-red-500 cursor-pointer"
-                        title="Delete"
-                        onClick={() => handleDelete(index)}
-                      />
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-
-          {isModalOpen && (
-            <ExamPopUp
-              initialData={currentData}
-              onSave={handleSave}
-              onClose={() => setIsModalOpen(false)}
-            />
+            ))
           )}
-        </div>
-      </MainLayout>
+        </tbody>
+      </table>
+    </div>
+
+    {/* Modal */}
+    {isModalOpen && (
+      <ExamPopUp
+        initialData={currentData}
+        onSave={handleSave}
+        onClose={() => setIsModalOpen(false)}
+      />
+    )}
+  </div>
+</MainLayout>
+
     </>
   );
 };

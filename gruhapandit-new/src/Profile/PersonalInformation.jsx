@@ -57,16 +57,16 @@ const PersonalInformation = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const token = localStorage.getItem("Token");
     const userId = localStorage.getItem("UserId");
     const type = localStorage.getItem("role");
-  
+
     if (!token || !userId || !type) {
       console.error("Token, userId, or role is missing.");
       return;
     }
-  
+
     const payload = {
       userId: userId,
       fullName: formData.fullName,
@@ -83,7 +83,7 @@ const PersonalInformation = () => {
         country: formData.country,
       },
     };
-  
+
     if (validateForm()) {
       try {
         const response = await axiosInstance.patch(`/users/`, payload, {
@@ -92,14 +92,14 @@ const PersonalInformation = () => {
             "Content-Type": "application/json",
           },
         });
-  
+
         if (response.status === 200) {
           console.log("Form submitted successfully:", response.data);
-          setIsEditing(false); 
+          setIsEditing(false);
         } else {
           console.error("Error in response:", response);
         }
-        setIsEditing(false); 
+        setIsEditing(false);
       } catch (error) {
         console.error("Error submitting form:", error);
       }
@@ -107,17 +107,17 @@ const PersonalInformation = () => {
       console.error("Form validation failed.");
     }
   };
-  
+
 
   const validateForm = () => {
     const newErrors = {};
     let isValid = true;
-  
+
     if (!formData.fullName.trim()) {
       newErrors.fullName = "Full Name is required.";
       isValid = false;
     }
-  
+
     const emailWithoutSpaces = formData.emailId.replace(/\s+/g, "");
     if (!emailWithoutSpaces) {
       newErrors.emailId = "Email ID is required.";
@@ -126,12 +126,12 @@ const PersonalInformation = () => {
       newErrors.emailId = "Invalid Email ID.";
       isValid = false;
     }
-  
-    if(!formData.countryCode){
-      newErrors.countryCode="Country Code is required"
-      isValid=false;
+
+    if (!formData.countryCode) {
+      newErrors.countryCode = "Country Code is required"
+      isValid = false;
     }
-  
+
     if (!formData.mobileNumber) {
       newErrors.mobileNumber = "Mobile Number is required.";
       isValid = false;
@@ -139,12 +139,12 @@ const PersonalInformation = () => {
       newErrors.mobileNumber = "Mobile Number must be exactly 10 digits.";
       isValid = false;
     }
-  
+
     if (!formData.gender) {
       newErrors.gender = "Gender is required.";
       isValid = false;
     }
-  
+
     if (!formData.dateOfBirth) {
       newErrors.dateOfBirth = "Date of Birth is required.";
       isValid = false;
@@ -156,22 +156,22 @@ const PersonalInformation = () => {
         isValid = false;
       }
     }
-  
+
     if (!formData.city.trim()) {
       newErrors.city = "City is required.";
       isValid = false;
     }
-  
+
     if (!formData.district.trim()) {
       newErrors.district = "District is required.";
       isValid = false;
     }
-  
+
     if (!formData.state.trim()) {
       newErrors.state = "State is required.";
       isValid = false;
     }
-  
+
     if (!formData.country.trim()) {
       newErrors.country = "Country is required.";
       isValid = false;
@@ -179,7 +179,7 @@ const PersonalInformation = () => {
     setErrors(newErrors);
     return isValid;
   };
-  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -191,7 +191,7 @@ const PersonalInformation = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-  
+
         const userData = response.data;
         const addressResponse = await axiosInstance.get(
           `/users/basicAddress?userId=${userId}`,
@@ -201,9 +201,9 @@ const PersonalInformation = () => {
             },
           }
         );
-  
+
         const addressData = addressResponse.data;
-  
+
         setFormData({
           fullName: userData.fullName || "",
           emailId: userData.emailId || "",
@@ -221,14 +221,21 @@ const PersonalInformation = () => {
         console.error("Error fetching user data:", error.message);
       }
     };
-  
+
     fetchData();
   }, []);
-  
+
   return (
     <div className="relative">
-      <h3 className="text-cyan-600 font-bold mb-4">Personal Information</h3>
-      <form className="grid grid-cols-3 gap-1" onSubmit={handleSubmit}>
+      <h3 className="text-cyan-600 font-bold mb-4 text-sm sm:text-lg lg:text-xl">
+        Personal Information
+      </h3>
+
+      <form
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        onSubmit={handleSubmit}
+      >
+        {/* Full Name */}
         <div className="flex flex-col">
           <FormInput
             label="Full Name"
@@ -238,11 +245,10 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the Name"
           />
-          {errors.fullName && (
-            <p className="text-red-500 text-sm">{errors.fullName}</p>
-          )}
+          {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName}</p>}
         </div>
 
+        {/* Email ID */}
         <div className="flex flex-col">
           <FormInput
             label="Email ID"
@@ -253,27 +259,23 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the Email ID"
           />
-          {errors.emailId && (
-            <p className="text-red-500 text-sm">{errors.emailId}</p>
-          )}
+          {errors.emailId && <p className="text-red-500 text-sm">{errors.emailId}</p>}
         </div>
 
+        {/* Country Code */}
         <div className="flex flex-col">
           <FormInput
             label="Country Code"
             name="countryCode"
-            type="countryCode"
             value={formData.countryCode}
             onChange={handleChange}
             disabled={!isEditing}
-            placeholder="Enter the Number"
+            placeholder="Enter the Country Code"
           />
-          {errors.countryCode && (
-            <p className="text-red-500 text-sm">{errors.countryCode}</p>
-          )}
+          {errors.countryCode && <p className="text-red-500 text-sm">{errors.countryCode}</p>}
         </div>
 
-
+        {/* Mobile Number */}
         <div className="flex flex-col">
           <FormInput
             label="Mobile Number"
@@ -289,8 +291,9 @@ const PersonalInformation = () => {
           )}
         </div>
 
-        <div className="flex flex-col mt-1">
-          <label className=" font-bold">Gender</label>
+        {/* Gender */}
+        <div className="flex flex-col">
+          <label className="font-bold">Gender</label>
           <select
             name="gender"
             value={formData.gender}
@@ -302,11 +305,10 @@ const PersonalInformation = () => {
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
-          {errors.gender && (
-            <p className="text-red-500 text-sm">{errors.gender}</p>
-          )}
+          {errors.gender && <p className="text-red-500 text-sm">{errors.gender}</p>}
         </div>
 
+        {/* Date of Birth */}
         <div className="flex flex-col">
           <FormInput
             label="Date of Birth"
@@ -321,6 +323,7 @@ const PersonalInformation = () => {
           )}
         </div>
 
+        {/* City */}
         <div className="flex flex-col">
           <FormInput
             label="City"
@@ -333,6 +336,7 @@ const PersonalInformation = () => {
           {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
         </div>
 
+        {/* State */}
         <div className="flex flex-col">
           <FormInput
             label="State"
@@ -342,11 +346,10 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the State"
           />
-          {errors.state && (
-            <p className="text-red-500 text-sm">{errors.state}</p>
-          )}
+          {errors.state && <p className="text-red-500 text-sm">{errors.state}</p>}
         </div>
 
+        {/* District */}
         <div className="flex flex-col">
           <FormInput
             label="District"
@@ -356,11 +359,10 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the District"
           />
-          {errors.district && (
-            <p className="text-red-500 text-sm">{errors.district}</p>
-          )}
+          {errors.district && <p className="text-red-500 text-sm">{errors.district}</p>}
         </div>
 
+        {/* Country */}
         <div className="flex flex-col">
           <FormInput
             label="Country"
@@ -370,35 +372,35 @@ const PersonalInformation = () => {
             disabled={!isEditing}
             placeholder="Enter the Country"
           />
-          {errors.country && (
-            <p className="text-red-500 text-sm">{errors.country}</p>
-          )}
+          {errors.country && <p className="text-red-500 text-sm">{errors.country}</p>}
         </div>
 
-        <div className="col-span-3 mt-4 text-end">
+        {/* Action Buttons */}
+        <div className="col-span-1 sm:col-span-2 lg:col-span-3 mt-4 text-end">
           {isEditing ? (
-          <div className="absolute bottom-0 right-0 mb-4 mr-4">
+            <div className="absolute bottom-0 right-0 mb-4 mr-4">
+              <button
+                type="submit"
+                className="bg-cyan-500 text-white py-2 px-4 rounded"
+                onClick={handleSubmit}
+              >
+                Save
+              </button>
+            </div>
+          ) : (
             <button
-              type="submit"
-              className="bg-cyan-500 text-white py-2 px-4 rounded"
-              onClick={handleSubmit}
+              type="button"
+              className="absolute top-1 right-0 bg-cyan-500 text-white py-1 px-3 rounded text-xs sm:text-sm md:text-base"
+              onClick={() => setIsEditable(true)}
             >
-             
-              Save
+              Edit
             </button>
-          </div>
-        ) : (
-          <button
-          type="button"
-          className="absolute top-1  right-0 bg-cyan-500 text-white py-2 px-4 rounded"
-          onClick={() => setIsEditable(true)}
-        >
-          Edit
-        </button>
-        )}
+
+          )}
         </div>
       </form>
     </div>
+
   );
 };
 

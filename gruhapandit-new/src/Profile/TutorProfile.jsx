@@ -179,61 +179,62 @@ const TutorProfile = () => {
               </div>
             </div>
 
-            <div className="bg-white p-4 sm:p-6 rounded-lg shadow flex flex-col items-center">
-              <div className="flex flex-col sm:flex-row items-center sm:space-x-12 space-y-6 sm:space-y-0">
-                <div className="flex flex-col items-center">
-                  <div className="relative w-24 h-24 sm:w-36 sm:h-36">
-                    <Doughnut
-                      data={{
-                        datasets: [
-                          {
-                            data: [profileCompletion, 100 - profileCompletion],
-                            backgroundColor: ["#4A148C", "#EDE7F6"],
-                            borderWidth: 0,
-                          },
-                        ],
-                      }}
-                      options={{
-                        cutout: "70%",
-                        plugins: { tooltip: { enabled: false } },
-                      }}
-                    />
-                    <div className="absolute inset-0 top-3 left-2 flex items-center justify-center text-yellow-500 font-bold text-sm sm:text-lg">
-                      {profileCompletion}%
-                    </div>
-                  </div>
-                  <p className="text-blue-600 font-bold mt-4">Profile</p>
-                </div>
+            <div className="bg-white p-3 sm:p-6 rounded-lg shadow flex flex-col items-center">
+  <div className="flex flex-col sm:flex-row items-center sm:space-x-8 space-y-4 sm:space-y-0">
+    <div className="flex flex-col items-center">
+      <div className="relative w-20 h-20 sm:w-36 sm:h-36">
+        <Doughnut
+          data={{
+            datasets: [
+              {
+                data: [profileCompletion, 100 - profileCompletion],
+                backgroundColor: ["#4A148C", "#EDE7F6"],
+                borderWidth: 0,
+              },
+            ],
+          }}
+          options={{
+            cutout: "70%",
+            plugins: { tooltip: { enabled: false } },
+          }}
+        />
+        <div className="absolute inset-0 top-2 left-1.5 flex items-center justify-center text-yellow-500 font-bold text-xs sm:text-lg">
+          {profileCompletion}%
+        </div>
+      </div>
+      <p className="text-blue-600 font-bold mt-3 text-xs sm:text-sm">Profile</p>
+    </div>
 
-                {role === "TUTOR" && (
-                  <div className="flex flex-col items-center">
-                    <div className="relative w-36 h-36">
-                      <Doughnut
-                        data={{
-                          datasets: [
-                            {
-                              data: [kyc, 100 - kyc],
-                              backgroundColor: ["#FF9800", "#FFF3E0"],
-                              borderWidth: 0,
-                            },
-                          ],
-                        }}
-                        options={{
-                          cutout: "70%",
-                          plugins: { tooltip: { enabled: false } },
-                        }}
-                      />
-                      <div className="absolute inset-0 top-3 left-2 flex items-center justify-center text-yellow-500 font-bold text-sm sm:text-lg">
-                        {kyc}%
-                      </div>
-                    </div>
-                    <div className="text-center mt-4">
-                      <p className="text-blue-600 font-bold">KYC</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+    {role === "TUTOR" && (
+      <div className="flex flex-col items-center">
+        <div className="relative w-20 h-20 sm:w-36 sm:h-36">
+          <Doughnut
+            data={{
+              datasets: [
+                {
+                  data: [kyc, 100 - kyc],
+                  backgroundColor: ["#FF9800", "#FFF3E0"],
+                  borderWidth: 0,
+                },
+              ],
+            }}
+            options={{
+              cutout: "70%",
+              plugins: { tooltip: { enabled: false } },
+            }}
+          />
+          <div className="absolute inset-0 top-2 left-1.5 flex items-center justify-center text-yellow-500 font-bold text-xs sm:text-lg">
+            {kyc}%
+          </div>
+        </div>
+        <div className="text-center mt-3">
+          <p className="text-blue-600 font-bold text-xs sm:text-sm">KYC</p>
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

@@ -12,7 +12,7 @@ const MyPlans = ({ paymentDetails = {} }) => {
   return (
     <>
       <MainLayout>
-        <div className="flex flex-col lg:flex-row justify-center items-start gap-8 bg-blue-50 min-h-screen p-4 md:p-8">
+        <div className="flex flex-col lg:flex-row justify-center items-start gap-8 bg-blue-50 min-h-screen lg:pl-2 pr-3 md:pl-16 pl-16  ">
           
           <div className="bg-white rounded-xl shadow-lg mt-10 p-4 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-sm xl:max-w-md mb-6 sm:mb-8 md:mb-12">
             <h2 className="text-lg font-bold text-blue-900 mb-4 text-center md:text-left">
