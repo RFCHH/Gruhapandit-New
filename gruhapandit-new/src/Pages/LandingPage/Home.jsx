@@ -87,8 +87,11 @@ const handleSearch = async () => {
       alert("Address is incomplete. Please select a valid address.");
       return;
     }
-    const url = `https://tution-application.onrender.com/tuition-application/homepagedata/search?city=${encodeURIComponent(city)}&district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&country=${encodeURIComponent(country)}`;
+    const url = `https://tution-application-testenv.onrender.com/tuition-application/homepagedata/search?city=${encodeURIComponent(city)}&district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&country=${encodeURIComponent(country)}`;
+    // const url = `https://gruhapandith-backend.onrender.com/tuition-application/homepagedata/search?city=${encodeURIComponent(city)}&district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&country=${encodeURIComponent(country)}`;
 
+
+   
     const response = await axios.get(url);
 
     setApiResponse(response.data);
@@ -102,8 +105,9 @@ const handleSearch = async () => {
   useEffect(() => {
     const fetchStatsData = async () => {
       try {
-        const response = await axios.get(`https://tution-application.onrender.com/tuition-application/homepagedata/`);
-         // const response = await axios.get(`https://gruhapandith-backend.onrender.com/tuition-application/homepagedata/`);
+        const response = await axios.get(`https://tution-application-testenv.onrender.com/tuition-application/homepagedata/`);
+        // const response = await axios.get(`https://gruhapandith-backend.onrender.com/tuition-application/homepagedata/`);
+
          
         if (response.status === 200) {
           const statsArray = Object.entries(response.data).map(([key, value]) => ({
