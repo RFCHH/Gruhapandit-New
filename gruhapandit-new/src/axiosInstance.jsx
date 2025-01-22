@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL:'https://tution-application.onrender.com/tuition-application'
+  baseURL:'https://tution-application-testenv.onrender.com/tuition-application'
   // baseURL:'https://gruhapandith-backend.onrender.com/tuition-application'
 });
 
