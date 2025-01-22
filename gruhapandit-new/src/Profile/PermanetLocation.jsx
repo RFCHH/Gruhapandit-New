@@ -23,20 +23,55 @@ const PermanentLocation = () => {
 
   const validateFields = () => {
     const newErrors = {};
+    const noNumbersPattern = /^[^\d]+$/; // Ensures the field does not contain any digits
+
     if (!formData.houseNum.trim())
       newErrors.houseNum = "House Number is required.";
-    if (!formData.locality.trim()) newErrors.locality = "Locality is required.";
-    if (!formData.landMark.trim()) newErrors.landMark = "Landmark is required.";
-    if (!formData.district.trim()) newErrors.district = "District is required.";
-    if (!formData.city.trim()) newErrors.city = "City is required.";
-    if (!formData.state.trim()) newErrors.state = "State is required.";
-    if (!formData.country.trim()) newErrors.country = "Country is required.";
+
+    if (!formData.locality.trim()) {
+      newErrors.locality = "Locality is required.";
+    } else if (!noNumbersPattern.test(formData.locality)) {
+      newErrors.locality = "Locality must contain alphabets.";
+    }
+
+    if (!formData.landMark.trim()) {
+      newErrors.landMark = "Landmark is required.";
+    } else if (!noNumbersPattern.test(formData.landMark)) {
+      newErrors.landMark = "Landmark must contain alphabets.";
+    }
+
+    if (!formData.district.trim()) {
+      newErrors.district = "District is required.";
+    } else if (!noNumbersPattern.test(formData.district)) {
+      newErrors.district = "District must contain alphabets.";
+    }
+
+    if (!formData.city.trim()) {
+      newErrors.city = "City is required.";
+    } else if (!noNumbersPattern.test(formData.city)) {
+      newErrors.city = "City must contain alphabets.";
+    }
+
+    if (!formData.state.trim()) {
+      newErrors.state = "State is required.";
+    } else if (!noNumbersPattern.test(formData.state)) {
+      newErrors.state = "State must contain alphabets.";
+    }
+
+    if (!formData.country.trim()) {
+      newErrors.country = "Country is required.";
+    } else if (!noNumbersPattern.test(formData.country)) {
+      newErrors.country = "Country must contain alphabets.";
+    }
+
     if (!formData.pincode || !/^[0-9]{6}$/.test(formData.pincode)) {
       newErrors.pincode = "Pincode must be a valid 6-digit number.";
     }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
 
   const fetchData = async () => {
     const token = localStorage.getItem("Token");
@@ -145,9 +180,16 @@ const PermanentLocation = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // For pincode field, restrict to exactly 6 digits
+    if (name === "pincode" && value.length > 6) {
+      return; // Prevent entering more than 6 digits
+    }
+
     setFormData({ ...formData, [name]: value.trimStart() });
     setErrors({ ...errors, [name]: "" });
   };
+
 
   const handleFieldFocus = () => {
     if (!isEditing) {
