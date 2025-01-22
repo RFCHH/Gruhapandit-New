@@ -139,18 +139,18 @@ const Subjects = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
- const location=useLocation();
- const  {category}=location.state ;
- const navigate=useNavigate();
- const userId=localStorage.getItem('UserId');
- const role=localStorage.getItem('role')
+  const location=useLocation();
+  const {category}=location.state 
+  const navigate=useNavigate();
+  const userId=localStorage.getItem('UserId');
+  const role=localStorage.getItem('role')
 
- 
+
 
   useEffect(() => {
     const fetchTutors = async () => {
       try {
-         const categorys = category ;
+        const categorys = category ;
         const page = 0;
         const size = 10;
 
@@ -179,18 +179,18 @@ const Subjects = () => {
 
       const subjectsParam = subjects.join(",");
       const response = await axiosInstance.post(`/requests/?requestBy=${userId}&requestTo=${tutorUserId}&subjects=${subjectsParam}`);
-  
+
       console.log("Request submitted successfully!");
       navigate(`/Request/${userId}`);
     } catch (err) {
       alert(err.response?.data?.message || "Failed to submit the request.");
     }
   };
-  
+
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gradient-to-b from-white to-blue-200 px-4 sm:px-8 py-6">
+      <div className="min-h-screen bg-gradient-to-b from-white to-blue-200 px-4 sm:px-8 py-6 pl-16 lg:pl-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           <div className="bg-white px-6 py-6 rounded-lg shadow-lg col-span-1 lg:col-span-1">
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 text-center mb-4">
@@ -211,11 +211,11 @@ const Subjects = () => {
                   className="focus:outline-none w-full text-gray-600"
                 />
               </div>
-              
+
             </div>
           </div>
 
-         
+
           <div className="bg-white px-6 py-6 rounded-lg shadow-lg col-span-1 lg:col-span-2">
             {loading ? (
               <p className="text-center text-gray-600">Loading...</p>
@@ -239,11 +239,11 @@ const Subjects = () => {
                       <p className="font-semibold text-gray-700 text-sm sm:text-base">
                         Subject:{""}
                         {/* <span className="font-normal"> */}
-                          <ul className="list-disc pl-5 mt-2">
-                            {tutor.subjects.map((subject, idx) => (
-                              <li key={idx}>{subject}</li>
-                            ))}
-                          </ul>
+                        <ul className="list-disc pl-5 mt-2">
+                          {tutor.subjects.map((subject, idx) => (
+                            <li key={idx}>{subject}</li>
+                          ))}
+                        </ul>
                         {/* </span> */}
                       </p>
 
@@ -256,12 +256,12 @@ const Subjects = () => {
                             key={starIndex}
                             className={`text-yellow-400 ${
                               starIndex < tutor.ratings ? "" : "opacity-30"
-                            }`}
+                              }`}
                           />
                         ))}
                       </div>
                     </div>
-                    <button    onClick={() => handlerequest(tutor)}className="bg-blue-500 text-white font-medium rounded py-2 hover:bg-blue-600">
+                    <button    onClick={() => handlerequest(tutor)} className="bg-blue-500 text-white font-medium rounded py-2 hover:bg-blue-600">
                       Request
                     </button>
                   </div>
@@ -269,11 +269,11 @@ const Subjects = () => {
               </div>
             ) : (
               <p className="text-center text-gray-600">
-  {role === "TUTOR" 
-    ? "No students found." 
-    :  "No  tutors found." 
-    }
-</p>
+                {role === "TUTOR"
+                  ? "No students found."
+                  :  "No  tutors found."
+                }
+              </p>
             )}
           </div>
         </div>

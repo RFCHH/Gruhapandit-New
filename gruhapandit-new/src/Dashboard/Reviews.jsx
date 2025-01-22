@@ -3,12 +3,13 @@ import axiosInstance from '../axiosInstance';
 import MainLayout from '../Layout/Mainlayout';
 import CreateReview from './CreateReview';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { IoClose } from "react-icons/io5";
 
 function App() {
   const [reviews, setReviews] = useState([]);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [editReview, setEditReview] = useState(null);
-  const [tempRating, setTempRating] = useState(0); 
+  const [tempRating, setTempRating] = useState(0);
   const userId = localStorage.getItem('userId'); // From local storage
 
   const fetchReviews = async () => {
@@ -107,18 +108,19 @@ function App() {
         </div>
 
         {showReviewModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-lg shadow-lg relative">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 pt-80 lg:pt-0 lg:pb-0 pb-4 overflow-y-auto">
+            <div className="bg-white rounded-lg p-6 w-full max-w-lg shadow-lg relative mx-4">
               <CreateReview onClose={handleCloseModal} reviewToEdit={editReview} fetchReviews={fetchReviews} />
               <button
                 onClick={handleCloseModal}
                 className="absolute top-5 right-5 hover:text-gray-900 text-xl font-bold text-red-700"
               >
-                ✕
+                <IoClose size={24} />
               </button>
             </div>
           </div>
         )}
+
       </div>
     </MainLayout>
   );
