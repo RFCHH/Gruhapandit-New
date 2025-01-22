@@ -19,6 +19,7 @@ const PermanentLocation = () => {
   const [isEditing, setIsEditing] = useState(true);
   const [isDataPresent, setIsDataPresent] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const role=localStorage.getItem("role");
 
   const validateFields = () => {
     const newErrors = {};
@@ -71,7 +72,6 @@ const PermanentLocation = () => {
 
   const createData = async (payload) => {
     const token = localStorage.getItem("Token");
-    const role=localStorage.getItem("role");
 
     try {
       const response = await axiosInstance.post(`/address/`, payload, {
@@ -82,7 +82,7 @@ const PermanentLocation = () => {
       });
       console.log("POST response:", response);
       setIsEditing(false);
-      alert(`${role.toLowerCase()} data updated/submitted:`);
+      alert(`${role.toLowerCase()} data submitted:`);
       setIsDataPresent(true);
       
     } catch (error) {
@@ -105,6 +105,8 @@ const PermanentLocation = () => {
       });
       console.log("PATCH response:", response);
       setIsEditing(false);
+      alert(`${role.toLowerCase()} data Updated Successfully:`);
+
     } catch (error) {
       console.error("Error updating data:", error);
       if (error.response) {

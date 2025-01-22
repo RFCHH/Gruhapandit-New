@@ -92,20 +92,20 @@ const National = () => {
           onClick={handleUploadClick}
           onDrop={handleDrop}
           role="button"
-          aria-label="Drag and drop area for file upload"
+          aria-label="Drop area for file upload"
         >
           <p className="text-gray-400 mb-2 text-sm md:text-base">
-            {fileName || "Drag & drop your file here"}
+            {fileName || "Drop your file here"}
           </p>
-          <input
+          <FaCloudUploadAlt
             type="file"
             onChange={handleFileChange}
-            className="hidden"
+           className="text-blue-500 text-4xl md:text-6xl cursor-pointer"
             id="fileInput"
           />
-          <label htmlFor="fileInput">
+          {/* <label htmlFor="fileInput">
             <FaCloudUploadAlt className="text-blue-500 text-4xl md:text-6xl cursor-pointer" />
-          </label>
+          </label> */}
         </div>
         <label className="block text-gray-700 mb-2 text-sm md:text-base">
           File Name:

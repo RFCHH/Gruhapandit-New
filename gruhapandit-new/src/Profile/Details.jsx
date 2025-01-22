@@ -118,7 +118,7 @@ const Details = () => {
         }
         console.log(`${role} data updated/submitted:`, response.data);
         setIsEditable(false);
-        alert(`${role.toLowerCase()} data updated/submitted:`);
+        alert(`${role.toLowerCase()} data submitted:`);
       } catch (error) {
         console.error("Error submitting data:", error);
       }

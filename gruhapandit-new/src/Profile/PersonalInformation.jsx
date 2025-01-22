@@ -61,6 +61,8 @@ const PersonalInformation = () => {
     const token = localStorage.getItem("Token");
     const userId = localStorage.getItem("UserId");
     const type = localStorage.getItem("role");
+   
+
   
     if (!token || !userId || !type) {
       console.error("Token, userId, or role is missing.");
@@ -94,6 +96,7 @@ const PersonalInformation = () => {
         });
   
         if (response.status === 200) {
+          alert(`${type.toLowerCase()} data updated successfully.`);
           console.log("Form submitted successfully:", response.data);
           setIsEditing(false); 
         } else {
@@ -217,6 +220,8 @@ const PersonalInformation = () => {
           country: addressData.country || userData.country || "",
         });
         setIsEditing(false);
+
+        
       } catch (error) {
         console.error("Error fetching user data:", error.message);
       }
@@ -391,7 +396,7 @@ const PersonalInformation = () => {
           <button
           type="button"
           className="absolute top-1  right-0 bg-cyan-500 text-white py-2 px-4 rounded"
-          onClick={() => setIsEditable(true)}
+          onClick={() => setIsEditing(true)}
         >
           Edit
         </button>
