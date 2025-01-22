@@ -101,7 +101,7 @@ function Sidebar({ toggleSidebar, isExpanded }) {
     },
     {
       path: `/AllReviews`,
-      label: "AllReviews",
+      label: "All Reviews",
       icon: <FaStar className="text-gray-700 text-lg" />,
     },
     {
