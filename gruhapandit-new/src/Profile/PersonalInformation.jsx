@@ -398,22 +398,11 @@ const PersonalInformation = () => {
             <button
               type="button"
               className="absolute top-1 right-0 bg-cyan-500 text-white py-1 px-3 rounded text-xs sm:text-sm md:text-base"
-              onClick={() => setIsEditable(true)}
+              onClick={() => setIsEditing(true)}
             >
               Edit
             </button>
-
-          </div>
-        ) : (
-          <button
-          type="button"
-          className="absolute top-1  right-0 bg-cyan-500 text-white py-2 px-4 rounded"
-          onClick={() => setIsEditing(true)}
-        >
-          Edit
-        </button>
         )}
-
         </div>
       </form>
     </div>
