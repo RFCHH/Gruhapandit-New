@@ -12,7 +12,7 @@ import Government from './../../src/assets/31.png';
 import Entrance from './../../src/assets/12.png';
 import MainLayout from '../Layout/Mainlayout';
 import axiosInstance from '../axiosInstance';
-import christmas from '../assets/pongal.png'
+import christmas from '../assets/republicpic.webp'
 import { useNavigate } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 
