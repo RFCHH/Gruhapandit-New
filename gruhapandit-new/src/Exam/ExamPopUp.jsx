@@ -144,145 +144,199 @@ const CreateExamDetailsPopUp = ({ initialData, onSave, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded shadow-lg p-6 w-4/6 ">
-        <h2 className="text-lg font-semibold mb-4">{initialData ? 'Edit Exam' : 'Add Exam'}</h2>
-        <form onSubmit={handleSubmit} className="space-y-4 ">
-          <div className="grid grid-cols-3 gap-x-10 gap-y-4">
-           
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Exam Name</label>
-              <input
-                type="text"
-                name="examName"
-                value={formData.examName}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-              />
-              {errors.examName && <div className="text-red-500 text-sm mt-1">{errors.examName}</div>}
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-              <input
-                type="date"
-                name="startDate"
-                value={formData.startDate}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-              />
-              {errors.startDate && <div className="text-red-500 text-sm mt-1">{errors.startDate}</div>}
-            </div>
-           
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-              <input
-                type="date"
-                name="endDate"
-                value={formData.endDate}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-              />
-              {errors.endDate && <div className="text-red-500 text-sm mt-1">{errors.endDate}</div>}
-            </div>
-           
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Duration (in minutes)</label>
-              <input
-                type="number"
-                name="examDuration"
-                value={formData.examDuration}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-              />
-              {errors.examDuration && <div className="text-red-500 text-sm mt-1">{errors.examDuration}</div>}
-            </div>
-          
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">No. Of Attempts</label>
-              <input
-                type="number"
-                name="numberOfAttempts"
-                value={formData.numberOfAttempts}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-              />
-              {errors.numberOfAttempts && <div className="text-red-500 text-sm mt-1">{errors.numberOfAttempts}</div>}
-            </div>
-        
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Pass Percentage</label>
-              <input
-                type="number"
-                name="passPercentage"
-                value={formData.passPercentage}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-              />
-              {errors.passPercentage && <div className="text-red-500 text-sm mt-1">{errors.passPercentage}</div>}
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Assigned To</label>
-              <div className="flex items-center space-x-2">
-                <select
-                  value={selectedAssignedTo}
-                  onChange={(e) => setSelectedAssignedTo(e.target.value)}
-                  className="flex-grow border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                >
-                  <option value="" disabled>Select</option>
-                  {reporteeStudents.map((student) => (
-                    <option key={student} value={student}>
-                      {student}
-                    </option>
-                  ))}
-                </select>
-                <button
-                  type="button"
-                  onClick={handleAddAssignedTo}
-                  className="bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600"
-                >
-                  +
-                </button>
+    <div className="bg-white rounded shadow-lg p-6 w-11/12 sm:w-4/6 max-h-screen overflow-y-auto mt-8 mb-8 sm:mt-24 sm:mb-24 lg:mt-0 lg:mb-0">
+      <h2 className="text-lg font-semibold mb-4">
+        {initialData ? 'Edit Exam' : 'Add Exam'}
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Form Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+          {/* Exam Name */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Exam Name
+            </label>
+            <input
+              type="text"
+              name="examName"
+              value={formData.examName}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+            />
+            {errors.examName && (
+              <div className="text-red-500 text-sm mt-1">{errors.examName}</div>
+            )}
+          </div>
+  
+          {/* Start Date */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Start Date
+            </label>
+            <input
+              type="date"
+              name="startDate"
+              value={formData.startDate}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+            />
+            {errors.startDate && (
+              <div className="text-red-500 text-sm mt-1">{errors.startDate}</div>
+            )}
+          </div>
+  
+          {/* End Date */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              End Date
+            </label>
+            <input
+              type="date"
+              name="endDate"
+              value={formData.endDate}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+            />
+            {errors.endDate && (
+              <div className="text-red-500 text-sm mt-1">{errors.endDate}</div>
+            )}
+          </div>
+  
+          {/* Duration */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Duration (in minutes)
+            </label>
+            <input
+              type="number"
+              name="examDuration"
+              value={formData.examDuration}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+            />
+            {errors.examDuration && (
+              <div className="text-red-500 text-sm mt-1">
+                {errors.examDuration}
               </div>
-              {errors.assignedTo && <div className="text-red-500 text-sm mt-1">{errors.assignedTo}</div>}
-            </div>
-           
-            <div className="mt-2">
-              {formData.assignedTo.length > 0 && (
-                <div className=" grid gap-1 grid-col-1 ">
-                  {formData.assignedTo.map((assigned, index) => (
-                    <div key={index} className="flex items-center justify-between bg-gray-100 p-1 rounded w-20">
-                      <span>{assigned}</span>
-                      <IoIosCloseCircle
-                        type="button"
-                        onClick={() => handleRemoveAssignedTo(assigned)}
-                        className="text-red-500 hover:text-red-700"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            )}
           </div>
-
-          <div className="flex justify-end space-x-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              Save
-            </button>
+  
+          {/* No. of Attempts */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              No. Of Attempts
+            </label>
+            <input
+              type="number"
+              name="numberOfAttempts"
+              value={formData.numberOfAttempts}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+            />
+            {errors.numberOfAttempts && (
+              <div className="text-red-500 text-sm mt-1">
+                {errors.numberOfAttempts}
+              </div>
+            )}
           </div>
-        </form>
-      </div>
+  
+          {/* Pass Percentage */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Pass Percentage
+            </label>
+            <input
+              type="number"
+              name="passPercentage"
+              value={formData.passPercentage}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+            />
+            {errors.passPercentage && (
+              <div className="text-red-500 text-sm mt-1">
+                {errors.passPercentage}
+              </div>
+            )}
+          </div>
+  
+          {/* Assigned To */}
+          <div className="col-span-1 sm:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Assigned To
+            </label>
+            <div className="flex items-center space-x-2">
+              <select
+                value={selectedAssignedTo}
+                onChange={(e) => setSelectedAssignedTo(e.target.value)}
+                className="flex-grow border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+              >
+                <option value="" disabled>
+                  Select
+                </option>
+                {reporteeStudents.map((student) => (
+                  <option key={student} value={student}>
+                    {student}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={handleAddAssignedTo}
+                className="bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600"
+              >
+                +
+              </button>
+            </div>
+            {errors.assignedTo && (
+              <div className="text-red-500 text-sm mt-1">
+                {errors.assignedTo}
+              </div>
+            )}
+          </div>
+  
+          {/* Assigned List */}
+          <div className="col-span-1 sm:col-span-2">
+            {formData.assignedTo.length > 0 && (
+              <div className="grid gap-2 grid-cols-2 sm:grid-cols-3">
+                {formData.assignedTo.map((assigned, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between bg-gray-100 p-2 rounded"
+                  >
+                    <span>{assigned}</span>
+                    <IoIosCloseCircle
+                      type="button"
+                      onClick={() => handleRemoveAssignedTo(assigned)}
+                      className="text-red-500 hover:text-red-700"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+  
+        {/* Form Buttons */}
+        <div className="flex justify-end space-x-2">
+          <button
+            type="button"
+            onClick={onClose}
+            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Save
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
+  
+
   );
 };
 
