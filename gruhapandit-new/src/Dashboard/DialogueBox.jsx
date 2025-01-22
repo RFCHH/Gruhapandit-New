@@ -57,7 +57,7 @@ const DialogueBox = ({ onClose, onSubmit, category, userId }) => {
         setSuccessMessage("File uploaded successfully!");
         setTimeout(() => {
           onClose();
-        }, 2000);
+        }, 200);
         onSubmit();
       } else {
         throw new Error("Unexpected response from server.");

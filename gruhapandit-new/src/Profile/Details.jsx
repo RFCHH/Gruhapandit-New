@@ -78,9 +78,24 @@ const Details = () => {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setValidationErrors({ ...validationErrors, [e.target.name]: "" }); 
+    const { name, value } = e.target;
+  
+    // Validation for experience field to allow only numbers
+    if (name === "experience") {
+      if (!/^\d*$/.test(value)) {
+        setValidationErrors((prev) => ({
+          ...prev,
+          [name]: "Experience must contain only numbers.",
+        }));
+        return; // Exit the function without updating state
+      }
+    }
+  
+    // Update formData state and clear validation errors for the field
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setValidationErrors((prev) => ({ ...prev, [name]: "" }));
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -104,21 +119,30 @@ const Details = () => {
           } else if (role === "TUTOR") {
             response = await axiosInstance.patch(`/tutorDetails/`, payload);
           }
+
+       
+          if (response.status === 200) {
+            alert(`${role.toLowerCase()} data Updated Successfully:`);
+          }
         } else {
+                   
           if (role === "STUDENT") {
             response = await axiosInstance.post(`/studentdetails/create`, payload);
           } else if (role === "TUTOR") {
             response = await axiosInstance.post(`/tutorDetails/`, payload);
           }
-
-          setFormData ((prev)=>({
+          
+          setFormData((prev) => ({
             ...prev,
-            isUpdate:true,
+            isUpdate: true,
           }));
+  
+         
+          alert(`${role.toLowerCase()} data submitted:`);
         }
+  
         console.log(`${role} data updated/submitted:`, response.data);
         setIsEditable(false);
-        alert(`${role.toLowerCase()} data submitted:`);
       } catch (error) {
         console.error("Error submitting data:", error);
       }
