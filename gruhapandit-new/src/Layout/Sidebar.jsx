@@ -99,11 +99,11 @@ function Sidebar({ toggleSidebar, isExpanded }) {
       label: "Reports",
       icon: <BiSolidReport className="text-gray-700 text-lg" />,
     },
-    // {
-    //   path: `/review`,
-    //   label: "Reviews",
-    //   icon: <FaStar className="text-gray-700 text-lg" />,
-    // },
+    {
+      path: `/AllReviews`,
+      label: "AllReviews",
+      icon: <FaStar className="text-gray-700 text-lg" />,
+    },
     {
       path: `/Request`,
       label: "Request Approval",
