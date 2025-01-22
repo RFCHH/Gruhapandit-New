@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MainLayout from "../Layout/Mainlayout";
 import axiosInstance from "../axiosInstance";
+import { renderStars } from "../Admin Flow/AllReviews";
 
 const MyRequest = () => {
     const [activeTab, setActiveTab] = useState("My Request");
@@ -163,11 +164,11 @@ const MyRequest = () => {
                                             <p className="text-sm"><strong>Location:</strong> {request.location}</p>
                                             <p className="text-sm"><strong>Subjects:</strong> {request.subjects}</p>
                                             <p className="text-sm">
-                                                <strong>Rating:</strong>{" "}
+                                                <strong>Rating:</strong>
                                                 {request.rating === 0 ? (
                                                     <span className="text-gray-400">No rating yet</span>
                                                 ) : (
-                                                    <span className="text-yellow-500">{request.rating} ★</span>
+                                                    <span  className="text-lg">{renderStars(request.rating)} </span>
                                                 )}
                                             </p>
                                             {/* </div>
