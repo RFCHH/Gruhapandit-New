@@ -43,9 +43,12 @@ import ProtectedRoute from "./Authorized Access/ProtectedRoute";
 import CreateQuestion from "./Exam/CreateQuestion";
 import ExamStart from "./Exam/ExamStart";
 import Data from "./Exam/Data";
+import AllReviews from "./Admin Flow/AllReviews"
 import { generateToken,messaging } from './Notification/firebase';
 import { onMessage } from "firebase/messaging";
 import { useEffect } from "react";
+
+
 
 
 
@@ -62,8 +65,6 @@ function Layout({ children }) {
     "/National",
     "/createReviews",
     "/Profile",
-    "/Request",
-    "/createReviews",
     "/review",
     "/plans",
     "/Feeds",
@@ -81,6 +82,7 @@ function Layout({ children }) {
     "/data",
     "/edit-email-template",
     "/unauthorized",
+    "/AllReviews",
   ];
 
   const shouldHideNavbar =
@@ -110,7 +112,7 @@ function App() {
       <Router>
         <Layout>
           <Routes>
-             {/* public access path */}
+             {/* {/ public access path /} */}
             <Route path="/" element={<Home />} />
             <Route path="/About" element={<About />} />
             <Route path="/OurServices" element={<Services />} />
@@ -126,9 +128,8 @@ function App() {
             <Route path="/successfull" element={<LoginSuccess />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="/undermaintaience" element={< Maintaience />} />
-           
             
-          {/*  TUTOR AND STUDENT ACCESS WITH Regular and premium  */}
+          {/* {/  TUTOR AND STUDENT ACCESS WITH Regular and premium  /} */}
             <Route element={<ProtectedRoute allowedRoles={[
                 { userRole: "ROLE_PREMIUM_USER", role: "TUTOR" },
                 { userRole: "ROLE_PREMIUM_USER", role: "STUDENT" },
@@ -141,7 +142,7 @@ function App() {
             </Route> 
 
 
-          {/*  TUTOR AND STUDENT ACCESS with PREMIMUM USER */}
+          {/* {/  TUTOR AND STUDENT ACCESS with PREMIMUM USER /} */}
             <Route element={<ProtectedRoute allowedRoles={[
               { userRole: "ROLE_PREMIUM_USER", role: "TUTOR" },
               { userRole: "ROLE_PREMIUM_USER", role: "STUDENT" }]} />}>
@@ -155,7 +156,7 @@ function App() {
             </Route> 
 
           
-          {/*  TUTOR ACCESS with PREMIMUM USER */}
+          {/* {/  TUTOR ACCESS with PREMIMUM USER /} */}
           <Route element={<ProtectedRoute allowedRoles={[{ userRole: "ROLE_PREMIUM_USER", role: "TUTOR" }]} />}>
               <Route path="/National/:userId" element={<National />} />
                 <Route path="/dialoguebox" element={<DialogueBox/>}/>
@@ -164,7 +165,7 @@ function App() {
               <Route path="/createquestion/:examId/:assignedTo" element={<CreateQuestion/>}/>
             </Route>  
 
-          {/*  STUDENT ACCESS with PREMIMUM USER */}
+          {/* {/  STUDENT ACCESS with PREMIMUM USER /} */}
           <Route element={<ProtectedRoute allowedRoles={[{ userRole: "ROLE_PREMIUM_USER", role: "STUDENT" }]} />}>
               <Route path="/SelfExam" element={<Exam/>}></Route>
               <Route path="/examstart/:examId" element={<ExamStart/>}></Route>
@@ -172,14 +173,18 @@ function App() {
           </Route> 
             
 
-          {/* admin access path */}
+          {/* {/ admin access path /} */}
           <Route element={<ProtectedRoute allowedRoles={[{ userRole: "ROLE_ADMIN", role: "TUTOR" }]} />}>
             <Route path="/Registration" element={<Registration />} />
             <Route path="/TutorTable" element={<TutorTable />} />
             <Route path="/StudentTable" element={<StudentTable />} />
             <Route path="/Request" element={<RequestApproval />} />
             <Route path="/email-templates" element={<AllEmailTemplatesPage />}/>
+
+            <Route path="/AllReviews" element={<AllReviews />}/>
             <Route path="/edit-email-template/:templateId" element={<EditEmailTemplatePage />}/>
+            
+
           </Route>
           </Routes>
         </Layout>
