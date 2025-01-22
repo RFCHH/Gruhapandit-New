@@ -104,10 +104,10 @@ const Dashboard = () => {
                     <main className="flex-1 p-4 sm:p-6 md:ml-10">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
                             <div className="bg-white p-3 md:p-6 rounded-lg shadow">
-                                <h2 className="text-lg md:text-2xl font-bold text-center">
+                                <h2 className="text-lg md:text-2xl font-bold text-start">
                                     {loading ? "Loading..." : `Welcome ${fullname}`}
                                 </h2>
-                                <p className="text-xs md:text-lg text-gray-600 text-center mt-2">
+                                <p className="text-xs md:text-lg text-gray-600 text-left  mt-2">
                                     Every step you take today shapes your future tomorrow. Let's make it count!
                                 </p>
                             </div>
@@ -116,7 +116,7 @@ const Dashboard = () => {
                                 <div className="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-8">
                                     <div className="relative w-24 h-24 md:w-40 md:h-40">
                                         <Doughnut data={data} options={options} />
-                                        <div className="absolute inset-0 flex items-center justify-center text-green-600 font-bold text-xs md:text-lg">
+                                        <div className="absolute inset-0 flex md:ml-2 md:mb-5 ml-2 lg:mt-5 items-center justify-center text-green-600 font-bold text-xs md:text-lg">
                                             40%
                                         </div>
                                     </div>

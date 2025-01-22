@@ -119,9 +119,9 @@ const MyRequest = () => {
         <MainLayout>
             <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-6 p-4 sm:p-6 md:p-8 lg:p-12 bg-blue-50 min-h-screen pl-14 mx-auto md:pl-14">
                 <div className="w-11/12 sm:w-3/4 md:w-1/4 lg:w-1/5 px-2 md:px-4 lg:px-6 sm:mt-10 md:mt-40 lg:mt-12 mx-auto">
-                    <div className="bg-white rounded-lg shadow-md p-2 mt-10">
+                    <div className="bg-white  rounded-lg shadow-md p-2 mt-10">
                         <button
-                            className={`w-full flex items-center justify-between text-left py-3 px-4 rounded-lg transition-all ${activeTab === "My Request"
+                            className={`w-full flex  border-2 items-center justify-between text-left lg:py-3 lg:px-4 py-2 rounded-lg transition-all ${activeTab === "My Request"
                                 ? "bg-blue-500 text-white shadow-md"
                                 : "hover:bg-blue-100 text-black"
                                 }`}
@@ -131,7 +131,7 @@ const MyRequest = () => {
                             <span className="font-bold">{">"}</span>
                         </button>
                         <button
-                            className={`w-full flex items-center justify-between text-left mt-4 py-3 px-4 rounded-lg transition-all ${activeTab === "Received Request"
+                            className={`w-full flex border-2 items-center justify-between text-left  lg:py-3 lg:px-4 py-2 rounded-lg transition-all ${activeTab === "Received Request"
                                 ? "bg-blue-500 text-white shadow-md"
                                 : "hover:bg-blue-100 text-black"
                                 }`}

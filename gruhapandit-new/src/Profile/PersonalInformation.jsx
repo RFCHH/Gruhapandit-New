@@ -378,7 +378,7 @@ const PersonalInformation = () => {
         {/* Action Buttons */}
         <div className="col-span-1 sm:col-span-2 lg:col-span-3 mt-4 text-end">
           {isEditing ? (
-            <div className="absolute bottom-0 right-0 mb-4 mr-4">
+            <div className="absolute bottom-0 right-0 mt-4 mr-4">
               <button
                 type="submit"
                 className="bg-cyan-500 text-white py-2 px-4 rounded"
