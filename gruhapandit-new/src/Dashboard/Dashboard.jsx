@@ -25,6 +25,7 @@ const Dashboard = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const userId = localStorage.getItem('UserId');
     const userRole = localStorage.getItem('UserRole')
+    const profile = localStorage.getItem("Profile");
 
     const navigate = useNavigate();
 
@@ -103,14 +104,22 @@ const Dashboard = () => {
                 <div className="flex min-h-screen bg-gradient-to-b from-white to-blue-200 pl-12 lg:pl-2 md:pl-2">
                     <main className="flex-1 p-4 sm:p-6 md:ml-10">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
-                            <div className="bg-white p-3 md:p-6 rounded-lg shadow">
-                                <h2 className="text-lg md:text-2xl font-bold text-start">
-                                    {loading ? "Loading..." : `Welcome ${fullname}`}
-                                </h2>
-                                <p className="text-xs md:text-lg text-gray-600 text-left  mt-2">
-                                    Every step you take today shapes your future tomorrow. Let's make it count!
-                                </p>
-                            </div>
+                        <div className="bg-white p-6 rounded-lg shadow flex items-center">
+              <img
+                src={profile}
+                alt="Profile Icon"
+                className="w-16 h-16 sm:w-24 sm:h-24 rounded-full mr-4 sm:mr-8"
+              />
+              <div>
+                <h2 className="text-lg sm:text-2xl font-bold">
+                  {loading ? "Loading..." : `Welcome ${fullname}`}
+                </h2>
+                <p className="text-sm sm:text-lg text-black mt-2 sm:mt-4">
+                Each step you take today is a brick in the foundation of your future.
+                Build wisely, dream boldly, and create your own path!
+                </p>
+              </div>
+            </div>
 
                             <div className="bg-white p-3 md:p-6 rounded-lg shadow flex flex-col items-center">
                                 <div className="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-8">
