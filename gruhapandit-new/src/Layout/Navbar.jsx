@@ -95,20 +95,22 @@ const Navbar = () => {
         </div>
       )}
 
-      {
-        isDialogOpen && (
-          <DialogueBox 
-          userId={userId}
-          category="PROFILE_PICTURE"
-          onClose={handleCloseDialog}
-          onSubmit={(data)=>{console.log("Submitted data:",data);
-            if (data.imageUrl) {
-                            setProfileImageUrl(data.imageUrl);
-                          }
-          }}
-          />
-        )
-      }
+{
+  isDialogOpen && (
+    <DialogueBox 
+      userId={userId}
+      category="PROFILE_PICTURE"
+      onClose={handleCloseDialog}
+      onSubmit={(data) => {
+        console.log("Submitted data:", data);
+        // Reload the page after 1 second
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }}
+    />
+  )
+}
     </div>
   );
 };

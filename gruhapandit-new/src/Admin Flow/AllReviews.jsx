@@ -98,12 +98,12 @@
 import React, { useEffect, useState } from "react";
 import MainLayout from "../Layout/Mainlayout";
 import axiosInstance from "../axiosInstance";
-import { MdStarOutline,MdStarRate } from "react-icons/md";
+import { MdStarOutline, MdStarRate } from "react-icons/md";
 
 
- export const renderStars = (rating) => {
-  const totalStars = 5; 
-  const filledStars = Math.round(rating); 
+export const renderStars = (rating) => {
+  const totalStars = 5;
+  const filledStars = Math.round(rating);
   const stars = [];
 
   for (let i = 1; i <= totalStars; i++) {
@@ -121,8 +121,8 @@ const Review = () => {
   const [loading, setLoading] = useState(true);
   const [selectedReview, setSelectedReview] = useState(null);
   const [activeStatus, setActiveStatus] = useState("");
-  const [currentPage, setCurrentPage] = useState(0); 
-  const [totalPages, setTotalPages] = useState(0); 
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const token = localStorage.getItem("Token");
   const userId = localStorage.getItem("UserId");
@@ -135,13 +135,13 @@ const Review = () => {
       }
 
       try {
-        const page = currentPage; 
-        const size = 6; 
+        const page = currentPage;
+        const size = 6;
         const response = await axiosInstance.get(
           `/reviews/getAll?page=${page}&size=${size}`
         );
-        setData(response.data); 
-        setTotalPages(response.data.length); 
+        setData(response.data);
+        setTotalPages(response.data.length);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -150,10 +150,10 @@ const Review = () => {
     };
 
     fetchUserData();
-  }, [currentPage]); 
+  }, [currentPage]);
 
 
-  
+
   const handleReviewClick = (item) => {
     setSelectedReview(item);
     setActiveStatus(item.active);
@@ -243,29 +243,41 @@ const Review = () => {
                     <span className="font-semibold">Rating:</span> {renderStars(item.rating)}
                   </p>
                   <p className="text-sm">
-                    <span className="font-semibold">Active:</span> {item.active ? "True" : "False"}
+                    <span className="font-semibold">Active:</span>{" "}
+                    <span
+                      style={{
+                        color: item.active ? "green" : "red",
+
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {item.active ? "True" : "False"}
+                    </span>
                   </p>
+
+
+
                 </div>
               ))
             )}
-            
+
           </div>
           <div className="flex justify-between mt-4">
-          <button
-            onClick={prevPage}
-            disabled={currentPage === 0}
-            className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <button
-            onClick={nextPage}
-            disabled={currentPage >= totalPages - 1}
-            className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
+            <button
+              onClick={prevPage}
+              disabled={currentPage === 0}
+              className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <button
+              onClick={nextPage}
+              disabled={currentPage >= totalPages - 1}
+              className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
         </div>
 
         {selectedReview && (
@@ -280,13 +292,24 @@ const Review = () => {
               <p><span className="font-semibold">Rating:</span> {renderStars(selectedReview.rating)}</p>
               <div className="mt-2">
                 <label className="block mb-2 font-semibold">Active:</label>
-                <input
-                  type="text"
+                <select
                   value={activeStatus}
                   onChange={handleActiveChange}
                   className="border border-gray-300 p-2 rounded w-full"
-                />
+                >
+                  <option value="true">True</option>
+                  <option value="false">False</option>
+                </select>
               </div>
+              <div
+                className="mt-2 font-semibold"
+                style={{
+                  color: activeStatus === "true" ? "green" : "red",
+                }}
+              >
+                {activeStatus === "true" ? "Active" : "Inactive"}
+              </div>
+
               <button className="mt-4 bg-blue-500 text-white rounded px-4 py-2 mr-2" onClick={handleSubmit}>
                 Submit
               </button>
