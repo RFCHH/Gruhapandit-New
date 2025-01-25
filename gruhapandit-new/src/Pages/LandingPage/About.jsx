@@ -23,24 +23,28 @@ import { renderStars } from "../../Admin Flow/AllReviews";
 
 function About() {
   const navigate = useNavigate();
-  const [review, setReview] = useState(null);
-
-  useEffect(() => {
-    const fetchReview = async () => {
-      try {
-        const response = await axiosInstance.get("reviews/students/latest");
-        setReview(response.data[0]); 
-      } catch (error) {
-        console.error('Error fetching the review:', error);
-      }
-    };
-    
-    fetchReview();
-  }, []);
-  
-  if (!review) {
-    return <p>Loading...</p>;
-  }
+  const [studentReviews, setStudentReviews] = useState([]);
+   const [loading, setLoading] = useState(true);
+ 
+   useEffect(() => {
+     const fetchReviews = async () => {
+       try {
+         const response = await fetch("https://tution-application.onrender.com/tuition-application/reviews/students/latest");
+         const data = await response.json();
+         setStudentReviews(data);
+       } catch (error) {
+         console.error("Error fetching reviews:", error);
+       } finally {
+         setLoading(false);
+       }
+     };
+ 
+     fetchReviews();
+   }, []);
+ 
+   if (loading) {
+     return <div>Loading...</div>;
+   }
 
   return (
     <>
@@ -263,14 +267,27 @@ function About() {
             <FaQuoteLeft className=" w-8 h-8  mt-24 mr-10" />
           </div>
           <div className="px-6 py-2 mt-10">
-            <h3 className="text-xl font-bold text-[#32046B]">Student</h3>
-            <p className="text-gray-600 mt-2 w-[75%]">{review.reviewerName}</p>
-            <p className="text-gray-600 mt-2 w-[75%]">{review.comments}</p>
-            <p className="text-sm text-[#32046B] font-medium mt-4">
-              — {review.reviewerEmailId}
-            </p>
-            <p className="text-gray-600 mt-2 w-[75%]">{renderStars(review.rating)}</p>
-
+          <h3 className="text-xl font-bold text-[#32046B]">Student</h3>
+            {studentReviews.length > 0 ? (
+                            studentReviews.map((review, index) => (
+                              <div key={index} className="mt-4">
+                                <p className="text-gray-600 mt-2 w-[75%] font-semibold">
+                                {review.reviewerName}
+                                </p>
+                                <p className="text-gray-600 mt-2 w-[75%] font-semibold">
+                                  {review.comments}
+                                </p>
+                                <p className="text-sm text-[#32046B] font-medium mt-4">
+                                  {review.reviewerEmailId}
+                                </p>
+                                <p className="text-gray-600 mt-2 w-[75%]">
+                                  {renderStars(review.rating)}
+                                </p>
+                              </div>
+                            ))
+                          ) : (
+                            <p>No reviews available.</p>
+                          )}
             <div className="flex items-center justify-end mt-4 space-x-4">
               <button className="text-[#32046B] hover:opacity-75 text-xl">
                 <FaArrowLeft />
