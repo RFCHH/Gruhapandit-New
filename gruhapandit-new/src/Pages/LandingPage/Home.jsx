@@ -108,7 +108,7 @@ function Home() {
     setShowPopup(true);
   };
 
-  const [review, setReview] = useState(null);
+  
 
   useEffect(() => {
     const fetchStatsData = async () => {
@@ -189,23 +189,27 @@ function Home() {
     []
   );
 
+  const [tutorReviews, setTutorReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const fetchReview = async () => {
+    const fetchReviews = async () => {
       try {
-        const response = await axios.get(
-          `https://tution-application.onrender.com/tuition-application/reviews/tutors/latest`
-        );
-        setReview(response.data[0]);
+        const response = await fetch("https://tution-application.onrender.com/tuition-application/reviews/tutors/latest");
+        const data = await response.json();
+        setTutorReviews(data);
       } catch (error) {
-        console.error("Error fetching the review:", error);
+        console.error("Error fetching reviews:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchReview();
+    fetchReviews();
   }, []);
 
-  if (!review) {
-    return <p>Loading...</p>;
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -757,20 +761,30 @@ function Home() {
           ></div>
           <div className="flex items-center justify-center bg-white shadow-lg rounded-lg p-6 mb-10 max-w-xl mx-auto ">
             <div className="bg-red-500 rounded md:w-32 md:h-28  flex items-center justify-center ">
-
               <FaQuoteLeft className=" w-8 h-8  mt-24 mr-10" />
             </div>
             <div className="px-6 py-2 mt-10">
               <h3 className="text-xl font-bold text-[#32046B]">Tutor</h3>
-              <p className="text-gray-600 mt-2 w-[75%] font-semibold">
-                {review.reviewerName}
-              </p>
-              <p className="text-gray-600 mt-2 w-[75%]">{review.comments}</p>
-              <p className="text-sm text-[#32046B] font-medium mt-4">
-                — {review.reviewerEmailId}
-              </p>
-                  <p className="text-gray-600 mt-2 w-[75%]">{renderStars(review.rating)}</p>
-
+              {tutorReviews.length > 0 ? (
+                tutorReviews.map((review, index) => (
+                  <div key={index} className="mt-4">
+                    <p className="text-gray-600 mt-2 w-[75%] font-semibold">
+                    {review.reviewerName}
+                    </p>
+                    <p className="text-gray-600 mt-2 w-[75%] font-semibold">
+                      {review.comments}
+                    </p>
+                    <p className="text-sm text-[#32046B] font-medium mt-4">
+                      {review.reviewerEmailId}
+                    </p>
+                    <p className="text-gray-600 mt-2 w-[75%]">
+                      {renderStars(review.rating)}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p>No reviews available.</p>
+              )}
               <div className="flex items-center justify-end mt-4 space-x-4">
                 <button className="text-[#32046B] hover:opacity-75 text-xl">
                   <FaArrowLeft />{" "}
