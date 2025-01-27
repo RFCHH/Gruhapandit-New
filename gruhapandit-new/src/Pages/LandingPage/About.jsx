@@ -29,7 +29,7 @@ function About() {
    useEffect(() => {
      const fetchReviews = async () => {
        try {
-         const response = await fetch("https://tution-application.onrender.com/tuition-application/reviews/students/latest");
+         const response = await fetch(`https://gruhapandith-backend.onrender.com/tuition-application/reviews/students/latest`);
          const data = await response.json();
          setStudentReviews(data);
        } catch (error) {
