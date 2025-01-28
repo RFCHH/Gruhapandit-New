@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FormInput } from "./TutorProfile";
 import axiosInstance from "../axiosInstance";
 import { useParams } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Details = () => {
   const role = localStorage.getItem("role");
@@ -20,6 +22,7 @@ const Details = () => {
 
   const [validationErrors, setValidationErrors] = useState({});
   const [isEditable, setIsEditable] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,12 +52,23 @@ const Details = () => {
         setIsEditable(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+      }finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
-
+   if (isLoading) {
+          return (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 9 }).map((_, index) => (
+                <Skeleton key={index} height={40} className="rounded" />
+              ))}
+            </div>
+          );
+        }
+        
   const validateFields = () => {
     const errors = {};
     if (role === "TUTOR") {
