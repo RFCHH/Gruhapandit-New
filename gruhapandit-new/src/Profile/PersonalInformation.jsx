@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FormInput } from "./TutorProfile";
 import axiosInstance from "../axiosInstance";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const PersonalInformation = () => {
   const [formData, setFormData] = useState({
@@ -30,7 +32,8 @@ const PersonalInformation = () => {
   });
 
   const [isEditing, setIsEditing] = useState(true);
-
+  const [isLoading, setIsLoading] = useState(true);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     let sanitizedValue = value;
@@ -226,12 +229,23 @@ const PersonalInformation = () => {
         
       } catch (error) {
         console.error("Error fetching user data:", error.message);
+      }finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
-
+   if (isLoading) {
+        return (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 9 }).map((_, index) => (
+              <Skeleton key={index} height={40} className="rounded" />
+            ))}
+          </div>
+        );
+      }
+  
   return (
     <div className="relative">
       <h3 className="text-cyan-600 font-bold mb-4 text-sm sm:text-lg lg:text-xl">
@@ -242,7 +256,7 @@ const PersonalInformation = () => {
         className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         onSubmit={handleSubmit}
       >
-        {/* Full Name */}
+       
         <div className="flex flex-col">
           <FormInput
             label="Full Name"
@@ -255,7 +269,7 @@ const PersonalInformation = () => {
           {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName}</p>}
         </div>
 
-        {/* Email ID */}
+       
         <div className="flex flex-col">
           <FormInput
             label="Email ID"
@@ -269,7 +283,7 @@ const PersonalInformation = () => {
           {errors.emailId && <p className="text-red-500 text-sm">{errors.emailId}</p>}
         </div>
 
-        {/* Country Code */}
+        
         <div className="flex flex-col">
           <FormInput
             label="Country Code"
@@ -282,7 +296,7 @@ const PersonalInformation = () => {
           {errors.countryCode && <p className="text-red-500 text-sm">{errors.countryCode}</p>}
         </div>
 
-        {/* Mobile Number */}
+       
         <div className="flex flex-col">
           <FormInput
             label="Mobile Number"
@@ -298,7 +312,7 @@ const PersonalInformation = () => {
           )}
         </div>
 
-        {/* Gender */}
+       
         <div className="flex flex-col">
           <label className="font-bold">Gender</label>
           <select
@@ -315,7 +329,7 @@ const PersonalInformation = () => {
           {errors.gender && <p className="text-red-500 text-sm">{errors.gender}</p>}
         </div>
 
-        {/* Date of Birth */}
+        
         <div className="flex flex-col">
           <FormInput
             label="Date of Birth"
@@ -330,7 +344,7 @@ const PersonalInformation = () => {
           )}
         </div>
 
-        {/* City */}
+       
         <div className="flex flex-col">
           <FormInput
             label="City"
@@ -343,7 +357,7 @@ const PersonalInformation = () => {
           {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
         </div>
 
-        {/* State */}
+        
         <div className="flex flex-col">
           <FormInput
             label="State"
@@ -356,7 +370,7 @@ const PersonalInformation = () => {
           {errors.state && <p className="text-red-500 text-sm">{errors.state}</p>}
         </div>
 
-        {/* District */}
+        
         <div className="flex flex-col">
           <FormInput
             label="District"
@@ -369,7 +383,7 @@ const PersonalInformation = () => {
           {errors.district && <p className="text-red-500 text-sm">{errors.district}</p>}
         </div>
 
-        {/* Country */}
+        
         <div className="flex flex-col">
           <FormInput
             label="Country"
@@ -382,7 +396,6 @@ const PersonalInformation = () => {
           {errors.country && <p className="text-red-500 text-sm">{errors.country}</p>}
         </div>
 
-        {/* Action Buttons */}
         <div className="col-span-1 sm:col-span-2 lg:col-span-3 mt-4 text-end">
           {isEditing ? (
             <div className="absolute bottom-0 right-0 mt-4 mr-4">

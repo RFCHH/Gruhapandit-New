@@ -15,6 +15,7 @@ import axiosInstance from '../axiosInstance';
 import christmas from '../assets/republicpic.webp'
 import { useNavigate } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
+import SkeletonLoader from "../Layout/skeletonLoader";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -101,127 +102,137 @@ const Dashboard = () => {
     return (
         <>
             <MainLayout>
-                <div className="flex min-h-screen bg-gradient-to-b from-white to-blue-200 pl-12 lg:pl-2 md:pl-2">
-                    <main className="flex-1 p-4 sm:p-6 md:ml-10">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
-                        <div className="bg-white p-6 rounded-lg shadow flex items-center">
-              <img
-                src={profile}
-                alt="Profile Icon"
-                className="w-16 h-16 sm:w-24 sm:h-24 rounded-full mr-4 sm:mr-8"
-              />
-              <div>
-                <h2 className="text-lg sm:text-2xl font-bold">
-                  {loading ? "Loading..." : `Welcome ${fullname}`}
-                </h2>
-                <p className="text-sm sm:text-lg text-black mt-2 sm:mt-4">
-                Each step you take today is a brick in the foundation of your future.
-                Build wisely, dream boldly, and create your own path!
-                </p>
+        <div className="flex min-h-screen bg-gradient-to-b from-white to-blue-200 pl-12 lg:pl-2 md:pl-2">
+          <main className="flex-1 p-4 sm:p-6 md:ml-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
+              <div className="bg-white p-6 rounded-lg shadow flex items-center">
+                {loading ? (
+                  <SkeletonLoader />
+                ) : (
+                  <>
+                    <img
+                      src={profile}
+                      alt="Profile Icon"
+                      className="w-16 h-16 sm:w-24 sm:h-24 rounded-full mr-4 sm:mr-8"
+                    />
+                    <div>
+                      <h2 className="text-lg sm:text-2xl font-bold">
+                        Welcome {fullname}
+                      </h2>
+                      <p className="text-sm sm:text-lg text-black mt-2 sm:mt-4">
+                        Each step you take today is a brick in the foundation of
+                        your future. Build wisely, dream boldly, and create your
+                        own path!
+                      </p>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div className="bg-white p-3 md:p-6 rounded-lg shadow flex flex-col items-center">
+                {loading ? (
+                  <SkeletonLoader />
+                ) : (
+                  <div className="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-8">
+                    <div className="relative w-24 h-24 md:w-40 md:h-40">
+                      <Doughnut data={data} options={options} />
+                      <div className="absolute inset-0 flex md:ml-2 md:mb-5 ml-2 lg:mt-5 items-center justify-center text-green-600 font-bold text-xs md:text-lg">
+                        40%
+                      </div>
+                    </div>
+                    <div className="flex flex-col space-y-3 md:space-y-6">
+                      <h3 className="text-xs md:text-md font-bold text-gray-700 text-center md:text-left">
+                        Complete Your Profile
+                      </h3>
+                      <button
+                        className="bg-blue-500 text-white text-xs px-2 py-1 md:px-4 md:py-2 rounded-lg"
+                        onClick={() => navigate(`/Profile/${userId}`)}
+                      >
+                        Profile
+                      </button>
+                      {localStorage.getItem("role") === "TUTOR" && (
+                        <button
+                          onClick={() => navigate(`/National/${userId}`)}
+                          className="bg-green-500 text-white text-xs px-2 py-1 md:px-4 md:py-2 rounded-lg"
+                        >
+                          KYC
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
-                            <div className="bg-white p-3 md:p-6 rounded-lg shadow flex flex-col items-center">
-                                <div className="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-8">
-                                    <div className="relative w-24 h-24 md:w-40 md:h-40">
-                                        <Doughnut data={data} options={options} />
-                                        <div className="absolute inset-0 flex md:ml-2 md:mb-5 ml-2 lg:mt-5 items-center justify-center text-green-600 font-bold text-xs md:text-lg">
-                                            40%
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col space-y-3 md:space-y-6">
-                                        <h3 className="text-xs md:text-md font-bold text-gray-700 text-center md:text-left">
-                                            Complete Your Profile
-                                        </h3>
-                                        <button
-                                            className="bg-blue-500 text-white text-xs px-2 py-1 md:px-4 md:py-2 rounded-lg"
-                                            onClick={() => navigate(`/Profile/${userId}`)}
-                                        >
-                                            Profile
-                                        </button>
-                                        {localStorage.getItem("role") === "TUTOR" && (
-                                            <button
-                                                onClick={() => navigate(`/National/${userId}`)}
-                                                className="bg-green-500 text-white text-xs px-2 py-1 md:px-4 md:py-2 rounded-lg"
-                                            >
-                                                KYC
-                                            </button>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
+            <div className="rounded-lg shadow mb-6">
+              <img
+                src={christmas}
+                alt="Ad Section"
+                className="w-full max-h-[200px] md:max-h-[400px] object-cover rounded-lg"
+              />
+            </div>
 
-                        </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {[
+                { title: "School Education", name: "SCHOOL_EDUCATION", icon: SchoolImage },
+                { title: "Under/Post Graduate", name: "UG_PG_EDUCATION", icon: CollegeImage },
+                { title: "Technical Skills", name: "TECHNICAL_SKILLS", icon: Technical },
+                { title: "Competitive Exams", name: "COMPETITIVE_EXAMS", icon: Competitive },
+                { title: "Entrance Exams", name: "ENTRANCE_EXAMS", icon: Entrance },
+                { title: "Global Language", name: "GLOBAL_LANGUAGES", icon: Global },
+                { title: "Soft Skills", name: "SOFT_SKILLS", icon: Soft },
+                { title: "HOBBIES", name: "HOBBIES", icon: Government },
+              ].map((card, index) => {
+                const count = categoryCounts[card.name];
 
-                        <div className="rounded-lg shadow mb-6">
-                            <img
-                                src={christmas}
-                                alt="Ad Section"
-                                className="w-full max-h-[200px] md:max-h-[400px] object-cover rounded-lg"
-                            />
-                        </div>
-
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                            {[
-                                { title: "School Education", name: "SCHOOL_EDUCATION", icon: SchoolImage },
-                                { title: "Under/Post Graduate", name: "UG_PG_EDUCATION", icon: CollegeImage },
-                                { title: "Technical Skills", name: "TECHNICAL_SKILLS", icon: Technical },
-                                { title: "Competitive Exams", name: "COMPETITIVE_EXAMS", icon: Competitive },
-                                { title: "Entrance Exams", name: "ENTRANCE_EXAMS", icon: Entrance },
-                                { title: "Global Language", name: "GLOBAL_LANGUAGES", icon: Global },
-                                { title: "Soft Skills", name: "SOFT_SKILLS", icon: Soft },
-                                { title: "HOBBIES", name: "HOBBIES", icon: Government },
-                            ].map((card, index) => {
-                                const count = categoryCounts[card.name];
-
-                                return (
-                                    <div
-                                        className="option-card border rounded-2xl bg-white p-4 md:p-6 shadow-md hover:shadow-lg transition"
-                                        key={index}
-                                        onClick={() => {
-                                            if (userRole === "ROLE_PREMIUM_USER") {
-                                                navigate(`/subject/${userId}`, { state: { category: card.name } });
-                                            } else {
-                                                setIsModalOpen(true);
-                                            }
-                                        }}
-                                    >
-                                        <div className="text-center">
-                                            <img src={card.icon} alt={`${card.title} Icon`} className="w-12 h-12 md:w-16 md:h-16 mx-auto" />
-                                        </div>
-                                        <h3 className="text-sm md:text-lg text-center font-semibold mb-2 md:mb-4">{card.title}</h3>
-                                        <animated.p className="text-xl md:text-3xl text-center font-extrabold">
-                                            {animatedCount(count)}
-                                        </animated.p>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </main>
-                    {isModalOpen && (
-                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                            <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg text-center relative">
-                                <button
-                                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
-                                    onClick={() => setIsModalOpen(false)}
-                                >
-                                    <IoClose size={24} />
-                                </button>
-                                <h2 className="text-2xl md:text-4xl font-bold mb-4 text-blue-600">Complete Your Payment</h2>
-                                <p className="mb-4 md:mb-6">
-                                    To proceed, kindly make a payment to continue exploring additional options.
-                                </p>
-                                <button
-                                    className="bg-purple-600 text-white px-4 py-2 md:px-6 md:py-2 rounded-lg"
-                                    onClick={handlePaymentNavigation}
-                                >
-                                    Pay
-                                </button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </MainLayout>
+                return (
+                  <div
+                    className="option-card border rounded-2xl bg-white p-4 md:p-6 shadow-md hover:shadow-lg transition"
+                    key={index}
+                    onClick={() => {
+                      if (userRole === "ROLE_PREMIUM_USER") {
+                        navigate(`/subject/${userId}`, { state: { category: card.name } });
+                      } else {
+                        setIsModalOpen(true);
+                      }
+                    }}
+                  >
+                    <div className="text-center">
+                      <img src={card.icon} alt={`${card.title} Icon`} className="w-12 h-12 md:w-16 md:h-16 mx-auto" />
+                    </div>
+                    <h3 className="text-sm md:text-lg text-center font-semibold mb-2 md:mb-4">{card.title}</h3>
+                    <animated.p className="text-xl md:text-3xl text-center font-extrabold">
+                      {animatedCount(count)}
+                    </animated.p>
+                  </div>
+                );
+              })}
+            </div>
+          </main>
+          {isModalOpen && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg text-center relative">
+                <button
+                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  <IoClose size={24} />
+                </button>
+                <h2 className="text-2xl md:text-4xl font-bold mb-4 text-blue-600">Complete Your Payment</h2>
+                <p className="mb-4 md:mb-6">
+                  To proceed, kindly make a payment to continue exploring additional options.
+                </p>
+                <button
+                  className="bg-purple-600 text-white px-4 py-2 md:px-6 md:py-2 rounded-lg"
+                  onClick={handlePaymentNavigation}
+                >
+                  Pay
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </MainLayout>
 
         </>
     );

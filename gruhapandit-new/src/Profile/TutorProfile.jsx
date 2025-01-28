@@ -9,6 +9,7 @@ import PermanetLocation from "./PermanetLocation";
 import Details from "./Details";
 import axiosInstance from "../axiosInstance";
 // import profileIcon from "../assets/profileIcon.png";
+import SkeletonLoader from "../Layout/skeletonLoader";
 
 export const FormInput = ({
   label,
@@ -158,11 +159,16 @@ const TutorProfile = () => {
   }, [userId]);
 
   return (
+    <>
     <MainLayout>
       <div className="flex min-h-screen pl-10 md:pl-14 bg-gradient-to-b from-white to-blue-200">
         <main className="flex-1 p-6 sm:p-4">
           <div className="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-2">
             <div className="bg-white p-6 rounded-lg shadow flex items-center">
+            {loading ? (
+                  <SkeletonLoader />
+                ) : (
+                  <>
               <img
                 src={profile}
                 alt="Profile Icon"
@@ -177,9 +183,14 @@ const TutorProfile = () => {
                   make it count!
                 </p>
               </div>
+              </>
+              )}
             </div>
 
             <div className="bg-white p-3 sm:p-6 rounded-lg shadow flex flex-col items-center">
+            {loading ? (
+                  <SkeletonLoader />
+                ) : ( 
   <div className="flex flex-col sm:flex-row items-center sm:space-x-8 space-y-4 sm:space-y-0">
     <div className="flex flex-col items-center">
       <div className="relative w-20 h-20 sm:w-36 sm:h-36">
@@ -233,6 +244,7 @@ const TutorProfile = () => {
       </div>
     )}
   </div>
+  )}
 </div>
 
           </div>
@@ -269,6 +281,7 @@ const TutorProfile = () => {
         </main>
       </div>
     </MainLayout>
+    </>
   );
 };
 
