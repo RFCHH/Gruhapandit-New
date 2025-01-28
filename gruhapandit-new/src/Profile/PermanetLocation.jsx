@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FormInput } from "./TutorProfile";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import axiosInstance from "../axiosInstance";
 
 const PermanentLocation = () => {
@@ -20,6 +22,7 @@ const PermanentLocation = () => {
   const [isDataPresent, setIsDataPresent] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const role=localStorage.getItem("role");
+   const [loading, setLoading] = useState(true);
 
   const validateFields = () => {
     const newErrors = {};
@@ -81,7 +84,7 @@ const PermanentLocation = () => {
       console.error("Missing userId or token");
       return;
     }
-
+    setLoading(true);
     try {
       const response = await axiosInstance.get(
         `/address/${userId}?type=PERMANENT`,
@@ -102,6 +105,8 @@ const PermanentLocation = () => {
     } catch (error) {
       console.error("Error fetching location data:", error);
       setIsDataPresent(false);
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -219,7 +224,16 @@ const PermanentLocation = () => {
 {errorMessage && (
   <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
 )}
-
+{loading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <Skeleton key={index} height={50} />
+          ))}
+          <div className="col-span-1 sm:col-span-2 lg:col-span-3">
+            <Skeleton height={40} width={100} />
+          </div>
+        </div>
+      ) : (
 <form
   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
   onSubmit={handleSubmit}
@@ -315,9 +329,10 @@ const PermanentLocation = () => {
     </div>
   )}
 </form>
-
+)}
     </>
   );
 };
 
 export default PermanentLocation;
+ 
