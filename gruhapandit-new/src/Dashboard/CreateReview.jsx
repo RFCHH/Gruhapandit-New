@@ -95,6 +95,7 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
   
       onClose(); // Close the modal
       fetchReviews(); 
+      alert("Review successfully created!");
     } catch (error) {
       console.error('Error submitting the review:', error);
     }

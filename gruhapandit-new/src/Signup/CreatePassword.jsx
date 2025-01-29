@@ -49,7 +49,7 @@ const CreatePassword = () => {
       console.log("Form validation failed. Please check the inputs.");
       return;
     }
-
+     
     const formDetails = JSON.parse(localStorage.getItem("formDetails"));
     if (!formDetails) {
       alert("Signup details are missing. Please sign up again.");
@@ -94,18 +94,16 @@ const CreatePassword = () => {
     } catch (error) {
       console.error("Error creating password:", error);
 
-      if (error.response) {
-        alert(
-          `Error: ${
-            error.response.data.message || "Failed to create password or email already exists"
-          }`
-        );
-      } else {
-        alert("Failed to connect to the server. Please try again.");
-      }
+      if (
+        errorMessage.includes("Failed to create password or email already exists") ||
+        errorMessage.includes("Failed to connect to the server")
+    ) {
+        localStorage.clear();
+        navigate("/userselection");
+    }
     }
   };
-
+  
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };

@@ -74,17 +74,20 @@ const Navbar = () => {
         />
       <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden relative">
   {/* {profileImageUrl ? ( */}
-    <img
-      src={profileImageUrl}
-      alt="Profile"
-      className="object-cover mt-0 cursor-pointer"
-      onClick={handleClick} 
-    />
-    <IoPersonSharp 
-      className="cursor-wait"
-      // onClick={handleClick}      
-    />
-    
+  {profileImageUrl ? (
+        <img
+          src={profileImageUrl}
+          alt="Profile"
+          className="object-cover mt-0 cursor-pointer"
+          onClick={handleClick} 
+        />
+      ) : (
+        // Default Profile Icon if no image URL
+        <IoPersonSharp
+          className="cursor-pointer text-xl" // Adjust size with text-xl or other classes
+          onClick={handleClick} 
+        />
+      )}
   
 </div>
 
