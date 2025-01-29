@@ -40,35 +40,35 @@ const National = () => {
     setIsDialogOpen(false);
   };
 
-  useEffect(() => {
-    const fetchNational = async () => {
-      const token = localStorage.getItem("Token");
-      const category = "NATIONAL_ID";
+  const fetchNational = async () => {
+    const token = localStorage.getItem("Token");
+    const category = "NATIONAL_ID";
 
-      try {
-        const response = await axiosInstance.get(
-          `/documents/get-files-list?userId=${userId}&category=${category}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.data && response.data.length > 0) {
-          const file = response.data[0];
-          setFileName(file.fileName);
-          setNationalId(file.id);
-        } else {
-          console.warn("No files found.");
-          setFileName("");
-          setNationalId("");
+    try {
+      const response = await axiosInstance.get(
+        `/documents/get-files-list?userId=${userId}&category=${category}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } catch (error) {
-        console.error("Error fetching national ID:", error);
-      }
-    };
+      );
 
+      if (response.data && response.data.length > 0) {
+        const file = response.data[0];
+        setFileName(file.fileName);
+        setNationalId(file.id);
+      } else {
+        console.warn("No files found.");
+        setFileName("");
+        setNationalId("");
+      }
+    } catch (error) {
+      console.error("Error fetching national ID:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchNational();
   }, []);
 
@@ -179,7 +179,10 @@ const National = () => {
               userId={userId}
               category="NATIONAL_ID"
               onClose={handleCloseDialog}
-              onSubmit={(data) => console.log("Submitted data:", data)}
+              onSubmit={(data) =>{console.log("Submitted data:", data)
+                fetchNational();
+              }}
+              
             />
           )}
         </div>

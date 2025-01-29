@@ -58,7 +58,12 @@ const DialogueBox = ({ onClose, onSubmit, category, userId }) => {
         setTimeout(() => {
           onClose();
         }, 200);
-        onSubmit();
+        onSubmit({
+          fileName: formData.input2,
+          userId:userId,
+          category: category,
+        });
+        
       } else {
         throw new Error("Unexpected response from server.");
         
