@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
 import { useSpring, animated } from "react-spring";
 import SchoolImage from "./../../src/assets/5.png";
 import CollegeImage from "./../../src/assets/6.png";
@@ -20,6 +21,7 @@ import studyImg from "../assets/studyImg.webp";
 import Professor from "../assets/professor.webp";
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -110,6 +112,7 @@ const Dashboard = () => {
       }
     };
 
+
     fetchCategoryCounts();
   }, [userId]);
 
@@ -120,10 +123,13 @@ const Dashboard = () => {
   return (
     <>
       <MainLayout>
+
+   
         <div className="flex min-h-screen bg-gradient-to-b from-white to-blue-200 pl-12 lg:pl-2 md:pl-2">
           <main className="flex-1 p-4 sm:p-6 md:ml-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
               <div className="bg-white p-6 rounded-lg shadow flex items-center">
+
                 <img
                   src={profile}
                   alt="Profile Icon"
@@ -220,6 +226,7 @@ const Dashboard = () => {
                 </button>
               </div>
             </div>
+
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
               {[

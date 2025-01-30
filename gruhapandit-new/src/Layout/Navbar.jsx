@@ -69,6 +69,7 @@ const Navbar = () => {
           onClick={toggleNotification}
           className="text-blue-500 text-lg cursor-pointer"
         />
+
         <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden relative">
           {/* {/ {profileImageUrl ? ( /} */}
           {profileImageUrl ? (
@@ -86,6 +87,7 @@ const Navbar = () => {
             />
           )}
         </div>
+
       </div>
       {isNotificationOpen && (
         <div className="absolute top-14 right-8 bg-white p-4 shadow-lg rounded-md z-10">

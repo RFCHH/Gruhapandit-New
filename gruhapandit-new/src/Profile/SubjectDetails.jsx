@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../axiosInstance";
 import { FaEdit, FaTrash } from 'react-icons/fa';
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 const SubjectDetails = ({
   subjects,
   setSubjects,
@@ -14,7 +15,7 @@ const SubjectDetails = ({
 }) => {
   const [editIndex, setEditIndex] = useState(null);
   const [errors,setErrors]=useState({category:"", subject:""})
-
+  const [isLoading, setIsLoading] = useState(true);
   const validateFields = () => {
     const newErrors = {};
     if (!category.trim()) newErrors.category = "Category is required.";
@@ -152,12 +153,22 @@ const SubjectDetails = ({
         }
       } catch (error) {
         console.error("Error fetching student details:", error);
+      }finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
-
+   if (isLoading) {
+          return (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 9 }).map((_, index) => (
+                <Skeleton key={index} height={40} className="rounded" />
+              ))}
+            </div>
+          );
+        }
   const toggleSubjectStatus = async (index) => {
     const updatedSubjects = [...subjects];
     const toggledSubject = updatedSubjects[index];
