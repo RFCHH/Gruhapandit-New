@@ -158,7 +158,7 @@ function Footer() {
 
       {/* Footer Bottom */}
       <div className="mt-8 border-t border-gray-600 pt-4 text-center text-sm text-gray-400 relative z-10">
-        <p>© 2025 Gruhapandit Tuitions. All rights reserved.</p>
+      <p>© {new Date().getFullYear()} Gruhapandit Tuitions. All rights reserved.</p>
       </div>
     </div>
   );
