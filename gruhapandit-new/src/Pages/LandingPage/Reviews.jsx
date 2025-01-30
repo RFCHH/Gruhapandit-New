@@ -10,7 +10,7 @@ const HomeReviews = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <div className="relative flex flex-col items-start min-h-screen px-4 sm:px-12 md:px-24">
-        <div className="flex flex-col gap-2 sm:mt-32 md:mt-56 mt-36">
+        <div className="flex flex-col gap-2 sm:mt-32 md:mt-56 lg:mt-32">
           <h1
             className="text-[32px] sm:text-[40px] md:text-[64px] font-extrabold text-[#32046B] leading-tight text-center sm:text-left"
             style={{
@@ -76,29 +76,75 @@ const HomeReviews = () => {
         ></div>
       </div>
       <div className="max-w-7xl mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-14 relative">
-        {Array(9)
-          .fill()
-          .map((_, index) => (
-            <div
-              key={index}
-              className="rounded-lg p-6 flex flex-col items-start shadow-2xl shadow-blue-300"
-            >
-              <h2 className="text-xl font-bold text-[#000000] mb-2">
-                Arbacheena Bora
-              </h2>
-              <p className="text-xl text-[#000000] mb-4 mt-4 font-bold">
-                Tutor
-              </p>
-              <p className="text-sm text-[#32046B] mb-6">
-                Lorem Ipsum helped us with our digital marketing for 6 months
-                and we are delighted. Great service and highly recommended.
-              </p>
-              {/* <button className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-600 transition">
-                <span className="mr-2">Read More</span>
-                <IoIosArrowForward />
-              </button> */}
-            </div>
-          ))}
+        {[
+          {
+            name: "Sneha",
+            role: "Tutor",
+            review:
+              "The platform made it easy to find students. The experience was seamless and well-organized!",
+          },
+          {
+            name: "Sai Kiran",
+            role: "Student",
+            review:
+              "Finding a tutor who matched my learning style was effortless. Highly recommended!",
+          },
+          {
+            name: "Sai Kumar",
+            role: "Tutor",
+            review:
+              "Managing my tutoring schedule has never been easier. The interface is user-friendly and efficient!",
+          },
+          {
+            name: "Vijay",
+            role: "Student",
+            review:
+              "The review system helped me choose the best tutor for my needs. Great experience!",
+          },
+          {
+            name: "Sanath",
+            role: "Tutor",
+            review:
+              "I appreciate how this platform connects tutors and students seamlessly. Great initiative!",
+          },
+          {
+            name: "Venkat",
+            role: "Student",
+            review:
+              "My math scores improved after joining. The tutor I found was knowledgeable and patient.",
+          },
+          {
+            name: "Chaithnya",
+            role: "Tutor",
+            review:
+              "A great platform that provides excellent exposure to students and tutors alike.",
+          },
+          {
+            name: "Deekshith",
+            role: "Student",
+            review:
+              "The tutors here are dedicated and well-trained. My experience was fantastic!",
+          },
+          {
+            name: "Srinivas",
+            role: "Tutor",
+            review:
+              "This platform has helped me reach more students than I ever imagined. Very useful!",
+          },
+        ].map((review, index) => (
+          <div
+            key={index}
+            className="rounded-lg p-6 flex flex-col items-start shadow-2xl shadow-blue-300"
+          >
+            <h2 className="text-xl font-bold text-[#000000] mb-2">
+              {review.name}
+            </h2>
+            <p className="text-xl text-[#000000] mb-4 mt-4 font-bold">
+              {review.role}
+            </p>
+            <p className="text-sm text-[#32046B] mb-6">{review.review}</p>
+          </div>
+        ))}
       </div>
       {/* <div className="flex justify-center items-center space-x-1 my-8">
         <button className="text-[#000000] hover:underline font-bold">

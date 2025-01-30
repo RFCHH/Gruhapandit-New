@@ -5,11 +5,12 @@ import { IoPersonSharp } from "react-icons/io5";
 import axiosInstance from "../axiosInstance"; // Import Axios instance
 import DialogueBox from "../Dashboard/DialogueBox";
 
+
 const Navbar = () => {
   const [isNotificationOpen, setNotificationOpen] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState(null);
   const userId = localStorage.getItem("UserId"); // Replace with dynamic userId from your app
-  const [isDialogOpen,setIsDialogOpen]=useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const toggleNotification = () => {
     setNotificationOpen(!isNotificationOpen);
@@ -18,41 +19,37 @@ const Navbar = () => {
     }, 3000);
   };
 
-  useEffect(() => {
-    // Fetch the profile image URL
-    const fetchProfileImage = async () => {
-      const token=localStorage.getItem("Token");
-      try {
-        const response = await axiosInstance.get(
-          `/documents/${userId}/profile-picture`,
-          {
-            headers:{
-              Authorization:`Bearer ${token}`
-            }
-          }
-        );
-        // Assuming the response contains the signed URL in response.data
-        setProfileImageUrl(response.data); // Set the signed URL
-        localStorage.setItem("Profile",response.data);
-      } catch (error) {
-        console.error("Error fetching profile image:", error);
-      }
-      
-    };
+  const fetchProfileImage = async () => {
+    const token = localStorage.getItem("Token");
+    try {
+      const response = await axiosInstance.get(
+        `/documents/${userId}/profile-picture`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // Assuming the response contains the signed URL in response.data
+      setProfileImageUrl(response.data); // Set the signed URL
 
+      localStorage.setItem("Profile", response.data);
+    } catch (error) {
+      console.error("Error fetching profile image:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchProfileImage();
   }, []);
 
   const handleClick = () => {
     setIsDialogOpen(true);
- 
-   
   };
   
-
-  const handleCloseDialog=()=>{
+  const handleCloseDialog = () => {
     setIsDialogOpen(false);
-  }
+  };
 
   return (
     <div className="flex justify-between items-center bg-white text-black shadow-md border rounded-lg px-4">
@@ -72,24 +69,24 @@ const Navbar = () => {
           onClick={toggleNotification}
           className="text-blue-500 text-lg cursor-pointer"
         />
-      <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden relative">
-  {/* {profileImageUrl ? ( */}
-  {profileImageUrl ? (
-        <img
-          src={profileImageUrl}
-          alt="Profile"
-          className="object-cover mt-0 cursor-pointer"
-          onClick={handleClick} 
-        />
-      ) : (
-        // Default Profile Icon if no image URL
-        <IoPersonSharp
-          className="cursor-pointer text-xl" // Adjust size with text-xl or other classes
-          onClick={handleClick} 
-        />
-      )}
-  
-</div>
+
+        <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden relative">
+          {/* {/ {profileImageUrl ? ( /} */}
+          {profileImageUrl ? (
+            <img
+              src={profileImageUrl}
+              alt="Profile"
+              className="object-cover mt-0 cursor-pointer"
+              onClick={handleClick}
+            />
+          ) : (
+            // Default Profile Icon if no image URL
+            <IoPersonSharp
+              className="cursor-pointer text-xl" // Adjust size with text-xl or other classes
+              onClick={handleClick}
+            />
+          )}
+        </div>
 
       </div>
       {isNotificationOpen && (
@@ -98,28 +95,23 @@ const Navbar = () => {
         </div>
       )}
 
-{
-  isDialogOpen && (
-    <DialogueBox 
-      userId={userId}
-      category="PROFILE_PICTURE"
-      onClose={handleCloseDialog}
-      onSubmit={(data) => {
-        console.log("Submitted data:", data);
-        // Reload the page after 1 second
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      }}
-    />
-  )
-}
+      {isDialogOpen && (
+        <DialogueBox
+          userId={userId}
+          category="PROFILE_PICTURE"
+          onClose={handleCloseDialog}
+          onSubmit={(data) => {
+            console.log("Submitted data:", data);
+            fetchProfileImage();
+
+          }}
+        />
+      )}
     </div>
   );
 };
 
 export default Navbar;
-
 
 
 // import React, { useEffect, useState } from "react";
