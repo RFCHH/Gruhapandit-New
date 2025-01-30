@@ -31,18 +31,18 @@ function Payment() {
           Finalize your registration by completing the payment below.
         </p>
 
-        {/* {/ Razorpay payment button container /} */}
+        {/* {/ {/ Razorpay payment button container /} /} */}
         <div id="razorpay-button-container" className="flex justify-center mb-4"></div>
 
-        {/* {/ Secure payment notice /} */}
+        {/* {/ {/ Secure payment notice /} /} */}
         <p className="text-center text-gray-500 text-sm mt-4">
           <i className="fas fa-lock mr-1"></i> Secure Payment Processing
         </p>
 
-        {/* {/ Terms and conditions footer /} */}
+        {/* {/ {/ Terms and conditions footer /} /} */}
         <p className="text-center text-xs text-gray-400 mt-4">
           By proceeding, you agree to our{' '}
-          <a href="slide6" className="text-blue-500 hover:underline">Terms and Conditions</a>.
+          <a onClick={()=> window.open("RefundPolicy.pdf")} className="text-blue-500 hover:underline cursor-pointer">Terms and Conditions</a>.
         </p>
       </div>
     </div>
