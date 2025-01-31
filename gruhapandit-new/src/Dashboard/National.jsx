@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { FaCloudUploadAlt, FaTrashAlt } from "react-icons/fa";
-import Id from './../assets/ID.png';
-import MainLayout from '../Layout/Mainlayout';
+import Id from "./../assets/ID.png";
+import MainLayout from "../Layout/Mainlayout";
 import DialogueBox from "./DialogueBox";
-import axiosInstance from '../axiosInstance';
+import axiosInstance from "../axiosInstance";
 
 const National = () => {
-  const [fileName, setFileName] = useState('');
-  const [nationalId, setNationalId] = useState(''); // State to hold fetched data
+  const [fileName, setFileName] = useState("");
+  const [nationalId, setNationalId] = useState(""); // State to hold fetched data
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const userId = localStorage.getItem("UserId");
   const [fileDelete, setFileDelete] = useState(false);
-
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -108,9 +107,14 @@ const National = () => {
         alert(`Failed to delete file: Status code ${response.status}`);
       }
     } catch (error) {
-      console.error("Error deleting file:", error.response?.data || error.message);
+      console.error(
+        "Error deleting file:",
+        error.response?.data || error.message
+      );
       alert(
-        `Failed to delete the file: ${error.response?.data?.message || "An unknown error occurred."}`
+        `Failed to delete the file: ${
+          error.response?.data?.message || "An unknown error occurred."
+        }`
       );
     }
   };
@@ -155,7 +159,6 @@ const National = () => {
           </label> */}
               </div>
               <div className="flex items-center space-x-2">
-
                 <label className="block text-gray-700 mb-2 text-sm md:text-base">
                   File Name:
                 </label>
@@ -194,15 +197,14 @@ const National = () => {
               userId={userId}
               category="NATIONAL_ID"
               onClose={handleCloseDialog}
-              onSubmit={(data) =>{console.log("Submitted data:", data)
+              onSubmit={(data) => {
+                console.log("Submitted data:", data);
                 fetchNational();
               }}
-              
             />
           )}
         </div>
       </MainLayout>
-
     </>
   );
 };
