@@ -114,7 +114,7 @@ const HomeReviews = () => {
               "My math scores improved after joining. The tutor I found was knowledgeable and patient.",
           },
           {
-            name: "Chaithnya",
+            name: " Chaithanya",
             role: "Tutor",
             review:
               "A great platform that provides excellent exposure to students and tutors alike.",

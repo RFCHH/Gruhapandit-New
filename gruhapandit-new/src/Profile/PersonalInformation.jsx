@@ -351,7 +351,7 @@ const PersonalInformation = () => {
             name="city"
             value={formData.city}
             onChange={handleChange}
-            disabled={!isEditing}
+            disabled={true}
             placeholder="Enter the City"
           />
           {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
@@ -364,7 +364,7 @@ const PersonalInformation = () => {
             name="state"
             value={formData.state}
             onChange={handleChange}
-            disabled={!isEditing}
+            disabled={true}
             placeholder="Enter the State"
           />
           {errors.state && <p className="text-red-500 text-sm">{errors.state}</p>}
@@ -377,7 +377,7 @@ const PersonalInformation = () => {
             name="district"
             value={formData.district}
             onChange={handleChange}
-            disabled={!isEditing}
+            disabled={true}
             placeholder="Enter the District"
           />
           {errors.district && <p className="text-red-500 text-sm">{errors.district}</p>}
@@ -390,7 +390,7 @@ const PersonalInformation = () => {
             name="country"
             value={formData.country}
             onChange={handleChange}
-            disabled={!isEditing}
+            disabled={true}
             placeholder="Enter the Country"
           />
           {errors.country && <p className="text-red-500 text-sm">{errors.country}</p>}

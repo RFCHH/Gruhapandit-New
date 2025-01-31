@@ -16,12 +16,10 @@ import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import Tutions from "../assets/tutions-g.webp";
-import studentimg from "../assets/studentimg.webp";  // Corrected spelling
+import studentimg from "../assets/Studentimg.png";
 import studyImg from "../assets/studyImg.webp";
-import Professor from "../assets/professor.webp";
-
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
+import Professor from "../assets/Professor.png";
+import { motion, AnimatePresence } from "framer-motion";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -36,16 +34,16 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
 
-  const images = [studentimg, studyImg, Tutions, Professor];
+  const images = [Tutions, studentimg, Professor, studyImg];
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length); // This makes it loop back to 0 after the last image
-    }, 3000); // Change every 3 seconds
-  
-    return () => clearInterval(interval); // Clear the interval on cleanup
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const animatedCount = (count) => {
@@ -112,7 +110,6 @@ const Dashboard = () => {
       }
     };
 
-
     fetchCategoryCounts();
   }, [userId]);
 
@@ -123,13 +120,10 @@ const Dashboard = () => {
   return (
     <>
       <MainLayout>
-
-   
         <div className="flex min-h-screen bg-gradient-to-b from-white to-blue-200 pl-12 lg:pl-2 md:pl-2">
           <main className="flex-1 p-4 sm:p-6 md:ml-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
               <div className="bg-white p-6 rounded-lg shadow flex items-center">
-
                 <img
                   src={profile}
                   alt="Profile Icon"
@@ -160,10 +154,10 @@ const Dashboard = () => {
                       Complete Your Profile
                     </h3>
                     <button
-                      className="bg-blue-500 text-white text-xs px-2 py-1 md:px-4 md:py-2 rounded-lg"
+                      className="bg-blue-500 text-white text-sm px-2 py-1 md:px-4 md:py-2 rounded-lg"
                       onClick={() => navigate(`/Profile/${userId}`)}
                     >
-                      Profile s{" "}
+                      Profile{" "}
                     </button>
                     {localStorage.getItem("role") === "TUTOR" && (
                       <button
@@ -177,56 +171,35 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
+            <div className="relative w-full mt-6 mb-6">
+              <div className="overflow-hidden rounded-lg shadow-xl relative">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={currentIndex}
+                    src={images[currentIndex]}
+                    alt={`Slide ${currentIndex + 1}`}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="w-full max-h-[200px] md:max-h-[400px] object-cover rounded-lg"
+                  />
+                </AnimatePresence>
+              </div>
 
-            <div className="relative w-full mt-4 mb-4  ">
-              {/* {/ Carousel Container /} */}
-              <div className="rounded-lg shadow-lg overflow-hidden w-full">
-                <div className="slider-container overflow-hidden w-full relative">
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                {images.map((_, index) => (
                   <div
-                    className="slider flex transition-transform duration-700 ease-in-out"
-                    style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-                  >
-                    {images.map((img, index) => (
-                      <div
-                        key={index}
-                        className="w-full flex-shrink-0 h-[70vh]"
-                      >
-                        <img
-                          src={img}
-                          alt={`Slider Image ${index + 1}`}
-                          className="w-full h-auto object-contain rounded-lg"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* {/ Left Arrow /} */}
-                <button
-                  onClick={() =>
-                    setCurrentIndex((prevIndex) =>
-                      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-                    )
-                  }
-                  className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-lg hover:bg-gray-600 transition"
-                >
-                  <FaChevronLeft size={24} />
-                </button>
-
-                {/* {/ Right Arrow /} */}
-                <button
-                  onClick={() =>
-                    setCurrentIndex((prevIndex) =>
-                      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-                    )
-                  }
-                  className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-lg hover:bg-gray-600 transition"
-                >
-                  <FaChevronRight size={24} />
-                </button>
+                    key={index}
+                    className={`w-2.5 h-2.5 md:w-3 md:h-3 lg:w-3 lg:h-3 xl:w-4 xl:h-4 rounded-full transition-all ${
+                      currentIndex === index
+                        ? "bg-blue-600 w-3 md:w-4 lg:w-4 xl:w-5"
+                        : "bg-gray-400"
+                    }`}
+                  />
+                ))}
               </div>
             </div>
-
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
               {[
