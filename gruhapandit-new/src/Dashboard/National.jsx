@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { FaCloudUploadAlt, FaTrashAlt } from "react-icons/fa";
-import Id from './../assets/ID.png';
-import MainLayout from '../Layout/Mainlayout';
+import Id from "./../assets/ID.png";
+import MainLayout from "../Layout/Mainlayout";
 import DialogueBox from "./DialogueBox";
-import axiosInstance from '../axiosInstance';
+import axiosInstance from "../axiosInstance";
 
 const National = () => {
-  const [fileName, setFileName] = useState('');
-  const [nationalId, setNationalId] = useState(''); // State to hold fetched data
+  const [fileName, setFileName] = useState("");
+  const [nationalId, setNationalId] = useState(""); // State to hold fetched data
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const userId = localStorage.getItem("UserId");
-
+  const [fileDelete, setFileDelete] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -40,35 +40,35 @@ const National = () => {
     setIsDialogOpen(false);
   };
 
-  useEffect(() => {
-    const fetchNational = async () => {
-      const token = localStorage.getItem("Token");
-      const category = "NATIONAL_ID";
+  const fetchNational = async () => {
+    const token = localStorage.getItem("Token");
+    const category = "NATIONAL_ID";
 
-      try {
-        const response = await axiosInstance.get(
-          `/documents/get-files-list?userId=${userId}&category=${category}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.data && response.data.length > 0) {
-          const file = response.data[0];
-          setFileName(file.fileName);
-          setNationalId(file.id);
-        } else {
-          console.warn("No files found.");
-          setFileName("");
-          setNationalId("");
+    try {
+      const response = await axiosInstance.get(
+        `/documents/get-files-list?userId=${userId}&category=${category}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } catch (error) {
-        console.error("Error fetching national ID:", error);
-      }
-    };
+      );
 
+      if (response.data && response.data.length > 0) {
+        const file = response.data[0];
+        setFileName(file.fileName);
+        setNationalId(file.id);
+      } else {
+        console.warn("No files found.");
+        setFileName("");
+        setNationalId("");
+      }
+    } catch (error) {
+      console.error("Error fetching national ID:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchNational();
   }, []);
 
@@ -96,15 +96,23 @@ const National = () => {
       if (response.status === 200) {
         setFileName("");
         setNationalId("");
-        alert("File deleted successfully.");
+        setFileDelete(true);
+        setTimeout(() => {
+          setFileDelete(false);
+        }, 1000);
       } else {
         console.error("Unexpected response status:", response.status);
         alert(`Failed to delete file: Status code ${response.status}`);
       }
     } catch (error) {
-      console.error("Error deleting file:", error.response?.data || error.message);
+      console.error(
+        "Error deleting file:",
+        error.response?.data || error.message
+      );
       alert(
-        `Failed to delete the file: ${error.response?.data?.message || "An unknown error occurred."}`
+        `Failed to delete the file: ${
+          error.response?.data?.message || "An unknown error occurred."
+        }`
       );
     }
   };
@@ -149,7 +157,6 @@ const National = () => {
           </label> */}
               </div>
               <div className="flex items-center space-x-2">
-
                 <label className="block text-gray-700 mb-2 text-sm md:text-base">
                   File Name:
                 </label>
@@ -162,12 +169,22 @@ const National = () => {
                 />
                 {fileName && (
                   <button
-                    className="flex items-center  bg-red-500 text-white px-4 py-3 rounded-md hover:bg-red-600"
+                    className="flex items-center bg-red-500 text-white px-4 py-3 rounded-md hover:bg-red-600"
                     onClick={handleDeleteFile}
                   >
-                    <FaTrashAlt className="mr" />
-
+                    <FaTrashAlt className="mr-2" />
+                    Delete File
                   </button>
+                )}
+
+                {fileDelete && (
+                  <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+                      <h1 className="text-lg font-semibold text-red-500">
+                        File Deleted Successfully!
+                      </h1>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
@@ -179,12 +196,14 @@ const National = () => {
               userId={userId}
               category="NATIONAL_ID"
               onClose={handleCloseDialog}
-              onSubmit={(data) => console.log("Submitted data:", data)}
+              onSubmit={(data) => {
+                console.log("Submitted data:", data);
+                fetchNational();
+              }}
             />
           )}
         </div>
       </MainLayout>
-
     </>
   );
 };

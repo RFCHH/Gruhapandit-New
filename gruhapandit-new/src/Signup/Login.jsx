@@ -5,6 +5,7 @@ import userIdIcon from "../assets/email.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import axios from "axios";
 
 const LoginPage = () => {
@@ -13,7 +14,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("--select--");
   const [termsAccepted, setTermsAccepted] = useState(false);
-
+  const [successMessage, setSuccessMessage] = useState(null);
   const handleTermsChange = (e) => {
     setTermsAccepted(e.target.checked);
   };
@@ -95,30 +96,27 @@ const LoginPage = () => {
           const data = response.data;
           console.log("Login successful:", data);
 
-          alert(response.data.message || "Login successful!");
+          setSuccessMessage("Login successful!");
 
           const { token, userRole, userId } = data;
 
           localStorage.setItem("UserId", userId);
           localStorage.setItem("Token", token);
           localStorage.setItem("UserRole", userRole);
-
+          setTimeout(() => {
           if (userRole === "ROLE_ADMIN") {
             navigate("/Registration");
           } else if (userRole === "ROLE_PREMIUM_USER") {
             navigate(`/Dashboard/${userId}`);
 
-            // setTimeout(() => {
-            // }, 1000);
           } else if (userRole === "ROLE_REGULAR_USER") {
             navigate(`/Dashboard/${userId}`);
-            // setTimeout(() => {
-            //   navigate(`/Dashboard/${userId}`);
-            // }, 1000);
+            
           } else {
             console.log("Navigated to employeeDashboard");
             navigate(`/Dashboard/${userId}`);
           }
+        }, 2000);
         } else {
           setErrors((prevErrors) => ({
             ...prevErrors,
@@ -137,6 +135,18 @@ const LoginPage = () => {
 
   return (
     <div className="relative flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-100 to-white overflow-hidden px-4 sm:px-8 py-8 sm:py-12 top-10">
+       {successMessage && (
+       <motion.div
+       initial={{ opacity: 0, y: -50 }}
+       animate={{ opacity: 1, y: 0 }}
+       exit={{ opacity: 0, y: -50 }}
+       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+     >
+       <div className="bg-white text-green-700 px-6 py-4 rounded-lg shadow-lg text-lg font-semibold text-center">
+         {successMessage}
+       </div>
+     </motion.div>
+      )}
       <div className="relative bg-white shadow-lg rounded-lg flex flex-col md:flex-row max-w-6xl w-full overflow-hidden z-20 mx-auto p-6 md:p-8 space-y-6 md:space-y-0">
         <div className="flex justify-center items-center w-full bg-white p-6 md:w-1/2 md:justify-start">
           <img
@@ -243,7 +253,7 @@ const LoginPage = () => {
                   I have read and agree to the{" "}
                   <a
                     onClick={() => window.open("TermsAndConditions_4.pdf")}
-                    className="text-blue-500 hover:underline"
+                    className="text-blue-500 hover:underline cursor-pointer"
                     rel="noopener noreferrer"
                   >
                     Terms and Conditions
