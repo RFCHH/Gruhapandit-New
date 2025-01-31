@@ -10,6 +10,7 @@ const National = () => {
   const [nationalId, setNationalId] = useState(''); // State to hold fetched data
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const userId = localStorage.getItem("UserId");
+  const [fileDelete, setFileDelete] = useState(false);
 
 
   const handleFileChange = (event) => {
@@ -58,6 +59,7 @@ const National = () => {
         const file = response.data[0];
         setFileName(file.fileName);
         setNationalId(file.id);
+       
       } else {
         console.warn("No files found.");
         setFileName("");
@@ -96,7 +98,11 @@ const National = () => {
       if (response.status === 200) {
         setFileName("");
         setNationalId("");
-        alert("File deleted successfully.");
+        setFileDelete(true);
+        setTimeout(() => {
+          setFileDelete(false);
+        }, 1000);
+       
       } else {
         console.error("Unexpected response status:", response.status);
         alert(`Failed to delete file: Status code ${response.status}`);
@@ -160,20 +166,29 @@ const National = () => {
                   onChange={(e) => setFileName(e.target.value)}
                   className="border-2 border-gray-400 p-2 rounded-md w-"
                 />
-                {fileName && (
-                  <button
-                    className="flex items-center  bg-red-500 text-white px-4 py-3 rounded-md hover:bg-red-600"
-                    onClick={handleDeleteFile}
-                  >
-                    <FaTrashAlt className="mr" />
+                 {fileName && (
+        <button
+          className="flex items-center bg-red-500 text-white px-4 py-3 rounded-md hover:bg-red-600"
+          onClick={handleDeleteFile}
+        >
+          <FaTrashAlt className="mr-2" />
+          Delete File
+        </button>
+      )}
 
-                  </button>
-                )}
+    
+      {fileDelete && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+            <h1 className="text-lg font-semibold text-green-600">File Deleted Successfully!</h1>
+          </div>
+        </div>
+      )}
               </div>
             </div>
           </div>
 
-          {/* Dialog Box */}
+      
           {isDialogOpen && (
             <DialogueBox
               userId={userId}
