@@ -99,6 +99,7 @@ import React, { useEffect, useState } from "react";
 import MainLayout from "../Layout/Mainlayout";
 import axiosInstance from "../axiosInstance";
 import { MdStarOutline, MdStarRate } from "react-icons/md";
+import { motion } from "framer-motion";
 
 
 export const renderStars = (rating) => {
@@ -126,6 +127,14 @@ const Review = () => {
 
   const token = localStorage.getItem("Token");
   const userId = localStorage.getItem("UserId");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [messageType, setMessageType] = useState("success");
+
+  const showSuccessMessage = (message, type = "success") => {
+    setSuccessMessage(message);
+    setMessageType(type);
+    setTimeout(() => setSuccessMessage(""), 2000); 
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -176,9 +185,9 @@ const Review = () => {
       );
 
       if (activeStatus === "true") {
-        alert("The review has been successfully activated.");
+        showSuccessMessage("The review has been successfully activated!", "success");
       } else {
-        alert("The review has been successfully deactivated.");
+        showSuccessMessage("The review has been successfully deactivated!", "error");
       }
       setData((prevData) =>
         prevData.map((item) =>
@@ -210,7 +219,18 @@ const Review = () => {
         sm:w-auto md:px-48 md:ml-16 px-6 sm:px-8 lg:px-96 lg:ml-36 py-2 mb-10 rounded-tr-xl rounded-bl-xl">
           Reviews
         </h1>
-
+        {successMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            className={`fixed top-5 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg text-lg font-semibold ${
+              messageType === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white"
+            }`}
+          >
+            {successMessage}
+          </motion.div>
+        )}
         <div className="container mx-auto p-4 bg-white rounded-lg shadow-lg w-full sm:w-4/5 md:w-3/4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {loading ? (
