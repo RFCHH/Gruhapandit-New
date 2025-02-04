@@ -4,6 +4,7 @@ import axiosInstance from "../axiosInstance";
 import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { motion } from "framer-motion";
 
 const Details = () => {
   const role = localStorage.getItem("role");
@@ -23,6 +24,7 @@ const Details = () => {
   const [validationErrors, setValidationErrors] = useState({});
   const [isEditable, setIsEditable] = useState(true); 
   const [isLoading, setIsLoading] = useState(true);
+  const [successMessage, setSuccessMessage] = useState(""); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -136,7 +138,8 @@ const Details = () => {
 
        
           if (response.status === 200) {
-            alert(`${role.toLowerCase()} data Updated Successfully:`);
+            setSuccessMessage(`${role.toLowerCase()} data Updated Successfully!`);
+            setTimeout(() => setSuccessMessage(""), 2000);
           }
         } else {
                    
@@ -152,7 +155,8 @@ const Details = () => {
           }));
   
          
-          alert(`${role.toLowerCase()} data submitted:`);
+          setSuccessMessage(`${role.toLowerCase()} data submitted successfully!`);
+          setTimeout(() => setSuccessMessage(""), 2000);
         }
   
         console.log(`${role} data updated/submitted:`, response.data);
@@ -170,6 +174,18 @@ const Details = () => {
       </h3>
 
       <form className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+         {successMessage && (
+                <motion.div
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                >
+                  <div className="bg-white text-green-700 px-6 py-4 rounded-lg shadow-lg text-lg font-semibold text-center">
+                    {successMessage}
+                  </div>
+                </motion.div>
+              )}
         {role === "TUTOR" && (
           <>
             <FormInput
