@@ -47,6 +47,8 @@ import AllReviews from "./Admin Flow/AllReviews"
 import { generateToken,messaging } from './Notification/firebase';
 import { onMessage } from "firebase/messaging";
 import { useEffect } from "react";
+import Banners from "./Admin Flow/Banners";
+import Reports from "./Admin Flow/Reports";
 
 
 
@@ -83,6 +85,8 @@ function Layout({ children }) {
     "/edit-email-template",
     "/unauthorized",
     "/AllReviews",
+    "/banner",
+    "/reports",
   ];
 
   const shouldHideNavbar =
@@ -180,10 +184,11 @@ function App() {
             <Route path="/StudentTable" element={<StudentTable />} />
             <Route path="/Request" element={<RequestApproval />} />
             <Route path="/email-templates" element={<AllEmailTemplatesPage />}/>
-
+            
             <Route path="/AllReviews" element={<AllReviews />}/>
             <Route path="/edit-email-template/:templateId" element={<EditEmailTemplatePage />}/>
-            
+            <Route path="/banner" element={<Banners />}/>
+            <Route path="/reports" element={<Reports />}/>
 
           </Route>
           </Routes>
