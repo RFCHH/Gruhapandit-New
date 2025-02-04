@@ -19,7 +19,9 @@ import Tutions from "../assets/tutions-g.webp";
 import studentimg from "../assets/Studentimg.png";
 import studyImg from "../assets/studyImg.webp";
 import Professor from "../assets/Professor.png";
-import { motion, AnimatePresence } from "framer-motion";
+import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
+
+// import { motion, AnimatePresence } from "framer-motion";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -40,11 +42,23 @@ const Dashboard = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000);
+      handleNext();
+    }, 3000); // Auto-rotate every 5 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [currentIndex]);
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
 
   const animatedCount = (count) => {
     const { number } = useSpring({
@@ -173,34 +187,40 @@ const Dashboard = () => {
             </div>
             <div className="relative w-full mt-6 mb-6">
               <div className="overflow-hidden rounded-lg shadow-xl relative">
-                <AnimatePresence mode="wait">
-                  <motion.img
-                    key={currentIndex}
-                    src={images[currentIndex]}
-                    alt={`Slide ${currentIndex + 1}`}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                    className="w-full max-h-[200px] md:max-h-[400px] object-cover rounded-lg"
-                  />
-                </AnimatePresence>
+                <img
+                  src={images[currentIndex]}
+                  alt={`Slide ${currentIndex + 1}`}
+                  className="w-full max-h-[200px] md:max-h-[400px] object-cover rounded-lg transition-opacity duration-500 ease-in-out"
+                  loading="lazy"
+                />
+                <button
+                  onClick={handlePrev}
+                  className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/80 text-gray-800 p-2 md:p-3 rounded-full hover:bg-white hover:shadow-lg transition-all duration-300 ease-in-out backdrop-blur-sm"
+                  aria-label="Previous slide"
+                >
+                  <MdArrowBackIos className="w-4 h-4 md:w-6 md:h-6" />
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/80 text-gray-800 p-2 md:p-3 rounded-full hover:bg-white hover:shadow-lg transition-all duration-300 ease-in-out backdrop-blur-sm"
+                  aria-label="Next slide"
+                >
+                  <MdArrowForwardIos className="w-4 h-4 md:w-6 md:h-6" />
+                </button>
               </div>
-
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+              <div className="flex justify-center mt-4 space-x-2">
                 {images.map((_, index) => (
-                  <div
+                  <button
                     key={index}
-                    className={`w-2.5 h-2.5 md:w-3 md:h-3 lg:w-3 lg:h-3 xl:w-4 xl:h-4 rounded-full transition-all ${
-                      currentIndex === index
-                        ? "bg-blue-600 w-3 md:w-4 lg:w-4 xl:w-5"
-                        : "bg-gray-400"
+                    onClick={() => setCurrentIndex(index)}
+                    className={`w-3 h-3 rounded-full ${
+                      index === currentIndex ? "bg-gray-800" : "bg-gray-300"
                     }`}
+                    aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
               </div>
             </div>
-
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
               {[
                 {
