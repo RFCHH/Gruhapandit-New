@@ -44,6 +44,13 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
   const [subject, setSubject] = useState('');
   const [reviewTo, setReviewTo] = useState('');
   const [comments, setComments] = useState('');
+  const [error,setError]=useState({
+    reviewerName:"",
+    subject:"",
+    reviewerEmail:"",
+    reviewTo:"",
+    comments:"",
+  });
 
   // Reset or prefill form based on reviewToEdit
   useEffect(() => {
@@ -65,8 +72,49 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
     setRating(index + 1);
   };
 
+  const validateForm = () => {
+    let errors = {};
+    let isValid = true;
+
+    if (!reviewerName.trim()) {
+      errors.reviewerName = 'Reviewer name is required';
+      isValid = false;
+    }
+
+    if (!subject.trim()) {
+      errors.subject = 'Subject is required';
+      isValid = false;
+    }
+
+    if (!reviewerEmail.trim()) {
+      errors.reviewerEmail = 'Email is required';
+      isValid = false;
+    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(reviewerEmail)) {
+      errors.reviewerEmail = 'Invalid email format';
+      isValid = false;
+    }
+
+    if (!reviewTo.trim()) {
+      errors.reviewTo = 'Review To field is required';
+      isValid = false;
+    }
+
+    if (!comments.trim()) {
+      errors.comments = 'Comments cannot be empty';
+      isValid = false;
+    }
+
+    setError(errors);
+    return isValid;
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!validateForm()){
+      return;
+    }
   
     const reviewData = {
       userId,
@@ -135,6 +183,11 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
               onChange={(e) => setReviewerName(e.target.value)}
               className="border border-gray-300 bg-gray-50 w-full p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
             />
+            {
+              error.reviewerName && (
+                <p className='text-red-500 text-sm mt-1'>{error.reviewerName}</p>
+              )
+            }
           </div>
 
           <div className="col-span-1">
@@ -146,6 +199,11 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
               onChange={(e) => setSubject(e.target.value)}
               className="border border-gray-300 bg-gray-50 w-full p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
             />
+            {
+              error.subject && (
+                <p className='text-red-500 text-sm mt-1'>{error.subject}</p>
+              )
+            }
           </div>
 
           <div className="col-span-1">
@@ -157,6 +215,11 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
               onChange={(e) => setReviewerEmail(e.target.value)}
               className="border border-gray-300 bg-gray-50 w-full p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
             />
+            {
+              error.reviewerEmail && (
+                <p className='text-red-500 text-sm mt-1'>{error.reviewerEmail}</p>
+              )
+            }
           </div>
 
           <div className="col-span-1">
@@ -168,6 +231,11 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
               onChange={(e) => setReviewTo(e.target.value)}
               className="border border-gray-300 bg-gray-50 w-full p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
             />
+            {
+              error.reviewTo && (
+                <p className='text-red-500 text-sm mt-1'>{error.reviewTo}</p>
+              )
+            }
           </div>
 
           <div className="col-span-1 lg:col-span-2">
@@ -179,6 +247,11 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
               className="border border-gray-300 bg-gray-50 w-full p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
               rows="4"
             ></textarea>
+            {
+              error.comments && (
+                <p className='text-red-500 mt-1 text-sm'>{error.comments}</p>
+              )
+            }
           </div>
 
           <div className="col-span-1">
