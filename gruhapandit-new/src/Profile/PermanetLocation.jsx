@@ -3,6 +3,7 @@ import { FormInput } from "./TutorProfile";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axiosInstance from "../axiosInstance";
+import { motion } from "framer-motion";
 
 const PermanentLocation = () => {
   const [formData, setFormData] = useState({
@@ -23,6 +24,7 @@ const PermanentLocation = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const role=localStorage.getItem("role");
    const [loading, setLoading] = useState(true);
+  const [successMessage, setSuccessMessage] = useState(""); 
 
   const validateFields = () => {
     const newErrors = {};
@@ -122,7 +124,8 @@ const PermanentLocation = () => {
       });
       console.log("POST response:", response);
       setIsEditing(false);
-      alert(`${role.toLowerCase()} data submitted:`);
+      setSuccessMessage(`${role.toLowerCase()} data submitted successfully!`);
+      setTimeout(() => setSuccessMessage(""), 2000);  
       setIsDataPresent(true);
       
     } catch (error) {
@@ -145,7 +148,8 @@ const PermanentLocation = () => {
       });
       console.log("PATCH response:", response);
       setIsEditing(false);
-      alert(`${role.toLowerCase()} data Updated Successfully:`);
+      setSuccessMessage(`${role.toLowerCase()} data Updated Successfully!`);
+      setTimeout(() => setSuccessMessage(""), 2000);
 
     } catch (error) {
       console.error("Error updating data:", error);
@@ -238,6 +242,18 @@ const PermanentLocation = () => {
   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
   onSubmit={handleSubmit}
 >
+   {successMessage && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -50 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -50 }}
+                            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                          >
+                            <div className="bg-white text-green-700 px-6 py-4 rounded-lg shadow-lg text-lg font-semibold text-center">
+                              {successMessage}
+                            </div>
+                          </motion.div>
+                        )}
   <FormInput
     label="House Number"
     name="houseNum"
