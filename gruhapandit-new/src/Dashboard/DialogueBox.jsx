@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import axiosInstance from "../axiosInstance";
+import { motion } from "framer-motion";
 
 const DialogueBox = ({ onClose, onSubmit, category, userId }) => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,14 @@ const DialogueBox = ({ onClose, onSubmit, category, userId }) => {
   });
 
   const [successMessage, setSuccessMessage] = useState("");
+  const [messageType, setMessageType] = useState("success");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const showSuccessMessage = (message, type = "success") => {
+    setSuccessMessage(message);
+    setMessageType(type);
+    setTimeout(() => setSuccessMessage(""), 2000);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,13 +38,13 @@ const DialogueBox = ({ onClose, onSubmit, category, userId }) => {
 
     if (!userId || !token) {
       console.error("User ID or token missing.");
-      setSuccessMessage("User not authenticated.");
+      showSuccessMessage("User not authenticated.", "error");
       setIsSubmitting(false);
       return;
     }
 
     if (!formData.file || !formData.input2) {
-      setSuccessMessage("Please provide both a file and a file name.");
+      showSuccessMessage("Please provide both a file and a file name.", "error");
       setIsSubmitting(false);
       return;
     }
@@ -54,10 +62,10 @@ const DialogueBox = ({ onClose, onSubmit, category, userId }) => {
       });
 
       if (response.status === 200) {
-        setSuccessMessage("File uploaded successfully!");
+        showSuccessMessage("File uploaded successfully!", "success");
         setTimeout(() => {
           onClose();
-        }, 200);
+        }, 1000);
         onSubmit({
           fileName: formData.input2,
           userId:userId,
@@ -70,8 +78,8 @@ const DialogueBox = ({ onClose, onSubmit, category, userId }) => {
       }
     } catch (error) {
       // console.error("Error uploading file:", error);
-      // setSuccessMessage("File upload failed. Please try again.");
-    } finally {
+      showSuccessMessage("File upload failed. Please try again.", "error");
+   } finally {
       setIsSubmitting(false);
     }
   };
@@ -168,9 +176,17 @@ const DialogueBox = ({ onClose, onSubmit, category, userId }) => {
             {isSubmitting ? "Uploading..." : "Submit"}
           </button>
         </form>
-
         {successMessage && (
-          <div className="mt-4 text-green-500">{successMessage}</div>
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            className={`fixed top-5 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg text-lg font-semibold ${
+              messageType === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white"
+            }`}
+          >
+            {successMessage}
+          </motion.div>
         )}
       </div>
     </div>

@@ -3,6 +3,7 @@ import { FormInput } from "./TutorProfile";
 import axiosInstance from "../axiosInstance";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { motion } from "framer-motion";
 
 const PersonalInformation = () => {
   const [formData, setFormData] = useState({
@@ -33,7 +34,8 @@ const PersonalInformation = () => {
 
   const [isEditing, setIsEditing] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     let sanitizedValue = value;
@@ -101,9 +103,10 @@ const PersonalInformation = () => {
         });
 
         if (response.status === 200) {
-          alert(`${type.toLowerCase()} data updated successfully.`);
+          setSuccessMessage(`${type.toLowerCase()} data updated successfully.`);
           console.log("Form submitted successfully:", response.data);
           setIsEditing(false);
+          setTimeout(() => setSuccessMessage(""), 2000);
         } else {
           console.error("Error in response:", response);
         }
@@ -256,7 +259,18 @@ const PersonalInformation = () => {
         className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         onSubmit={handleSubmit}
       >
-       
+        {successMessage && (
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+        >
+          <div className="bg-white text-green-700 px-6 py-4 rounded-lg shadow-lg text-lg font-semibold text-center">
+            {successMessage}
+          </div>
+        </motion.div>
+      )}
         <div className="flex flex-col">
           <FormInput
             label="Full Name"
