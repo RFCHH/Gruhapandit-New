@@ -4,13 +4,22 @@ import Id from "./../assets/ID.png";
 import MainLayout from "../Layout/Mainlayout";
 import DialogueBox from "./DialogueBox";
 import axiosInstance from "../axiosInstance";
-
+import { motion } from "framer-motion";
 const National = () => {
   const [fileName, setFileName] = useState("");
   const [nationalId, setNationalId] = useState(""); // State to hold fetched data
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const userId = localStorage.getItem("UserId");
   const [fileDelete, setFileDelete] = useState(false);
+
+  const [successMessage, setSuccessMessage] = useState("");  // State for success message
+  const [messageType, setMessageType] = useState("");
+
+  const showSuccessMessage = (message, type = "success") => {
+    setSuccessMessage(message);
+    setMessageType(type);
+    setTimeout(() => setSuccessMessage(""), 3000);
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -33,7 +42,11 @@ const National = () => {
   };
 
   const handleUploadClick = () => {
-    setIsDialogOpen(true);
+    if (fileName) {
+      showSuccessMessage("A file is already uploaded.Please delete the existing file if you want to upload a new one.", "error");
+    } else {
+      setIsDialogOpen(true);
+    }
   };
 
   const handleCloseDialog = () => {
@@ -77,7 +90,7 @@ const National = () => {
     const token = localStorage.getItem("Token");
 
     if (!nationalId) {
-      alert("No file selected for deletion.");
+      showSuccessMessage("No file selected for deletion.", "error");
       return;
     }
 
@@ -101,20 +114,22 @@ const National = () => {
         setTimeout(() => {
           setFileDelete(false);
         }, 1000);
-       
+        showSuccessMessage("File deleted successfully!","error");
+
       } else {
         console.error("Unexpected response status:", response.status);
-        alert(`Failed to delete file: Status code ${response.status}`);
+        showSuccessMessage(`Failed to delete file: Status code ${response.status}`, "error");
       }
     } catch (error) {
       console.error(
         "Error deleting file:",
         error.response?.data || error.message
       );
-      alert(
+      showSuccessMessage(
         `Failed to delete the file: ${
           error.response?.data?.message || "An unknown error occurred."
-        }`
+        }`,
+        "error"
       );
     }
   };
@@ -179,17 +194,33 @@ const National = () => {
         </button>
       )}
 
-    
-      {fileDelete && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
-            <h1 className="text-lg font-semibold text-green-600">File Deleted Successfully!</h1>
-          </div>
-        </div>
-      )}
+                {/* {fileDelete && (
+                  <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+                      <h1 className="text-lg font-semibold text-red-500">
+                        File Deleted Successfully!
+                      </h1>
+                    </div>
+                  </div>
+                )} */}
               </div>
             </div>
           </div>
+          {successMessage && (
+  <motion.div
+    initial={{ opacity: 0, y: -50 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -50 }}
+    className={`fixed top-10 left-1/3 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg text-lg font-semibold ${
+      messageType === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white"
+    }`}
+  >
+    {successMessage}
+  </motion.div>
+)}
+
+
+
 
       
           {isDialogOpen && (
