@@ -88,7 +88,7 @@ const LoginPage = () => {
 
       try {
         const response = await axios.post(
-          `https://tution-application.onrender.com/tuition-application/authentication/login`,
+          `https://gruhapandith-backend.onrender.com/tuition-application/authentication/login`,
           formData
         );
 
