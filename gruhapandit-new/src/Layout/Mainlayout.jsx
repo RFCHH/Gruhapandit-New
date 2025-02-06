@@ -21,7 +21,7 @@ const MainLayout = ({ children }) => {
 
         <main
           className={`flex-1 overflow-auto bg-gray-100  duration-300 ${
-            isSidebarExpanded ? "ml-36" : "ml-14"
+            isSidebarExpanded ? "pl-28" : "pl-2"
           }`}
         >
           {children}
