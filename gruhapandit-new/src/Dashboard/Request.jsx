@@ -103,7 +103,7 @@ const MyRequest = () => {
                 }
             );
 
-            if (response.status === 204) {
+            if (response.status === 200) {
                 setRequests((prevRequests) =>
                     prevRequests.filter((req) => req.id !== requestId)
                 );
@@ -191,6 +191,17 @@ const MyRequest = () => {
                                             </p>
                                         </div>
 
+                                        {
+                                            activeTab === "My Request"  && (
+                                                <button
+                                                    className="bg-yellow-500 text-white text-xs px-2 py-1 rounded-md shadow transition-all md:px-3 md:py-1.5"
+                                                    onClick={() => handleDelete(request.id)}
+                                                >
+                                                    Delete
+                                                </button>
+                                            )
+                                        }
+
 
                                         {activeTab === "Received Request" && (
                                             <div className="flex flex-wrap justify-center gap-2 mt-4 md:gap-2 md:flex-wrap ">
@@ -205,12 +216,6 @@ const MyRequest = () => {
                                                     onClick={() => handleStatusUpdate(request.id, "Rejected")}
                                                 >
                                                     Reject
-                                                </button>
-                                                <button
-                                                    className="bg-yellow-500 text-white text-xs px-2 py-1 rounded-md shadow transition-all md:px-3 md:py-1.5"
-                                                    onClick={() => handleDelete(request.id)}
-                                                >
-                                                    Delete
                                                 </button>
                                             </div>
 

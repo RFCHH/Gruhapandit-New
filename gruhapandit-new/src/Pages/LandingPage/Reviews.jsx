@@ -9,54 +9,51 @@ const HomeReviews = () => {
   const navigate=useNavigate();
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <div className="relative flex flex-col items-start min-h-screen px-4 sm:px-12 md:px-24">
-        <div className="flex flex-col gap-2 sm:mt-32 md:mt-56 lg:mt-32">
-          <h1
-            className="text-[32px] sm:text-[40px] md:text-[64px] font-extrabold text-[#32046B] leading-tight text-center sm:text-left"
-            style={{
-              fontFamily: "Inter, sans-serif",
-            }}
-          >
-            Reviews
-          </h1>
-          <p
-            className="text-lg sm:text-2xl md:text-3xl font-semibold text-[#000000] text-center sm:text-left"
-            style={{
-              fontFamily: "Inter, sans-serif",
-            }}
-          >
-            Hire a Tutor Or Find a Student With Better Review
-          </p>
-        </div>
+      <div className="relative flex flex-col items-start min-h-screen px-4 sm:px-6 md:px-12">
+  <div className="flex flex-col gap-2 mt-24 sm:mt-32 md:mt-48">
+    <h1
+      className="text-[28px] sm:text-[36px] md:text-[52px] font-extrabold text-[#32046B] leading-tight text-center sm:text-left"
+      style={{ fontFamily: "Inter, sans-serif" }}
+    >
+      Reviews
+    </h1>
+    <p
+      className="text-base sm:text-xl md:text-2xl font-semibold text-[#000000] text-center sm:text-left"
+      style={{ fontFamily: "Inter, sans-serif" }}
+    >
+      Hire a Tutor Or Find a Student With Better Review
+    </p>
+  </div>
 
-        <div className="absolute bottom-0 left-0 w-full -mt-6 sm:-mt-12">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1920 721"
-            fill="none"
-            className="w-full h-auto"
-          >
-            <path
-              d="M-193 320.298L-69.4167 380.271C54.1667 441.369 301.333 569.625 548.5 540.624C795.667 510.497 1042.83 320.298 1290 290.171C1537.17 261.17 1784.33 379.426 2031.5 365.348C2278.67 351.27 2525.83 209.227 2649.42 155.1767L2773 0V720.795H2649.42C2525.83 720.795 2278.67 720.795 2031.5 720.795C1784.33 720.795 1537.17 720.795 1290 720.795C1042.83 720.795 795.667 720.795 548.5 720.795C301.333 720.795 54.1667 720.795 -69.4167 720.795H-193V320.298Z"
-              fill="url(#paint0_radial_33_3955)"
-            />
-            <defs>
-              <radialGradient
-                id="paint0_radial_33_3955"
-                cx="0"
-                cy="0"
-                r="1"
-                gradientUnits="userSpaceOnUse"
-                gradientTransform="translate(921 -618.391) rotate(90) scale(1289.28 5305.27)"
-              >
-                <stop offset="0.266" stopColor="#26A3C9" />
-                <stop offset="1" stopColor="#FAF6FF" />
-              </radialGradient>
-            </defs>
-          </svg>
-        </div>
+  {/* SVG Background */}
+  <div className="absolute bottom-0 left-0 w-full -mt-6 sm:-mt-10 md:-mt-12">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1920 721"
+      fill="none"
+      className="w-full h-auto"
+    >
+      <path
+        d="M-193 320.298L-69.4167 380.271C54.1667 441.369 301.333 569.625 548.5 540.624C795.667 510.497 1042.83 320.298 1290 290.171C1537.17 261.17 1784.33 379.426 2031.5 365.348C2278.67 351.27 2525.83 209.227 2649.42 155.1767L2773 0V720.795H2649.42C2525.83 720.795 2278.67 720.795 2031.5 720.795C1784.33 720.795 1537.17 720.795 1290 720.795C1042.83 720.795 795.667 720.795 548.5 720.795C301.333 720.795 54.1667 720.795 -69.4167 720.795H-193V320.298Z"
+        fill="url(#paint0_radial_33_3955)"
+      />
+      <defs>
+        <radialGradient
+          id="paint0_radial_33_3955"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="translate(921 -618.391) rotate(90) scale(1289.28 5305.27)"
+        >
+          <stop offset="0.266" stopColor="#26A3C9" />
+          <stop offset="1" stopColor="#FAF6FF" />
+        </radialGradient>
+      </defs>
+    </svg>
+  </div>
+</div>
 
-      </div>
 
       <div className="text-center mt-10 mb-8">
         <h2
