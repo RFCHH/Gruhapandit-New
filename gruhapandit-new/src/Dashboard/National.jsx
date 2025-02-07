@@ -135,18 +135,19 @@ const National = () => {
   };
   return (
     <>
-      <MainLayout>
-        <div className="flex items-center pl-16 pr-4 pb-2 pt-20 justify-center min-h-screen bg-blue-50 -mt-16 lg:p-4">
-          <div className="flex flex-col lg:  md:flex-row bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-4xl">
-            {/* Left Section */}
-            <div className="flex flex-col items-center justify-center bg-purple-200 p-6 w-full md:w-1/2">
-              <img
-                src={Id}
-                alt="National ID"
-                className="w-48 h-auto md:w-96 mb-4"
-              />
-            </div>
+     <MainLayout>
+  <div className="flex items-center pl-16 pr-4 pb-2 pt-20 justify-center min-h-screen bg-blue-50 -mt-16 lg:p-4">
+    <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-4xl">
+      {/* Left Section */}
+      <div className="flex flex-col items-center justify-center bg-purple-200 p-6 w-full lg:w-1/2">
+        <img
+          src={Id}
+          alt="National ID"
+          className="w-48 h-auto md:w-80 lg:w-96 mb-4"
+        />
+      </div>
 
+<<<<<<< HEAD
             {/* Right Section */}
             <div className="p-4 md:p-8 max-w-md w-full md:w-1/2">
               <h2 className="text-lg md:text-xl text-center font-semibold mb-4">
@@ -232,10 +233,87 @@ const National = () => {
                 console.log("Submitted data:", data);
                 fetchNational();
               }}
+=======
+      {/* Right Section */}
+      <div className="p-4 md:p-8 max-w-md w-full lg:w-1/2">
+        <h2 className="text-lg md:text-xl text-center font-semibold mb-4">
+          Upload Your National ID
+        </h2>
+        <div
+          className="border-2 shadow-lg border-gray-300 rounded-lg p-6 md:p-10 text-center cursor-pointer flex flex-col items-center justify-center mb-5 mt-10 md:mt-20"
+          onDragOver={handleDragOver}
+          onClick={handleUploadClick}
+          onDrop={handleDrop}
+          role="button"
+          aria-label="Drop area for file upload"
+        >
+          <p className="text-gray-400 mb-2 text-sm md:text-base">
+            {fileName || "Drop your file here"}
+          </p>
+          <FaCloudUploadAlt
+            type="file"
+            onChange={handleFileChange}
+            className="text-blue-500 text-4xl md:text-6xl cursor-pointer"
+            id="fileInput"
+          />
+        </div>
+
+        <div className="flex flex-col md:flex-row items-center space-y-4 md:space-x-4">
+          <div className="w-full md:w-2/3">
+            <label className="block text-gray-700 mb-2 text-sm md:text-base">
+              File Name:
+            </label>
+            <input
+              type="text"
+              readOnly
+              value={fileName}
+              onChange={(e) => setFileName(e.target.value)}
+              className="border-2 border-gray-400 p-2 rounded-md w-full"
+>>>>>>> origin
             />
+          </div>
+
+          {fileName && (
+            <button
+              className="flex items-center bg-red-500 text-white px-4 py-3 rounded-md hover:bg-red-600 w-full md:w-auto"
+              onClick={handleDeleteFile}
+            >
+              <FaTrashAlt className="mr-2" />
+              Delete File
+            </button>
           )}
         </div>
-      </MainLayout>
+      </div>
+    </div>
+
+    {successMessage && (
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+        className={`fixed top-10 left-1/3 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg text-lg font-semibold ${
+          messageType === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white"
+        }`}
+      >
+        {successMessage}
+      </motion.div>
+    )}
+
+    {/* Dialog Box */}
+    {isDialogOpen && (
+      <DialogueBox
+        userId={userId}
+        category="NATIONAL_ID"
+        onClose={handleCloseDialog}
+        onSubmit={(data) => {
+          console.log("Submitted data:", data);
+          fetchNational();
+        }}
+      />
+    )}
+  </div>
+</MainLayout>
+
     </>
   );
 };
