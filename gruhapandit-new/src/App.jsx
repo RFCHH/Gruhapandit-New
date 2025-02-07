@@ -4,6 +4,7 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
 import Home from "./Pages/LandingPage/Home";
 import About from "./Pages/LandingPage/About";
 import Services from "./Pages/LandingPage/Services";
@@ -107,6 +108,7 @@ function App() {
     generateToken();
     onMessage(messaging,(payload) =>{
       console.log(payload);
+      toast(payload.notification.body)
       
     })
   }, []);
@@ -193,6 +195,10 @@ function App() {
           </Route>
           </Routes>
         </Layout>
+        <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
       </Router>
     </>
   );

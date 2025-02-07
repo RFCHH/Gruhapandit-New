@@ -168,123 +168,125 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <div className="text-2xl text-center mb-6 font-semibold">
-        {reviewToEdit ? 'Edit Review' : 'Create Review'}
-      </div>
-
-      <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-4">
-          <div className="col-span-1">
-            <label htmlFor="name" className="block text-left text-gray-700">Reviewer Name:</label>
-            <input
-              id="name"
-              type="text"
-              value={reviewerName}
-              onChange={(e) => setReviewerName(e.target.value)}
-              className="border border-gray-300 bg-gray-50 w-full p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
-            />
-            {
-              error.reviewerName && (
-                <p className='text-red-500 text-sm mt-1'>{error.reviewerName}</p>
-              )
-            }
-          </div>
-
-          <div className="col-span-1">
-            <label htmlFor="subject" className="block text-left text-gray-700">Subject:</label>
-            <input
-              id="subject"
-              type="text"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              className="border border-gray-300 bg-gray-50 w-full p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
-            />
-            {
-              error.subject && (
-                <p className='text-red-500 text-sm mt-1'>{error.subject}</p>
-              )
-            }
-          </div>
-
-          <div className="col-span-1">
-            <label htmlFor="email" className="block text-left text-gray-700">Reviewer Email:</label>
-            <input
-              id="email"
-              type="email"
-              value={reviewerEmail}
-              onChange={(e) => setReviewerEmail(e.target.value)}
-              className="border border-gray-300 bg-gray-50 w-full p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
-            />
-            {
-              error.reviewerEmail && (
-                <p className='text-red-500 text-sm mt-1'>{error.reviewerEmail}</p>
-              )
-            }
-          </div>
-
-          <div className="col-span-1">
-            <label htmlFor="reviewTo" className="block text-left text-gray-700">Review To:</label>
-            <input
-              id="reviewTo"
-              type="text"
-              value={reviewTo}
-              onChange={(e) => setReviewTo(e.target.value)}
-              className="border border-gray-300 bg-gray-50 w-full p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
-            />
-            {
-              error.reviewTo && (
-                <p className='text-red-500 text-sm mt-1'>{error.reviewTo}</p>
-              )
-            }
-          </div>
-
-          <div className="col-span-1 lg:col-span-2">
-            <label htmlFor="comments" className="block text-left text-gray-700">Comments:</label>
-            <textarea
-              id="comments"
-              value={comments}
-              onChange={(e) => setComments(e.target.value)}
-              className="border border-gray-300 bg-gray-50 w-full p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
-              rows="4"
-            ></textarea>
-            {
-              error.comments && (
-                <p className='text-red-500 mt-1 text-sm'>{error.comments}</p>
-              )
-            }
-          </div>
-
-          <div className="col-span-1">
-            <label htmlFor="ratings" className="block text-left text-gray-700">Ratings:</label>
-            <div className="flex items-center">
-              {stars.map((_, index) => (
-                <span
-                  key={index}
-                  className={`cursor-pointer text-3xl ${rating > index ? 'text-yellow-500' : 'text-gray-400'}`}
-                  onClick={() => handleStarClick(index)}
-                >
-                  ★
-                </span>
-              ))}
-            </div>
+    <div className="text-xl sm:text-2xl text-center mb-6 font-semibold">
+      {reviewToEdit ? 'Edit Review' : 'Create Review'}
+    </div>
+  
+    <form onSubmit={handleSubmit}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-4">
+        {/* Reviewer Name */}
+        <div className="col-span-1">
+          <label htmlFor="name" className="block text-left text-gray-700 text-sm sm:text-base">
+            Reviewer Name:
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={reviewerName}
+            onChange={(e) => setReviewerName(e.target.value)}
+            className="border border-gray-300 bg-gray-50 w-full p-2 sm:p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
+          />
+          {error.reviewerName && <p className="text-red-500 text-xs sm:text-sm mt-1">{error.reviewerName}</p>}
+        </div>
+  
+        {/* Subject */}
+        <div className="col-span-1">
+          <label htmlFor="subject" className="block text-left text-gray-700 text-sm sm:text-base">
+            Subject:
+          </label>
+          <input
+            id="subject"
+            type="text"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            className="border border-gray-300 bg-gray-50 w-full p-2 sm:p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
+          />
+          {error.subject && <p className="text-red-500 text-xs sm:text-sm mt-1">{error.subject}</p>}
+        </div>
+  
+        {/* Reviewer Email */}
+        <div className="col-span-1">
+          <label htmlFor="email" className="block text-left text-gray-700 text-sm sm:text-base">
+            Reviewer Email:
+          </label>
+          <input
+            id="email"
+            type="email"
+            value={reviewerEmail}
+            onChange={(e) => setReviewerEmail(e.target.value)}
+            className="border border-gray-300 bg-gray-50 w-full p-2 sm:p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
+          />
+          {error.reviewerEmail && <p className="text-red-500 text-xs sm:text-sm mt-1">{error.reviewerEmail}</p>}
+        </div>
+  
+        {/* Review To */}
+        <div className="col-span-1">
+          <label htmlFor="reviewTo" className="block text-left text-gray-700 text-sm sm:text-base">
+            Review To:
+          </label>
+          <input
+            id="reviewTo"
+            type="text"
+            value={reviewTo}
+            onChange={(e) => setReviewTo(e.target.value)}
+            className="border border-gray-300 bg-gray-50 w-full p-2 sm:p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
+          />
+          {error.reviewTo && <p className="text-red-500 text-xs sm:text-sm mt-1">{error.reviewTo}</p>}
+        </div>
+  
+        {/* Comments */}
+        <div className="col-span-1 sm:col-span-2">
+          <label htmlFor="comments" className="block text-left text-gray-700 text-sm sm:text-base">
+            Comments:
+          </label>
+          <textarea
+            id="comments"
+            value={comments}
+            onChange={(e) => setComments(e.target.value)}
+            className="border border-gray-300 bg-gray-50 w-full p-2 sm:p-3 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
+            rows="3"
+          ></textarea>
+          {error.comments && <p className="text-red-500 text-xs sm:text-sm mt-1">{error.comments}</p>}
+        </div>
+  
+        {/* Ratings */}
+        <div className="col-span-1">
+          <label htmlFor="ratings" className="block text-left text-gray-700 text-sm sm:text-base">
+            Ratings:
+          </label>
+          <div className="flex items-center">
+            {stars.map((_, index) => (
+              <span
+                key={index}
+                className={`cursor-pointer text-2xl sm:text-3xl ${rating > index ? 'text-yellow-500' : 'text-gray-400'}`}
+                onClick={() => handleStarClick(index)}
+              >
+                ★
+              </span>
+            ))}
           </div>
         </div>
-
-        <button
-          type="submit"
-          className="bg-blue-600 text-white p-3 rounded-md w-full mt-6 shadow-md hover:bg-blue-700 transition duration-300"
-        >
-          {reviewToEdit ? 'Update' : 'Submit'}
-        </button>
-        {/* <button
-          type="button"
-          onClick={handleClose}
-          className="bg-gray-300 text-black p-3 rounded-md w-full mt-4 shadow-md hover:bg-gray-400 transition duration-300"
-        >
-          Cancel
-        </button> */}
-      </form>
-    </div>
+      </div>
+  
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="bg-blue-600 text-white p-2 sm:p-3 rounded-md w-full mt-6 shadow-md hover:bg-blue-700 transition duration-300"
+      >
+        {reviewToEdit ? 'Update' : 'Submit'}
+      </button>
+  
+      {/* Cancel Button */}
+      {/* <button
+        type="button"
+        onClick={handleClose}
+        className="bg-gray-300 text-black p-2 sm:p-3 rounded-md w-full mt-4 shadow-md hover:bg-gray-400 transition duration-300"
+      >
+        Cancel
+      </button> */}
+    </form>
+  </div>
+  
   );
 }
 
