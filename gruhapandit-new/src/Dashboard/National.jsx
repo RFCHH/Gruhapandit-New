@@ -147,93 +147,6 @@ const National = () => {
         />
       </div>
 
-<<<<<<< HEAD
-            {/* Right Section */}
-            <div className="p-4 md:p-8 max-w-md w-full md:w-1/2">
-              <h2 className="text-lg md:text-xl text-center font-semibold mb-4">
-                Upload Your National ID
-              </h2>
-              <div
-                className="border-2 shadow-lg border-gray-300 rounded-lg p-6 md:p-10 text-center cursor-pointer flex flex-col items-center justify-center mb-5 mt-10 md:mt-20"
-                onDragOver={handleDragOver}
-                onClick={handleUploadClick}
-                onDrop={handleDrop}
-                role="button"
-                aria-label="Drop area for file upload"
-              >
-                <p className="text-gray-400 mb-2 text-sm md:text-base">
-                  {fileName || "Drop your file here"}
-                </p>
-                <FaCloudUploadAlt
-                  type="file"
-                  onChange={handleFileChange}
-                  className="text-blue-500 text-4xl md:text-6xl cursor-pointer"
-                  id="fileInput"
-                />
-                {/* <label htmlFor="fileInput">
-            <FaCloudUploadAlt className="text-blue-500 text-4xl md:text-6xl cursor-pointer" />
-          </label> */}
-              </div>
-              <div className="flex items-center space-x-2">
-                <label className="block text-gray-700 mb-2 text-sm md:text-base">
-                  File Name:
-                </label>
-                <input
-                  type="text"
-                  readOnly
-                  value={fileName}
-                  onChange={(e) => setFileName(e.target.value)}
-                  className="border-2 border-gray-400 p-2 rounded-md w-"
-                />
-                 {fileName && (
-        <button
-          className="flex items-center bg-red-500 text-white px-4 py-3 rounded-md hover:bg-red-600"
-          onClick={handleDeleteFile}
-        >
-          <FaTrashAlt className="mr-2" />
-          Delete File
-        </button>
-      )}
-
-                {/* {fileDelete && (
-                  <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
-                      <h1 className="text-lg font-semibold text-red-500">
-                        File Deleted Successfully!
-                      </h1>
-                    </div>
-                  </div>
-                )} */}
-              </div>
-            </div>
-          </div>
-          {successMessage && (
-  <motion.div
-    initial={{ opacity: 0, y: -50 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -50 }}
-    className={`fixed top-10 left-1/3 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg text-lg font-semibold ${
-      messageType === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white"
-    }`}
-  >
-    {successMessage}
-  </motion.div>
-)}
-
-
-
-
-      
-          {isDialogOpen && (
-            <DialogueBox
-              userId={userId}
-              category="NATIONAL_ID"
-              onClose={handleCloseDialog}
-              onSubmit={(data) => {
-                console.log("Submitted data:", data);
-                fetchNational();
-              }}
-=======
       {/* Right Section */}
       <div className="p-4 md:p-8 max-w-md w-full lg:w-1/2">
         <h2 className="text-lg md:text-xl text-center font-semibold mb-4">
@@ -269,7 +182,6 @@ const National = () => {
               value={fileName}
               onChange={(e) => setFileName(e.target.value)}
               className="border-2 border-gray-400 p-2 rounded-md w-full"
->>>>>>> origin
             />
           </div>
 
