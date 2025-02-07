@@ -36,7 +36,6 @@ import FooterMain from "./FooterMain";
 import { renderStars } from "../../Admin Flow/AllReviews";
 import axiosInstance from "../../axiosInstance";
 
-
 const LOCATIONIQ_API_KEY = "pk.530c664f58a82993701a9f281205ad8e";
 
 function Home() {
@@ -107,8 +106,6 @@ function Home() {
     }
     setShowPopup(true);
   };
-
-  
 
   useEffect(() => {
     const fetchStatsData = async () => {
@@ -195,7 +192,9 @@ function Home() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch("https://tution-application.onrender.com/tuition-application/reviews/tutors/latest");
+        const response = await fetch(
+          "https://tution-application.onrender.com/tuition-application/reviews/tutors/latest"
+        );
         const data = await response.json();
         setTutorReviews(data);
       } catch (error) {
@@ -214,36 +213,49 @@ function Home() {
 
   return (
     <>
-      <div className=" bg-gradient-to-b from-purple-50 to-blue-100 min-h-screen mt-20 absolute overflow-x-hidden">
+      <div className="min-h-screen bg-gradient-to-b text-gray-800 shadow-xl bg-pink-50 mt-14 overflow-hidden">
         <section
-          className="bg-gradient-to-b from-blue-200 to-white bg-cover bg-center "
+          className="bg-gradient-to-b from-blue-200 to-white bg-cover bg-center px-4 sm:px-6 lg:px-8"
           style={{
             backgroundImage: `url(${Background})`,
             transition: "background 0.5s ease-in-out",
           }}
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center flex-wrap">
-            <div className="md:w-1/2 text-center md:text-left">
-              <h2 className="font-bold text-gray-800">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center flex-wrap">
+            {/* Right Section (Image - Comes First on Mobile) */}
+            <div className="md:w-1/2 mt-8 md:mt-0 flex justify-center relative order-first md:order-last">
+              <img
+                src={Logo}
+                alt="Tutor"
+                className="w-3/4 sm:w-2/3 md:w-full relative z-10"
+              />
+              <div className="absolute inset-0 bg-yellow-400 rounded-full w-40 h-40 sm:w-64 sm:h-64 md:w-80 md:h-80 top-12 left-12 z-0"></div>
+            </div>
+
+            {/* Left Section (Content) */}
+            <div className="md:w-1/2 text-center md:text-left mt-0 md:mt-10">
+              <h2 className="font-bold text-gray-800 text-lg sm:text-xl md:text-2xl">
                 We Are Concerned About Your Tomorrow
               </h2>
-              <h3 className="text-3xl font-bold text-black mt-4">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mt-4">
                 Find Experienced Tutors
               </h3>
-              <p className="font-semibold text-black mt-2">
+              <p className="font-semibold text-black mt-2 text-sm sm:text-base">
                 Online & Home Tutors
               </p>
-              <h1 className="mt-6 font-semibold">
+              <h1 className="mt-6 font-semibold text-sm sm:text-base md:text-lg">
                 Find Tutors in Nearby Location
               </h1>
-              <div className="flex justify-center md:justify-start items-center space-x-4">
-                <div className="relative w-80">
+
+              {/* Search Bar */}
+              <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
+                <div className="relative w-full sm:w-80">
                   <input
                     type="text"
                     value={address}
                     onChange={handleChange}
-                    placeholder="Nearby Location "
-                    className="px-4 py-2 border rounded-full w-full pl-12 bg-blue-900 text-white"
+                    placeholder="Nearby Location"
+                    className="px-4 py-2 border rounded-full w-full pl-12 bg-blue-900 text-white placeholder-gray-300"
                   />
                   <img
                     src={Map}
@@ -271,7 +283,7 @@ function Home() {
                               onClick={() => handleSelect(item)}
                               className="px-4 py-2 text-black cursor-pointer hover:bg-gray-200"
                             >
-                              {city},{district},{state} , {country}
+                              {city}, {district}, {state}, {country}
                             </li>
                           );
                         })}
@@ -281,51 +293,48 @@ function Home() {
                 </div>
                 <button
                   onClick={handleSearch}
-                  className="border-4 border-purple-600 text-black px-6 py-2 rounded-full  "
+                  className="border-2 border-purple-600 text-black px-6 py-2 rounded-full hover:bg-purple-600 hover:text-white transition"
                 >
                   Search Now
                 </button>
-                {showPopup && (
-                  <div className="fixed inset-0 z-20 flex items-center justify-center  bg-black bg-opacity-50">
-                    <div className="bg-white rounded-lg shadow-md p-4 max-w-md">
-                      <ul className="mt-2">
-                        {apiResponse.map((data, index) => (
-                          <li key={index} className="mb-2">
-                            {data.category}: {data.count}
-                          </li>
-                        ))}
-                      </ul>
-                      <button
-                        onClick={() => {
-                          setShowPopup(false);
-                          setAddress("");
-                        }}
-                        className="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </div>
-                )}
               </div>
+
+              {/* Popup Modal */}
+              {showPopup && (
+                <div className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50 p-4">
+                  <div className="bg-white rounded-lg shadow-md p-6 max-w-sm w-full">
+                    <ul className="mt-2">
+                      {apiResponse.map((data, index) => (
+                        <li key={index} className="mb-2 text-black">
+                          {data.category}: {data.count}
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      onClick={() => {
+                        setShowPopup(false);
+                        setAddress("");
+                      }}
+                      className="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg w-full"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Image (Books) */}
               <div className="flex justify-center md:justify-start mt-8">
                 <img
                   src={Books}
                   alt="Books"
-                  className="w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] object-contain"
+                  className="w-[200px] sm:w-[250px] md:w-[300px] lg:w-[350px] object-contain"
                 />
               </div>
             </div>
-            <div className="md:w-1/2 mt-8 md:mt-0 flex justify-center relative">
-              <img
-                src={Logo}
-                alt="Tutor"
-                className="w-3/4 md:w-full relative z-10"
-              />
-              <div className="absolute inset-0 bg-yellow-400 rounded-full w-64 h-64 md:w-80 md:h-80 top-12 left-12 z-0"></div>
-            </div>
           </div>
         </section>
+
         <section>
           <div>
             <h2 className="text-center text-3xl font-bold text-gray-800  mt-5 mb-24">
@@ -503,10 +512,10 @@ function Home() {
                 />
               </div>
             </div>
-            <div className="my-4 justify-center flex">
+            <div className="my-4 flex justify-end sm:justify-center">
               <p
                 onClick={() => navigate("/LoginPage")}
-                className="text-xl text-white bg-violet-800 px-10 py-2   sm:px-20 rounded-full inline-block font-medium mt-10 mb-32 sm:mb-44"
+                className="text-xl text-white bg-violet-800 px-10 py-2 sm:px-20 rounded-full inline-block font-medium mt-10 mb-32 sm:mb-44"
               >
                 For Tutors
               </p>
@@ -769,7 +778,7 @@ function Home() {
                 tutorReviews.map((review, index) => (
                   <div key={index} className="mt-4">
                     <p className="text-gray-600 mt-2 w-[75%] font-semibold">
-                    {review.reviewerName}
+                      {review.reviewerName}
                     </p>
                     <p className="text-gray-600 mt-2 w-[75%] font-semibold">
                       {review.comments}
@@ -777,9 +786,9 @@ function Home() {
                     <p className="text-sm text-[#32046B] font-medium mt-4">
                       {review.reviewerEmailId}
                     </p>
-                    <p className="text-gray-600 mt-2 w-[75%]">
+                    <div className="text-gray-600 mt-2 w-[75%]">
                       {renderStars(review.rating)}
-                    </p>
+                    </div>
                   </div>
                 ))
               ) : (
@@ -798,42 +807,45 @@ function Home() {
           {/* </section>
       <section className="bg-purple-50 py-16 relative"> */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center flex-wrap">
-            <div className="md:w-1/2 text-center md:text-left px-14">
-              <h1 className="text-4xl font-bold text-black mb-8 px-10">
-                {" "}
+            {/* Left Section - Text & Input */}
+            <div className="md:w-1/2 text-center md:text-left px-4 sm:px-8">
+              <h1 className="text-3xl sm:text-4xl font-bold text-black mb-6 sm:mb-8">
                 LET'S KEEP IN TOUCH
               </h1>
-              <h2 className="text-xl font-bold text-[#32046B] w-[90%]  px-6">
+              <h2 className="text-lg sm:text-xl font-bold text-[#32046B] w-full sm:w-[90%]">
                 Subscribe to our email newsletter to keep yourself updated.
               </h2>
 
-              <div className="flex justify-center md:justify-start items-center space-x-4 py-10">
-                <div className="relative w-80">
+              {/* Input & Button */}
+              <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4 py-6 sm:py-10">
+                <div className="relative w-full sm:w-80">
                   <input
                     type="text"
-                    placeholder="Enter your Email...... "
-                    className="px-4 py-2 border rounded-full w-full pl-12 bg-blue-900 text-white"
+                    placeholder="Enter your Email..."
+                    className="px-4 py-2 border rounded-full w-full pl-12 bg-blue-900 text-white placeholder-gray-300"
                   />
                   <img
                     src={Mail}
                     alt="Mail Icon"
-                    className="absolute rounded-full left-2 top-1/2 transform -translate-y-1/2 w-8 h-8"
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6"
                   />
                 </div>
 
                 <button
                   onClick={() => navigate("/userselection")}
-                  className="border-2 border-purple-600 text-black px-6 py-2 rounded-full  hover:bg-orange-200"
+                  className="border-2 border-purple-600 text-black px-6 py-2 rounded-full hover:bg-orange-200 transition"
                 >
                   Subscribe Now
                 </button>
               </div>
             </div>
+
+            {/* Right Section - Image */}
             <div className="md:w-1/2 mt-8 md:mt-0 flex justify-center relative">
               <img
                 src={BigMail}
-                alt="Tutor"
-                className="w-3/4 md:w-full relative z-10"
+                alt="Email Icon"
+                className="w-[70%] sm:w-[60%] md:w-[75%] lg:w-[80%] xl:w-[90%] max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl object-contain"
               />
             </div>
           </div>

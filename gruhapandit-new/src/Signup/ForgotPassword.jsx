@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import forgetImg from "../assets/ForgotPassword.png";
+import { FaUserCircle } from "react-icons/fa";
 
 import axiosInstance from "../axiosInstance";
 
@@ -69,7 +70,8 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="relative flex justify-center items-center h-screen bg-gradient-to-b from-blue-100 to-white overflow-hidden pt-16">
+    <div className="relative flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-100 to-white overflow-hidden pt-16 px-4">
+      {/* Floating Decorative Symbols */}
       <div className="absolute top-10 left-10 text-pink-300 text-2xl">★</div>
       <div className="absolute top-20 right-7 text-blue-300 text-xl">•</div>
       <div className="absolute bottom-24 left-16 text-purple-300 text-3xl">
@@ -81,52 +83,66 @@ const ForgotPassword = () => {
       <div className="absolute top-3 left-1/2 transform -translate-x-1/2 text-blue-300 text-lg">
         ✦
       </div>
-      <div className="bg-white shadow-lg rounded-lg flex flex-col md:flex-row items-center p-10 md:p-16 space-y-10 md:space-y-0 md:space-x-16 max-w-5xl relative z-20">
-        <div className="flex-shrink-0">
+
+      {/* Main Card Container */}
+      <div className="bg-white shadow-lg rounded-lg flex flex-col md:flex-row items-center p-6 sm:p-10 md:p-16 space-y-6 md:space-y-0 md:space-x-8 max-w-4xl w-full relative z-20">
+        {/* Left Side - Image */}
+        <div className="flex-shrink-0 w-full md:w-1/2 flex justify-center">
           <img
             src={forgetImg}
             alt="Forgot Password Illustration"
-            className="w-auto md:w-96 transform hover:scale-105 transition duration-300 ease-in-out"
+            className="w-auto max-w-[300px] md:max-w-[400px] transform hover:scale-105 transition duration-300 ease-in-out"
           />
         </div>
 
-        <div className="flex-grow bg-[#F4EBFF] shadow-xl w-full md:w-3/4 p-8 sm:p-12 rounded-lg transform hover:scale-105 transition duration-300 ease-in-out">
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-black mb-4">
-              FORGOT PASSWORD
-            </h2>
-            <div className="w-40 sm:w-48 h-0.5 bg-[#F44D99] mb-8" />
-          </div>
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="relative">
+        {/* Right Side - Form */}
+        <div className="flex-grow bg-[#F4EBFF] shadow-xl w-full md:w-1/2 p-6 sm:p-8 md:p-12 rounded-lg transform hover:scale-105 transition duration-300 ease-in-out">
+          <h2 className="w-full max-w-full text-xl sm:text-2xl font-bold text-black mb-4 text-center md:text-xl">
+            FORGOT PASSWORD
+          </h2>
+          <div className="w-32 sm:w-48 h-0.5 bg-[#F44D99] mx-auto md:mx-0 mb-6"></div>
+
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            {/* User ID Input */}
+            <div className="relative h-[50px]">
+              {/* User Icon */}
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                <FaUserCircle className="text-gray-500 w-5 h-5" />
+              </div>
+
+              {/* Input Field */}
               <input
                 type="text"
                 placeholder="User ID *"
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
-                className={`w-full px-4 sm:px-6 py-3 sm:py-4 border-2 ${
+                className={`w-full pl-10 pr-4 py-3 border-2 ${
                   errors.userId ? "border-red-500" : "border-purple-300"
                 } rounded-lg focus:outline-none focus:ring-2 ${
                   errors.userId ? "focus:ring-red-500" : "focus:ring-purple-500"
                 }`}
               />
+
+              {/* Error Message */}
               {errors.userId && (
                 <p className="text-red-500 text-sm mt-1">{errors.userId}</p>
               )}
             </div>
 
-            <div className="flex justify-center mt-6">
+            {/* Submit Button */}
+            <div className="flex justify-center pt-6">
               <button
                 type="submit"
-                className="w-40 sm:w-56 py-3 sm:py-4 bg-[#FFFFFF] text-[#000000] font-bold rounded-md border-2 hover:border-blue-300 shadow-xl flex items-center justify-center hover:bg-purple-500 hover:text-white transition duration-300"
-                disabled={loading} // Disable the button while loading
+                className="w-40 sm:w-56 py-3 bg-white text-black font-bold rounded-md border-2 hover:border-blue-300 shadow-xl flex items-center justify-center hover:bg-purple-500 hover:text-white transition duration-300"
+                disabled={loading}
               >
                 {loading ? "Sending..." : "Submit"}
               </button>
             </div>
           </form>
 
-          <div className="text-center mt-6">
+          {/* Sign In Link */}
+          <div className="text-center mt-4">
             <p className="text-sm text-gray-600">
               Already Registered?{" "}
               <a href="/LoginPage" className="text-blue-500 hover:underline">
@@ -136,16 +152,18 @@ const ForgotPassword = () => {
           </div>
         </div>
       </div>
+
+      {/* Success Popup */}
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-30">
-          <div className="bg-white rounded-lg shadow-lg p-8 w-96 text-center">
+          <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 w-72 sm:w-96 text-center">
             <div className="flex justify-center items-center mb-4">
               <span className="text-green-500 text-4xl">✔</span>
             </div>
-            <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-2">
               Success
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-4">
               Your User ID has been successfully submitted!
             </p>
             <button
@@ -157,6 +175,8 @@ const ForgotPassword = () => {
           </div>
         </div>
       )}
+
+      {/* Background SVG */}
       <div className="absolute top-0 left-0 w-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"
