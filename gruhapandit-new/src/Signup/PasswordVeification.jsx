@@ -195,7 +195,7 @@ const PasswordVerification = () => {
               <p className="text-red-500 text-sm mt-1">{errors.otp}</p>
             )}
 
-            <div className="relative">
+            <div className="relative h-[50px]">
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
@@ -220,7 +220,7 @@ const PasswordVerification = () => {
               )}
             </div>
 
-            <div className="relative">
+            <div className="relative h-[100px] pt-8">
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}

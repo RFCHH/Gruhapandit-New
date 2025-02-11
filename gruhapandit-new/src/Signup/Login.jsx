@@ -1,8 +1,8 @@
 import { useState } from "react";
 import loginImg from "../assets/Login.png";
 import Sign1 from "../assets/Login1.png";
-import userIdIcon from "../assets/email.png";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+// import userIdIcon from "../assets/email.png";
+import { FaEye, FaEyeSlash,FaUserCircle } from "react-icons/fa";
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -173,12 +173,12 @@ const LoginPage = () => {
             </p>
           )}
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="relative">
+            <div className="relative h-[50px]">
               <label htmlFor="userId" className="sr-only">
                 UserId
               </label>
               <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                <img src={userIdIcon} alt="UserId Icon" className="w-5 h-5" />
+              <FaUserCircle className="text-gray-500 w-5 h-5" />
               </div>
               <input
                 type="text"
@@ -195,7 +195,7 @@ const LoginPage = () => {
               )}
             </div>
 
-            <div className="relative">
+            <div className="relative h-[60px] pt-2">
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"

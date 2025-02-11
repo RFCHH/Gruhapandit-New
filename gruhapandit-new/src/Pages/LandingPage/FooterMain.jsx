@@ -8,22 +8,18 @@ function Footer() {
       {/* Background Design */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-500 to-purple-700 opacity-10 pointer-events-none"></div>
 
-      <div className="footer-section flex flex-col items-center md:items-start text-center md:text-left">
-        <h1 className="text-3xl font-bold tracking-wider text-blue-300"></h1>
-      </div>
-
       {/* Content */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-6 relative z-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 relative z-10">
         {/* Logo & Motto */}
-        <div className="flex flex-col items-start space-y-4">
+        <div className="flex flex-col items-center md:items-start space-y-4">
           <h1 className="text-3xl font-bold tracking-wider text-blue-300">
             Gruhapandit
           </h1>
-          <p className="text-sm text-gray-100">
+          <p className="text-sm text-gray-100 text-center md:text-left">
             Your guide to academic excellence. Discover innovative learning
             solutions with us.
           </p>
-          <p className="text-sm text-gray-100">
+          <p className="text-sm text-gray-100 text-center md:text-left">
             Empowering students with expert tuition services tailored to their
             unique needs.
           </p>
@@ -68,7 +64,7 @@ function Footer() {
               <a
                 href="/"
                 className="hover:text-blue-300"
-                onClick={()=> window.open("/TermsAndConditions_4.pdf")}
+                onClick={() => window.open("/TermsAndConditions_4.pdf")}
               >
                 Terms and Conditions
               </a>
@@ -158,7 +154,7 @@ function Footer() {
 
       {/* Footer Bottom */}
       <div className="mt-8 border-t border-gray-600 pt-4 text-center text-sm text-gray-400 relative z-10">
-      <p>© {new Date().getFullYear()} Gruhapandit Tuitions. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Gruhapandit Tuitions. All rights reserved.</p>
       </div>
     </div>
   );
