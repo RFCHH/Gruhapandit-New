@@ -279,7 +279,7 @@ const LoginPage = () => {
               Don't have an account?{" "}
               <a
                 onClick={() => navigate("/userselection")}
-                className="text-[#2AB0FF] hover:text-purple-500 transition duration-300"
+                className="text-[#2AB0FF] hover:text-purple-500 transition duration-300 cursor-pointer"
               >
                 Sign Up
               </a>
