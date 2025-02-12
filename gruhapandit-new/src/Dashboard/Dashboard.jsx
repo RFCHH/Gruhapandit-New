@@ -74,7 +74,7 @@ const Dashboard = () => {
     datasets: [
       {
         data: [40, 60],
-        backgroundColor: ["#ec4899", "#e5e7eb"],
+        backgroundColor: ["brown", "#e5e7eb"],
         hoverBackgroundColor: ["#db2777", "#d1d5db"],
         borderWidth: 0,
       },
@@ -159,7 +159,7 @@ const Dashboard = () => {
                 <div className="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-8">
                   <div className="relative w-24 h-24 md:w-40 md:h-40">
                     <Doughnut data={data} options={options} />
-                    <div className="absolute inset-0 flex md:ml-2 md:mb-5 ml-2 lg:mt-5 items-center justify-center text-pink-500 font-bold text-xs md:text-lg">
+                    <div className="absolute inset-0 flex md:ml-2 md:mb-5 ml-2 lg:mt-5 items-center justify-center text-red-900 font-bold text-xs md:text-lg">
                       40%
                     </div>
                   </div>
