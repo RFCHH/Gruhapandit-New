@@ -14,6 +14,23 @@ const Banners = () => {
   const [error, setError] = useState({});
   const [banners, setBanners] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingBannerId, setEditingBannerId] = useState(null); // Stores banner ID when editing
+
+  useEffect(() => {
+    fetchBanners();
+  }, []);
+
+  const fetchBanners = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get(`/banners/getAll`);
+      setBanners(response.data);
+    } catch (error) {
+      console.error("Error fetching banners:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,59 +43,66 @@ const Banners = () => {
   };
 
   const validateForm = () => {
-    let error = {};
+    let errors = {};
     let isValid = true;
 
-    if (formdata.files.length === 0) {
-      error.files = "File is required";
+    if (!editingBannerId && formdata.files.length === 0) {
+      errors.files = "File is required";
       isValid = false;
     }
     if (!formdata.fileName.trim()) {
-      error.fileName = "File name is required";
+      errors.fileName = "File name is required";
       isValid = false;
     }
     if (!formdata.startDate.trim()) {
-      error.startDate = "Start date is required";
+      errors.startDate = "Start date is required";
       isValid = false;
     }
     if (!formdata.endDate.trim()) {
-      error.endDate = "End date is required";
+      errors.endDate = "End date is required";
       isValid = false;
     }
-    setError(error);
+    setError(errors);
     return isValid;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return;
-    }
-
+    if (!validateForm()) return;
+  
     const token = localStorage.getItem("Token");
     if (!token) {
       console.log("Token not found");
       return;
     }
-
+  
     try {
-      const formDataToSend = new FormData();
-      formdata.files.forEach((file) => {
-        formDataToSend.append("file", file);
-      });
-
-      const url = `/banners/create?fileName=${encodeURIComponent(formdata.fileName)}&startDate=${encodeURIComponent(formdata.startDate)}&endDate=${encodeURIComponent(formdata.endDate)}`;
-
-      const response = await axiosInstance.post(url, formDataToSend, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      console.log("Submitted data:", response.data);
-      if (response.data?.id) {
-        sessionStorage.setItem("bannerId", response.data.id);
+      let response;
+      if (editingBannerId) {
+        response = await axiosInstance.patch(`/banners/update/${editingBannerId}`, {    
+          fileName: formdata.fileName,
+          startDate: formdata.startDate,
+          endDate: formdata.endDate,
+        });
+        
+        
+      } else {
+       
+        const formDataToSend = new FormData();
+        formdata.files.forEach((file) => {
+          formDataToSend.append("file", file);
+        });
+  
+        response = await axiosInstance.post(
+          `/banners/create?fileName=${encodeURIComponent(formdata.fileName)}&startDate=${encodeURIComponent(formdata.startDate)}&endDate=${encodeURIComponent(formdata.endDate)}`,
+          formDataToSend,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
       }
+  
+      console.log("Response:", response.data);
+  
+      
       setFormData({
         files: [],
         fileName: "",
@@ -86,41 +110,47 @@ const Banners = () => {
         endDate: "",
         category: "BANNERS_IMAGE",
       });
-     
+      setEditingBannerId(null);
+      alert("successfully created banner");
       setError({});
-      fetchBanners(); 
+      fetchBanners();
     } catch (error) {
       console.error("Error submitting banner:", error.response?.data || error.message);
     }
   };
+  
+  const handleEdit = (banner) => {
+    setFormData({
+      files: [], 
+      fileName: banner.fileName,
+      startDate: banner.startDate,
+      endDate: banner.endDate,
+      category: "BANNERS_IMAGE",
+    });
+    setEditingBannerId(banner.id); 
+  };
 
-  const fetchBanners = async () => {
+  const handleDelete = async (id) => {
     try {
-      const response = await axiosInstance.get(`/banners/getAll`);
-      setBanners(response.data); 
+      await axiosInstance.delete(`/banners/${id}`);
+      setBanners(banners.filter((banner) => banner.id !== id)); 
+      alert("successfully deleted!");
     } catch (error) {
-      console.error("Error fetching details", error);
-    } finally {
-      setLoading(false);
+      console.error("Error deleting banner:", error);
     }
   };
 
-  useEffect(() => {
-    fetchBanners();
-  }, []);
-
   return (
-    <>
-      <MainLayout>
-        <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg mt-10">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">{formdata.category}</h2>
+    <MainLayout>
+      <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg mt-10">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">{formdata.category}</h2>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {!editingBannerId && (
             <div>
               <label className="block text-gray-600 font-medium">Files:</label>
               <input
                 type="file"
-                id="files"
                 name="files"
                 onChange={handleFileChange}
                 multiple
@@ -128,103 +158,352 @@ const Banners = () => {
               />
               {error.files && <p className="text-red-500 text-xs">{error.files}</p>}
             </div>
+          )}
 
-            <div>
-              <label className="block text-gray-600 font-medium">File Name:</label>
-              <input
-                type="text"
-                name="fileName"
-                value={formdata.fileName}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md"
-              />
-              {error.fileName && <p className="text-red-500 text-xs">{error.fileName}</p>}
-            </div>
+          <div>
+            <label className="block text-gray-600 font-medium">File Name:</label>
+            <input
+              type="text"
+              name="fileName"
+              value={formdata.fileName}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+            {error.fileName && <p className="text-red-500 text-xs">{error.fileName}</p>}
+          </div>
 
-            <div>
-              <label className="block text-gray-600 font-medium">Start Date:</label>
-              <input
-                type="date"
-                name="startDate"
-                value={formdata.startDate}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md focus:ring focus:ring-blue-300"
-              />
-              {error.startDate && <p className="text-red-500 text-xs">{error.startDate}</p>}
-            </div>
+          <div>
+            <label className="block text-gray-600 font-medium">Start Date:</label>
+            <input
+              type="date"
+              name="startDate"
+              value={formdata.startDate}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+            {error.startDate && <p className="text-red-500 text-xs">{error.startDate}</p>}
+          </div>
 
-            <div>
-              <label className="block text-gray-600 font-medium">End Date:</label>
-              <input
-                type="date"
-                name="endDate"
-                value={formdata.endDate}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md focus:ring focus:ring-blue-300"
-              />
-              {error.endDate && <p className="text-red-500 text-xs">{error.endDate}</p>}
-            </div>
+          <div>
+            <label className="block text-gray-600 font-medium">End Date:</label>
+            <input
+              type="date"
+              name="endDate"
+              value={formdata.endDate}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+            {error.endDate && <p className="text-red-500 text-xs">{error.endDate}</p>}
+          </div>
 
-            <div className="flex justify-between mt-4">
+          <div className="flex justify-between mt-4">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+            >
+              {editingBannerId ? "Update" : "Save"}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <h3 className="text-lg font-semibold text-gray-700 mt-6 ml-16">Existing Banners</h3>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <ul className="mt-4 ml-28">
+          {banners.map((banner) => (
+            <li key={banner.id} className="flex justify-between items-center border-b py-2 space-x-3">
+              <span>📁 {banner.fileName}</span>
+              <span>📅 {banner.startDate} - {banner.endDate}</span>
               <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                onClick={() => handleEdit(banner)}
+                className="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600"
               >
-                Save
+                Edit
               </button>
               <button
-                type="button"
-                className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition"
+                onClick={() => handleDelete(banner.id)}
+                className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600"
               >
                 Delete
               </button>
-            </div>
-          </form>
-        </div>
-
-        {loading ? (
-  <p className="text-center text-lg font-semibold">Loading banners...</p>
-) : (
-  banners.map((banner, index) => (
-    <div key={index} className="p-6 border-b ml-24 mb-4 rounded-lg shadow-md">
-      <h1 className="text-xl font-semibold mb-4">Banner Details</h1>
-      <div className="flex flex-wrap gap-4">
-        <div className="flex flex-col">
-          <label className="text-sm font-medium">File Name</label>
-          <input 
-            value={banner.fileName} 
-            readOnly 
-            className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-          />
-        </div>
-        <div className="flex flex-col">
-          <label className="text-sm font-medium">Start Date</label>
-          <input 
-            value={banner.startDate} 
-            readOnly 
-            className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-          />
-        </div>
-        <div className="flex flex-col">
-          <label className="text-sm font-medium">End Date</label>
-          <input 
-            value={banner.endDate} 
-            readOnly 
-            className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-          />
-        </div>
-      </div>
-    </div>
-  ))
-)}
-
-      </MainLayout>
-    </>
+            </li>
+          ))}
+        </ul>
+      )}
+    </MainLayout>
   );
 };
 
 export default Banners;
 
+
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import axiosInstance from "../axiosInstance";
+// import MainLayout from "../Layout/Mainlayout";
+
+// const Banners = () => {
+//   const [formdata, setFormData] = useState({
+//     files: [],
+//     fileName: "",
+//     startDate: "",
+//     endDate: "",
+//     category: "BANNERS_IMAGE",
+//   });
+
+//   const [error, setError] = useState({});
+//   const [banners, setBanners] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [selectedBanner, setSelectedBanner] = useState(null);
+//   const [isEditable, setIsEditable] = useState(false);
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData({ ...formdata, [name]: value });
+//   };
+
+//   const handleFileChange = (e) => {
+//     const selectedFiles = Array.from(e.target.files);
+//     setFormData({ ...formdata, files: selectedFiles });
+//   };
+
+//   const validateForm = () => {
+//     let error = {};
+//     let isValid = true;
+
+//     // Show error for files only when creating a new banner
+//     if (!selectedBanner && formdata.files.length === 0) {
+//       error.files = "File is required when creating a new banner";
+//       isValid = false;
+//     }
+//     if (!formdata.fileName.trim()) {
+//       error.fileName = "File name is required";
+//       isValid = false;
+//     }
+//     if (!formdata.startDate.trim()) {
+//       error.startDate = "Start date is required";
+//       isValid = false;
+//     }
+//     if (!formdata.endDate.trim()) {
+//       error.endDate = "End date is required";
+//       isValid = false;
+//     }
+//     setError(error);
+//     return isValid;
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     if (!validateForm()) {
+//       return;
+//     }
+
+//     const token = localStorage.getItem("Token");
+//     if (!token) {
+//       console.log("Token not found");
+//       return;
+//     }
+
+//     try {
+//       const formDataToSend = new FormData();
+//       if (!selectedBanner) {
+//         formdata.files.forEach((file) => {
+//           formDataToSend.append("file", file);
+//         });
+//       }
+
+//       const url = selectedBanner
+//         ? `https://tution-application.onrender.com/tuition-application/banners/update/${selectedBanner.id}`
+//         : `/banners/create?fileName=${encodeURIComponent(formdata.fileName)}&startDate=${encodeURIComponent(formdata.startDate)}&endDate=${encodeURIComponent(formdata.endDate)}`;
+
+//       const method = selectedBanner ? "patch" : "post";
+//       await axiosInstance[method](url, selectedBanner ? {
+//         fileName: formdata.fileName,
+//         startDate: formdata.startDate,
+//         endDate: formdata.endDate,
+//       } : formDataToSend, {
+//         headers: {
+//           "Content-Type": selectedBanner ? "application/json" : "multipart/form-data",
+//           "Authorization": `Bearer ${token}`,
+//         },
+//       });
+
+//       setFormData({
+//         files: [],
+//         fileName: "",
+//         startDate: "",
+//         endDate: "",
+//         category: "BANNERS_IMAGE",
+//       });
+//       setError({});
+//       setSelectedBanner(null);
+//       setIsEditable(false); // Reset edit mode
+//       fetchBanners();
+//     } catch (error) {
+//       console.error("Error submitting banner:", error.response?.data || error.message);
+//     }
+//   };
+
+//   const fetchBanners = async () => {
+//     try {
+//       const response = await axiosInstance.get(`/banners/getAll`);
+//       setBanners(response.data);
+//     } catch (error) {
+//       console.error("Error fetching details", error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchBanners();
+//   }, []);
+
+//   const handleEdit = (banner) => {
+//     setSelectedBanner(banner);
+//     setFormData({
+//       files: [],
+//       fileName: banner.fileName,
+//       startDate: banner.startDate,
+//       endDate: banner.endDate,
+//       category: "BANNERS_IMAGE",
+//     });
+//     setIsEditable(true); // Enable editing
+//   };
+
+//   return (
+//     <>
+//       <MainLayout>
+//         <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg mt-10">
+//           <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">{formdata.category}</h2>
+
+//           <form onSubmit={handleSubmit} className="space-y-4">
+//             {/* File Upload Only When Creating a New Banner */}
+//             {!selectedBanner && (
+//               <div>
+//                 <label className="block text-gray-600 font-medium">Files:</label>
+//                 <input
+//                   type="file"
+//                   id="files"
+//                   name="files"
+//                   onChange={handleFileChange}
+//                   multiple
+//                   className="w-full border p-2 rounded-md focus:ring focus:ring-blue-300"
+//                 />
+//                 {error.files && <p className="text-red-500 text-xs">{error.files}</p>}
+//               </div>
+//             )}
+
+//             <div>
+//               <label className="block text-gray-600 font-medium">File Name:</label>
+//               <input
+//                 type="text"
+//                 name="fileName"
+//                 value={formdata.fileName}
+//                 onChange={handleChange}
+//                 className="w-full border p-2 rounded-md"
+//                 readOnly={!isEditable}
+//               />
+//               {error.fileName && <p className="text-red-500 text-xs">{error.fileName}</p>}
+//             </div>
+
+//             <div>
+//               <label className="block text-gray-600 font-medium">Start Date:</label>
+//               <input
+//                 type="date"
+//                 name="startDate"
+//                 value={formdata.startDate}
+//                 onChange={handleChange}
+//                 className="w-full border p-2 rounded-md focus:ring focus:ring-blue-300"
+//                 readOnly={!isEditable}
+//               />
+//               {error.startDate && <p className="text-red-500 text-xs">{error.startDate}</p>}
+//             </div>
+
+//             <div>
+//               <label className="block text-gray-600 font-medium">End Date:</label>
+//               <input
+//                 type="date"
+//                 name="endDate"
+//                 value={formdata.endDate}
+//                 onChange={handleChange}
+//                 className="w-full border p-2 rounded-md focus:ring focus:ring-blue-300"
+//                 readOnly={!isEditable}
+//               />
+//               {error.endDate && <p className="text-red-500 text-xs">{error.endDate}</p>}
+//             </div>
+
+//             <div className="flex justify-between mt-4">
+//               <button
+//                 type="submit"
+//                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+//               >
+//                 Save
+//               </button>
+//               <button
+//                 type="button"
+//                 className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition"
+//                 onClick={() => setIsEditable(!isEditable)} // Toggle edit mode
+//               >
+//                 {isEditable ? "Cancel" : "Edit"}
+//               </button>
+//             </div>
+//           </form>
+//         </div>
+
+//         {loading ? (
+//           <p className="text-center text-lg font-semibold">Loading banners...</p>
+//         ) : (
+//           banners.map((banner, index) => (
+//             <div key={index} className="p-6 border-b ml-24 mb-4 rounded-lg shadow-md">
+//               <h1 className="text-xl font-semibold mb-4">Banner Details</h1>
+//               <div className="flex flex-wrap gap-4">
+//                 <div className="flex flex-col">
+//                   <label className="text-sm font-medium">File Name</label>
+//                   <input 
+//                     value={banner.fileName} 
+//                     className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+//                     readOnly
+//                   />
+//                 </div>
+//                 <div className="flex flex-col">
+//                   <label className="text-sm font-medium">Start Date</label>
+//                   <input 
+//                     value={banner.startDate} 
+//                     className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+//                     readOnly
+//                   />
+//                 </div>
+//                 <div className="flex flex-col">
+//                   <label className="text-sm font-medium">End Date</label>
+//                   <input 
+//                     value={banner.endDate} 
+//                     className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+//                     readOnly
+//                   />
+//                 </div>
+//                 <button
+//                   type="button"
+//                   className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition"
+//                   onClick={() => handleEdit(banner)} // Trigger edit
+//                 >
+//                   Edit
+//                 </button>
+//               </div>
+//             </div>
+//           ))
+//         )}
+//       </MainLayout>
+//     </>
+//   );
+// };
+
+// export default Banners;
 
 
 // import React, { useState } from "react";
