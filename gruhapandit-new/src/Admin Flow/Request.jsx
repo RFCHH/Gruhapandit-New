@@ -176,7 +176,7 @@ const RequestApproval = () => {
 
   return (
     <MainLayout>
-      <div className="bg-gray-100 min-h-screen py-4 px-4 sm:px-8">
+      <div className="bg-gray-100 min-h-screen py-4 px-4 sm:px-8 sm:ml-10">
         <div className="bg-white rounded-lg shadow-lg p-4 max-w-6xl mx-auto">
           <h1 className="text-lg sm:text-xl font-bold mb-4">Request Table</h1>
           <div className="overflow-x-auto">
