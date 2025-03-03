@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import axiosInstance from "../axiosInstance";
-import MainLayout from "../Layout/Mainlayout";
+import {ChevronLeft} from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 const Banners = () => {
   const [formdata, setFormData] = useState({
@@ -84,8 +85,7 @@ const Banners = () => {
           startDate: formdata.startDate,
           endDate: formdata.endDate,
         });
-        
-        
+        alert("successfully editted")
       } else {
        
         const formDataToSend = new FormData();
@@ -110,6 +110,9 @@ const Banners = () => {
         endDate: "",
         category: "BANNERS_IMAGE",
       });
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
       setEditingBannerId(null);
       alert("successfully created banner");
       setError({});
@@ -118,6 +121,9 @@ const Banners = () => {
       console.error("Error submitting banner:", error.response?.data || error.message);
     }
   };
+
+  const fileInputRef = useRef(null);
+
   
   const handleEdit = (banner) => {
     setFormData({
@@ -139,100 +145,107 @@ const Banners = () => {
       console.error("Error deleting banner:", error);
     }
   };
+  const navigate=useNavigate();
 
   return (
-    <MainLayout>
-      <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg mt-10">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">{formdata.category}</h2>
+    <>
+  <h1 className="flex items-center gap-4 font-semibold text-2xl mt-7 sm:ml-16 ml-4">
+    <button onClick={() => navigate("/Registration")} className="flex justify-center items-center">
+      <ChevronLeft size={24} />
+    </button>
+    Banners
+  </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {!editingBannerId && (
-            <div>
-              <label className="block text-gray-600 font-medium">Files:</label>
-              <input
-                type="file"
-                name="files"
-                onChange={handleFileChange}
-                multiple
-                className="w-full border p-2 rounded-md focus:ring focus:ring-blue-300"
-              />
-              {error.files && <p className="text-red-500 text-xs">{error.files}</p>}
-            </div>
-          )}
+  <div className="max-w-full sm:max-w-md lg:max-w-lg xl:max-w-xl mx-auto bg-white p-4 sm:p-6 rounded-lg shadow-lg mt-6 sm:mt-10 w-full">
+    <h2 className="text-base sm:text-lg font-semibold text-gray-700 mb-4 text-center">{formdata.category}</h2>
 
-          <div>
-            <label className="block text-gray-600 font-medium">File Name:</label>
-            <input
-              type="text"
-              name="fileName"
-              value={formdata.fileName}
-              onChange={handleChange}
-              className="w-full border p-2 rounded-md"
-            />
-            {error.fileName && <p className="text-red-500 text-xs">{error.fileName}</p>}
-          </div>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {!editingBannerId && (
+        <div>
+          <label className="block text-gray-600 font-medium text-sm sm:text-base">Files:</label>
+          <input
+            type="file"
+            name="files"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            multiple
+            className="w-full border p-2 rounded-md text-sm sm:text-base focus:ring focus:ring-blue-300"
+          />
+          {error.files && <p className="text-red-500 text-xs">{error.files}</p>}
+        </div>
+      )}
 
-          <div>
-            <label className="block text-gray-600 font-medium">Start Date:</label>
-            <input
-              type="date"
-              name="startDate"
-              value={formdata.startDate}
-              onChange={handleChange}
-              className="w-full border p-2 rounded-md"
-            />
-            {error.startDate && <p className="text-red-500 text-xs">{error.startDate}</p>}
-          </div>
-
-          <div>
-            <label className="block text-gray-600 font-medium">End Date:</label>
-            <input
-              type="date"
-              name="endDate"
-              value={formdata.endDate}
-              onChange={handleChange}
-              className="w-full border p-2 rounded-md"
-            />
-            {error.endDate && <p className="text-red-500 text-xs">{error.endDate}</p>}
-          </div>
-
-          <div className="flex justify-between mt-4">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
-            >
-              {editingBannerId ? "Update" : "Save"}
-            </button>
-          </div>
-        </form>
+      <div>
+        <label className="block text-gray-600 font-medium text-sm sm:text-base">File Name:</label>
+        <input
+          type="text"
+          name="fileName"
+          value={formdata.fileName}
+          onChange={handleChange}
+          className="w-full border p-2 rounded-md text-sm sm:text-base"
+        />
+        {error.fileName && <p className="text-red-500 text-xs">{error.fileName}</p>}
       </div>
 
-      <h3 className="text-lg font-semibold text-gray-700 mt-6 ml-16">Existing Banners</h3>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul className="mt-4 ml-28">
-          {banners.map((banner) => (
-            <li key={banner.id} className="flex justify-between items-center border-b py-2 space-x-3">
-              <span>📁 {banner.fileName}</span>
-              <span>📅 {banner.startDate} - {banner.endDate}</span>
-              <button
-                onClick={() => handleEdit(banner)}
-                className="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDelete(banner.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600"
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </MainLayout>
+      <div>
+        <label className="block text-gray-600 font-medium text-sm sm:text-base">Start Date:</label>
+        <input
+          type="date"
+          name="startDate"
+          value={formdata.startDate}
+          onChange={handleChange}
+          className="w-full border p-2 rounded-md text-sm sm:text-base"
+        />
+        {error.startDate && <p className="text-red-500 text-xs">{error.startDate}</p>}
+      </div>
+
+      <div>
+        <label className="block text-gray-600 font-medium text-sm sm:text-base">End Date:</label>
+        <input
+          type="date"
+          name="endDate"
+          value={formdata.endDate}
+          onChange={handleChange}
+          className="w-full border p-2 rounded-md text-sm sm:text-base"
+        />
+        {error.endDate && <p className="text-red-500 text-xs">{error.endDate}</p>}
+      </div>
+
+      <div className="flex flex-col sm:flex-row justify-center sm:justify-between mt-4 gap-2">
+        <button type="submit" className="w-full sm:w-auto bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition text-sm sm:text-base">
+          {editingBannerId ? "Update" : "Save"}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <h3 className="text-base sm:text-lg font-semibold text-gray-700 mt-6 text-center sm:text-left sm:ml-16">
+    Existing Banners
+  </h3>
+
+  {loading ? (
+    <p className="text-center">Loading...</p>
+  ) : (
+    <ul className="mt-4 flex flex-col sm:ml-16 px-3">
+      {banners.map((banner) => (
+        <li key={banner.id} className="grid grid-cols-1 sm:grid-cols-3 items-center border-b py-2 gap-2 text-sm sm:text-base">
+          <span className="flex-1 truncate">📁 {banner.fileName}</span>
+          <span className="flex-1 truncate">📅 {banner.startDate} - {banner.endDate}</span>
+
+          <div className="flex gap-2">
+            <button onClick={() => handleEdit(banner)} className="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 text-xs sm:text-sm">
+              Edit
+            </button>
+            <button onClick={() => handleDelete(banner.id)} className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 text-xs sm:text-sm">
+              Delete
+            </button>
+          </div>
+        </li>
+      ))}
+    </ul>
+  )}
+</>
+
   );
 };
 
