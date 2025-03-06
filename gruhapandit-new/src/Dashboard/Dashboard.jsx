@@ -100,7 +100,7 @@ const Dashboard = () => {
         setFullname(data.fullName);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        // console.error("Error fetching user data:", error);
         setLoading(false);
       }
     };
@@ -113,7 +113,7 @@ const Dashboard = () => {
         const response = await axiosInstance.get(
           `/users/categoryCount?userId=${userId}`
         );
-        console.log("API Response:", response.data);
+        // console.log("API Response:", response.data);
 
         const transformedData = response.data.reduce(
           (acc, { category, count }) => {
@@ -139,7 +139,7 @@ const Dashboard = () => {
   const fetchBanners = async () => {
     try {
       const response = await axiosInstance.get("/banners/getAllActiveBanners");
-      console.log("Banners Data:", response.data);
+      // console.log("Banners Data:", response.data);
       setBanners(response.data || []);
     } catch (error) {
       console.error("Error fetching banners", error);
@@ -183,11 +183,11 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="flex flex-col space-y-3 md:space-y-6">
-                    <h3 className="text-xs md:text-md font-bold text-gray-700 text-center md:text-left">
+                    <h3 className="text-xl md:text-md font-bold text-gray-700 text-center md:text-left">
                       Complete Your Profile
                     </h3>
                     <button
-                      className="bg-blue-500 text-white text-sm px-2 py-1 md:px-4 md:py-2 rounded-lg"
+                      className="bg-blue-500 text-white text-lg px-2 py-1 md:px-4 md:py-2 rounded-lg"
                       onClick={() => navigate(`/Profile/${userId}`)}
                     >
                       Profile{" "}
@@ -195,7 +195,7 @@ const Dashboard = () => {
                     {localStorage.getItem("role") === "TUTOR" && (
                       <button
                         onClick={() => navigate(`/National/${userId}`)}
-                        className="bg-green-500 text-white text-xs px-2 py-1 md:px-4 md:py-2 rounded-lg"
+                        className="bg-green-500 text-white text-lg px-2 py-1 md:px-4 md:py-2 rounded-lg"
                       >
                         KYC
                       </button>

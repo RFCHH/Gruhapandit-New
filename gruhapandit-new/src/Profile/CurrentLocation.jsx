@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axiosInstance from "../axiosInstance";
 import { motion } from "framer-motion";
+import { FaEdit } from "react-icons/fa";
 
 const CurrentLocation = () => {
   const [formData, setFormData] = useState({
@@ -121,7 +122,7 @@ const CurrentLocation = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log("POST response:", response);
+      // console.log("POST response:", response);
       setIsEditing(false);
       
       setSuccessMessage(`${role.toLowerCase()} data submitted successfully!`);
@@ -146,7 +147,7 @@ const CurrentLocation = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log("PATCH response:", response);
+      // console.log("PATCH response:", response);
       setIsEditing(false);
       setSuccessMessage(`${role.toLowerCase()} data Updated Successfully!`);
       setTimeout(() => setSuccessMessage(""), 2000);
@@ -172,10 +173,10 @@ const CurrentLocation = () => {
       const payload = { ...formData, type: "CURRENT", userId };
 
       if (isDataPresent) {
-        console.log("Existing data found, triggering PATCH");
+        // console.log("Existing data found, triggering PATCH");
         await updateData(payload);
       } else {
-        console.log("No existing data, triggering POST");
+        // console.log("No existing data, triggering POST");
         await createData(payload);
       }
     }
@@ -219,7 +220,7 @@ const CurrentLocation = () => {
             onClick={handleEdit}
             className="bg-cyan-500 text-white py-2 px-3 rounded"
           >
-            Edit
+            <FaEdit />
           </button>
         )}
       </div>

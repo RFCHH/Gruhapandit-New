@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { motion } from "framer-motion";
+import { FaEdit } from "react-icons/fa";
 
 const Details = () => {
   const role = localStorage.getItem("role");
@@ -159,7 +160,7 @@ const Details = () => {
           setTimeout(() => setSuccessMessage(""), 2000);
         }
   
-        console.log(`${role} data updated/submitted:`, response.data);
+        // console.log(`${role} data updated/submitted:`, response.data);
         setIsEditable(false);
       } catch (error) {
         console.error("Error submitting data:", error);
@@ -304,7 +305,7 @@ const Details = () => {
           className="absolute -top-1  right-0 bg-cyan-500 text-white py-2 px-4 rounded"
           onClick={() => setIsEditable(true)}
         >
-          Edit
+          <FaEdit />
         </button>
         )}
       </form>

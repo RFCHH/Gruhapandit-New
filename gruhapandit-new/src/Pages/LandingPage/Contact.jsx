@@ -38,7 +38,7 @@ const Contact = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen bg-gradient-to-b text-gray-800 shadow-xl bg-pink-50 mt-14 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b text-gray-800 shadow-xl mt-14 overflow-hidden">
       {/* Header Section */}
       <div className="pt-16 sm:pt-32 md:pt-44 w-full max-w-4xl mx-auto px-4 md:px-8 ml-1">
         <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-violet-900 mb-2">
@@ -90,7 +90,7 @@ const Contact = () => {
               </a>
             </div>
             <div className="border-blue-500 border-4 p-4 rounded-2xl w-full sm:w-56 text-center">
-              <h1 className="-mt-2 text-blue-500 text-sm sm:text-base">
+              <h1 className="-mt-2 text-blue-500 text-sm sm:text-base cursor-pointer">
                 Book a free consultation
               </h1>
             </div>

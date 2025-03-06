@@ -57,7 +57,7 @@ const Navbar = () => {
         <img
           src={Logo}
           alt="Logo"
-          className="w-44 h-14 object-contain"
+          className="w-44 h-20 object-contain"
           style={{
             filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3))",
           }}
