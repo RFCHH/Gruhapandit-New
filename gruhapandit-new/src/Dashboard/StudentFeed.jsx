@@ -28,7 +28,7 @@ const MyFeedStudent = () => {
 
         // Check if response.data and response.data.content exist
         if (response.data && Array.isArray(response.data)) {
-          console.log("Fetched Feed Data:", response.data); // Debugging line
+          // console.log("Fetched Feed Data:", response.data); // Debugging line
           setFeedData(response.data); // Set feedData directly from response
           setTotalPages(Math.ceil(response.data.length / size)); // Update total pages based on length
         } else {

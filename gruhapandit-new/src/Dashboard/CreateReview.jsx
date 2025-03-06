@@ -176,7 +176,7 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-4">
         {/* Reviewer Name */}
         <div className="col-span-1">
-          <label htmlFor="name" className="block text-left text-gray-700 text-sm sm:text-base">
+          <label htmlFor="name" className="block text-left text-gray-900 text-sm sm:text-base">
             Reviewer Name:
           </label>
           <input
@@ -191,7 +191,7 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
   
         {/* Subject */}
         <div className="col-span-1">
-          <label htmlFor="subject" className="block text-left text-gray-700 text-sm sm:text-base">
+          <label htmlFor="subject" className="block text-left text-gray-900 text-sm sm:text-base">
             Subject:
           </label>
           <input
@@ -206,7 +206,7 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
   
         {/* Reviewer Email */}
         <div className="col-span-1">
-          <label htmlFor="email" className="block text-left text-gray-700 text-sm sm:text-base">
+          <label htmlFor="email" className="block text-left text-gray-900 text-sm sm:text-base">
             Reviewer Email:
           </label>
           <input
@@ -221,7 +221,7 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
   
         {/* Review To */}
         <div className="col-span-1">
-          <label htmlFor="reviewTo" className="block text-left text-gray-700 text-sm sm:text-base">
+          <label htmlFor="reviewTo" className="block text-left text-gray-900 text-sm sm:text-base">
             Review To:
           </label>
           <input
@@ -236,7 +236,7 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
   
         {/* Comments */}
         <div className="col-span-1 sm:col-span-2">
-          <label htmlFor="comments" className="block text-left text-gray-700 text-sm sm:text-base">
+          <label htmlFor="comments" className="block text-left text-gray-900 text-sm sm:text-base">
             Comments:
           </label>
           <textarea
@@ -251,7 +251,7 @@ function CreateReview({ onClose, reviewToEdit,fetchReviews }) {
   
         {/* Ratings */}
         <div className="col-span-1">
-          <label htmlFor="ratings" className="block text-left text-gray-700 text-sm sm:text-base">
+          <label htmlFor="ratings" className="block text-left text-gray-900 text-sm sm:text-base">
             Ratings:
           </label>
           <div className="flex items-center">

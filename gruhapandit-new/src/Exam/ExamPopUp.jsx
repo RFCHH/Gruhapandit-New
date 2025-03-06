@@ -145,7 +145,7 @@ const CreateExamDetailsPopUp = ({ initialData, onSave, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
     <div className="bg-white rounded shadow-lg p-6 w-11/12 sm:w-4/6 max-h-screen overflow-y-auto mt-8 mb-8 sm:mt-24 sm:mb-24 lg:mt-0 lg:mb-0">
-      <h2 className="text-lg font-semibold mb-4">
+      <h2 className="text-lg font-semibold mb-4 bg-black text-white rounded-lg text-center">
         {initialData ? 'Edit Exam' : 'Add Exam'}
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">

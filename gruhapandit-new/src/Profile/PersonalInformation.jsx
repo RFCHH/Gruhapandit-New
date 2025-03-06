@@ -4,6 +4,7 @@ import axiosInstance from "../axiosInstance";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { motion } from "framer-motion";
+import { FaEdit } from "react-icons/fa";
 
 const PersonalInformation = () => {
   const [formData, setFormData] = useState({
@@ -104,7 +105,7 @@ const PersonalInformation = () => {
 
         if (response.status === 200) {
           setSuccessMessage(`${type.toLowerCase()} data updated successfully.`);
-          console.log("Form submitted successfully:", response.data);
+          // console.log("Form submitted successfully:", response.data);
           setIsEditing(false);
           setTimeout(() => setSuccessMessage(""), 2000);
         } else {
@@ -427,7 +428,7 @@ const PersonalInformation = () => {
               className="absolute top-1 right-0 bg-cyan-500 text-white py-1 px-3 rounded text-xs sm:text-sm md:text-base"
               onClick={() => setIsEditing(true)}
             >
-              Edit
+              <FaEdit />
             </button>
         )}
         </div>

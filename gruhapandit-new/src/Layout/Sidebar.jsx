@@ -158,12 +158,12 @@ function Sidebar({ toggleSidebar, isExpanded }) {
   return (
     <div className="relative flex h-screen">
       <aside
-        className={`fixed left-0 top-16 bg-white shadow-md rounded-2xl flex flex-col duration-300 overflow-hidden ${
+        className={`fixed left-0 top-20 bg-white shadow-md rounded-2xl flex flex-col duration-300 overflow-hidden ${
           isExpanded ? "w-40" : "w-16"
         }`}
         style={{ height: "calc(100vh - 10rem)" }}
       >
-        <div className="flex items-center justify-center p-2">
+        {/* <div className="flex items-center justify-center p-2">
           <img
             src={Logo}
             alt="Logo"
@@ -171,16 +171,16 @@ function Sidebar({ toggleSidebar, isExpanded }) {
               isExpanded ? "w-20 h-20" : "w-10 h-10"
             }`}
           />
-        </div>
+        </div> */}
         <nav className="flex-1 overflow-y-auto px-2">
-          <ul className="space-y-1">
+          <ul className="space-y-1 mt-5">
             {menuItems.map((item) => (
               <li
                 key={item.path}
                 onClick={() =>
                   item.action ? item.action() : navigate(item.path)
                 }
-                className={`flex items-center py-2 px-3 cursor-pointer transition-all rounded-lg ${
+                className={`flex items-center py-3 px-3 cursor-pointer transition-all rounded-lg ${
                   location.pathname === item.path
                     ? "bg-gray-200"
                     : "hover:bg-blue-100"
