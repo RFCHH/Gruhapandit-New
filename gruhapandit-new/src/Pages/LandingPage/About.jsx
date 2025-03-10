@@ -20,6 +20,7 @@ import Footer from "./FooterMain";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../axiosInstance";
 import { renderStars } from "../../Admin Flow/AllReviews";
+import teacher from "./../../assets/33.png"
 
 function About() {
   const navigate = useNavigate();
@@ -263,8 +264,8 @@ function About() {
           }}
         ></div>
         <div className="flex items-center justify-center bg-white shadow-lg rounded-lg p-6 max-w-xl mx-auto ">
-          <div className="bg-red-500 rounded md:w-32 md:h-28  flex items-center justify-center ">
-            <FaQuoteLeft className=" w-8 h-8  mt-24 mr-10" />
+          <div className="rounded md:w-32 md:h-28  flex items-center justify-center ">
+            <img src={teacher} className="p-13"/>
           </div>
           <div className="px-6 py-2 mt-10">
           <h3 className="text-xl font-bold text-[#32046B]">Student</h3>
@@ -288,7 +289,7 @@ function About() {
                           ) : (
                             <p>No reviews available.</p>
                           )}
-            <div className="flex items-center justify-end mt-4 space-x-4">
+            <div className="flex mt-4 space-x-4 ml-48">
               <button className="text-[#32046B] hover:opacity-75 text-xl">
                 <FaArrowLeft />
               </button>

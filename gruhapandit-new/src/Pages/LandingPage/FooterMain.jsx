@@ -1,16 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
-
+import logo from "../../assets/1.png"
 function Footer() {
   return (
     <div className="bg-[#1e293b] text-white py-10 px-6 relative">
       {/* Background Design */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-500 to-purple-700 opacity-10 pointer-events-none"></div>
-
+      
       {/* Content */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 relative z-10">
         {/* Logo & Motto */}
+        
         <div className="flex flex-col items-center md:items-start space-y-4">
           <h1 className="text-3xl font-bold tracking-wider text-blue-300">
             Gruhapandit

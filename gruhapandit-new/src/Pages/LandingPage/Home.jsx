@@ -24,6 +24,7 @@ import Experience from "./../../assets/22.png";
 import BigMail from "./../../assets/23.png";
 import Mail from "./../../assets/24.png";
 import Footer from "./../../assets/Footer.png";
+import teacher from "./../../assets/33.png"
 import {
   FaGreaterThan,
   FaQuoteLeft,
@@ -768,8 +769,9 @@ function Home() {
             }}
           ></div>
           <div className="flex items-center justify-center bg-white shadow-lg rounded-lg p-6 mb-10 max-w-xl mx-auto ">
-            <div className="bg-red-500 rounded md:w-32 md:h-28  flex items-center justify-center ">
-              <FaQuoteLeft className=" w-8 h-8  mt-24 mr-10" />
+            <div className="rounded md:w-32 md:h-28  flex items-center justify-center ">
+              {/* <FaQuoteLeft className=" w-8 h-8  mt-24 mr-10" /> */}
+              <img src={teacher} className="p-13"/>
             </div>
             <div className="px-6 py-2 mt-10">
               <h3 className="text-xl font-bold text-[#32046B]">Tutor</h3>
@@ -793,7 +795,7 @@ function Home() {
               ) : (
                 <p>No reviews available.</p>
               )}
-              <div className="flex items-center justify-end mt-4 space-x-4">
+              <div className="flex mt-4 space-x-4 ml-32">
                 <button className="text-[#32046B] hover:opacity-75 text-xl">
                   <FaArrowLeft />{" "}
                 </button>

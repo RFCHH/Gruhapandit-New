@@ -95,7 +95,7 @@ const National = () => {
     }
 
     try {
-      console.log("Deleting file with ID:", nationalId);
+      // console.log("Deleting file with ID:", nationalId);
 
       const response = await axiosInstance.delete(
         `/documents/${nationalId}?userId=${userId}`,
@@ -191,7 +191,7 @@ const National = () => {
               onClick={handleDeleteFile}
             >
               <FaTrashAlt className="mr-2" />
-              Delete File
+              
             </button>
           )}
         </div>

@@ -206,7 +206,7 @@ function CreateQuestion() {
         </NavLink>
         <button 
           onClick={handleOpenPopup} 
-          className="flex items-center justify-center px-2 py-2 overflow-x-auto border-2 border-gray-800 rounded-md w-40  mb-5 mt-5">
+          className="flex items-center justify-center px-2 py-2 overflow-x-auto border-2 border-gray-800 rounded-md w-40  mb-5 mt-5 text-white bg-black">
           Create Question
         </button>
       </div>
@@ -229,12 +229,12 @@ function CreateQuestion() {
                 ))}
               </div>
               <button 
-                onClick={() => handleDelete(questionData.questionId)} // Handle delete action
+                onClick={() => handleDelete(questionData.questionId)}
                 className="mt-2 p-2 bg-red-500 text-white rounded hover:bg-red-600">
-                <FaTrashAlt /> 
+                <FaTrashAlt />
               </button>
               <button 
-                onClick={() => handleEdit(questionData)} // Handle edit action
+                onClick={() => handleEdit(questionData)} 
                 className="mt-2 p-2 bg-green-500 text-white rounded hover:bg-green-600">
                 <FaEdit /> 
               </button>
@@ -242,7 +242,7 @@ function CreateQuestion() {
           ))
         )}
       </div>
-
+ 
       {popUp && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg w-3/4 mx-auto">
