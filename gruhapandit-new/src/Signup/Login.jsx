@@ -94,7 +94,7 @@ const LoginPage = () => {
 
         if (response.status === 200) {
           const data = response.data;
-          console.log("Login successful:", data);
+          // console.log("Login successful:", data);
 
           setSuccessMessage("Login successful!");
 
@@ -113,7 +113,7 @@ const LoginPage = () => {
             navigate(`/Dashboard/${userId}`);
             
           } else {
-            console.log("Navigated to employeeDashboard");
+            // console.log("Navigated to employeeDashboard");
             navigate(`/Dashboard/${userId}`);
           }
         }, 2000);

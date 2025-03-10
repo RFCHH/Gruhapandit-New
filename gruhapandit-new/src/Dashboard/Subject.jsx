@@ -180,7 +180,7 @@ const Subjects = () => {
       const subjectsParam = subjects.join(",");
       const response = await axiosInstance.post(`/requests/?requestBy=${userId}&requestTo=${tutorUserId}&subjects=${subjectsParam}`);
 
-      console.log("Request submitted successfully!");
+      // console.log("Request submitted successfully!");
       navigate(`/Request/${userId}`);
     } catch (err) {
       alert(err.response?.data?.message || "Failed to submit the request.");

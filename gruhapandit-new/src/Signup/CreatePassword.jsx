@@ -88,22 +88,21 @@ const CreatePassword = () => {
       );
 
       alert("Password created successfully!");
-      console.log(response.data);
+      // console.log(response.data);
 
       navigate("/LoginPage");
     } catch (error) {
       console.error("Error creating password:", error);
-
-      if (
-        errorMessage.includes("Failed to create password or email already exists") ||
-        errorMessage.includes("Failed to connect to the server")
-    ) {
+      if (error.response && error.response.status === 409) {
+        alert("Email already exists");
         localStorage.clear();
         navigate("/userselection");
-    }
+      } else {
+        alert("Something went wrong. Please try again later.");
+      }
     }
   };
-  
+
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };

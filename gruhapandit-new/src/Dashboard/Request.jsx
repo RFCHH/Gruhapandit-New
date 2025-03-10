@@ -166,10 +166,10 @@ const MyRequest = () => {
                                             <p className="text-sm">
                                                 <strong>Rating:</strong>
                                                 {request.rating === 0 ? (
-                                                    <span className="text-gray-400">No rating yet</span>
-                                                ) : (
-                                                    <span  className="text-lg">{renderStars(request.rating)} </span>
-                                                )}
+    <span className="text-xl">{renderStars(0)}</span>
+  ) : (
+    <span className="text-xl">{renderStars(request.rating)}</span>
+  )}
                                             </p>
                                             {/* </div>
 
@@ -194,7 +194,7 @@ const MyRequest = () => {
                                         {
                                             activeTab === "My Request"  && (
                                                 <button
-                                                    className="bg-yellow-500 text-white text-xs px-2 py-1 rounded-md shadow transition-all md:px-3 md:py-1.5"
+                                                    className="bg-red-500 text-white text-xs px-2 py-1 rounded-md shadow transition-all md:px-3 md:py-1.5"
                                                     onClick={() => handleDelete(request.id)}
                                                 >
                                                     Delete

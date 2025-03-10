@@ -30,9 +30,11 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [categoryCounts, setCategoryCounts] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [banners,setBanners]=useState([]);
   const userId = localStorage.getItem("UserId");
   const userRole = localStorage.getItem("UserRole");
   const profile = localStorage.getItem("Profile");
+
 
   const navigate = useNavigate();
 
@@ -42,11 +44,13 @@ const Dashboard = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      handleNext();
-    }, 3000); // Auto-rotate every 5 seconds
+      setCurrentIndex((prevIndex) =>
+        banners.length > 0 ? (prevIndex + 1) % banners.length : 0
+      );
+    }, 3000); 
 
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, [banners]);
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
@@ -96,7 +100,7 @@ const Dashboard = () => {
         setFullname(data.fullName);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        // console.error("Error fetching user data:", error);
         setLoading(false);
       }
     };
@@ -109,7 +113,7 @@ const Dashboard = () => {
         const response = await axiosInstance.get(
           `/users/categoryCount?userId=${userId}`
         );
-        console.log("API Response:", response.data);
+        // console.log("API Response:", response.data);
 
         const transformedData = response.data.reduce(
           (acc, { category, count }) => {
@@ -119,6 +123,7 @@ const Dashboard = () => {
           {}
         );
         setCategoryCounts(transformedData);
+
       } catch (error) {
         console.error("Error fetching category counts:", error);
       }
@@ -130,6 +135,20 @@ const Dashboard = () => {
   const handlePaymentNavigation = () => {
     navigate("/Payment");
   };
+
+  const fetchBanners = async () => {
+    try {
+      const response = await axiosInstance.get("/banners/getAllActiveBanners");
+      // console.log("Banners Data:", response.data);
+      setBanners(response.data || []);
+    } catch (error) {
+      console.error("Error fetching banners", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBanners();
+  }, []);
 
   return (
     <>
@@ -164,11 +183,11 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="flex flex-col space-y-3 md:space-y-6">
-                    <h3 className="text-xs md:text-md font-bold text-gray-700 text-center md:text-left">
+                    <h3 className="text-xl md:text-md font-bold text-gray-700 text-center md:text-left">
                       Complete Your Profile
                     </h3>
                     <button
-                      className="bg-blue-500 text-white text-sm px-2 py-1 md:px-4 md:py-2 rounded-lg"
+                      className="bg-blue-500 text-white text-lg px-2 py-1 md:px-4 md:py-2 rounded-lg"
                       onClick={() => navigate(`/Profile/${userId}`)}
                     >
                       Profile{" "}
@@ -176,7 +195,7 @@ const Dashboard = () => {
                     {localStorage.getItem("role") === "TUTOR" && (
                       <button
                         onClick={() => navigate(`/National/${userId}`)}
-                        className="bg-green-500 text-white text-xs px-2 py-1 md:px-4 md:py-2 rounded-lg"
+                        className="bg-green-500 text-white text-lg px-2 py-1 md:px-4 md:py-2 rounded-lg"
                       >
                         KYC
                       </button>
@@ -185,42 +204,52 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="relative w-full mt-6 mb-6">
-              <div className="overflow-hidden rounded-lg shadow-xl relative">
-                <img
-                  src={images[currentIndex]}
-                  alt={`Slide ${currentIndex + 1}`}
-                  className="w-full max-h-[200px] md:max-h-[400px] object-cover rounded-lg transition-opacity duration-500 ease-in-out"
-                  loading="lazy"
-                />
-                <button
-                  onClick={handlePrev}
-                  className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/80 text-gray-800 p-2 md:p-3 rounded-full hover:bg-white hover:shadow-lg transition-all duration-300 ease-in-out backdrop-blur-sm"
-                  aria-label="Previous slide"
-                >
-                  <MdArrowBackIos className="w-4 h-4 md:w-6 md:h-6" />
-                </button>
-                <button
-                  onClick={handleNext}
-                  className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/80 text-gray-800 p-2 md:p-3 rounded-full hover:bg-white hover:shadow-lg transition-all duration-300 ease-in-out backdrop-blur-sm"
-                  aria-label="Next slide"
-                >
-                  <MdArrowForwardIos className="w-4 h-4 md:w-6 md:h-6" />
-                </button>
-              </div>
-              <div className="flex justify-center mt-4 space-x-2">
-                {images.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentIndex(index)}
-                    className={`w-3 h-3 rounded-full ${
-                      index === currentIndex ? "bg-gray-800" : "bg-gray-300"
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
+            <div className="relative w-full max-w-screen-2xl mx-auto mt-6 mb-6">
+      {banners.length > 0 ? (
+        <div className="overflow-hidden rounded-lg shadow-xl relative w-full">
+          <img
+            src={banners[currentIndex]?.fileUrl}
+            alt={`Slide ${currentIndex + 1}`}
+            className="w-full max-h-[200px] md:max-h-[400px] object-cover rounded-3xl transition-opacity duration-500 ease-in-out"
+            loading="lazy"
+          />
+          
+          <button
+            onClick={handlePrev}
+            className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/80 text-gray-800 p-3 md:p-3 rounded-full hover:bg-white hover:shadow-lg transition-all duration-300 ease-in-out backdrop-blur-sm"
+            aria-label="Previous slide"
+          >
+            <MdArrowBackIos className="w-4 h-4 md:w-6 md:h-6" />
+          </button>
+
+       
+          <button
+            onClick={handleNext}
+            className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/80 text-gray-800 p-2 md:p-3 rounded-full hover:bg-white hover:shadow-lg transition-all duration-300 ease-in-out backdrop-blur-sm"
+            aria-label="Next slide"
+          >
+            <MdArrowForwardIos className="w-4 h-4 md:w-6 md:h-6" />
+          </button>
+        </div>
+      ) : (
+        <p className="text-center">No active banners available.</p>
+      )}
+
+     
+      <div className="flex justify-center mt-4 space-x-2">
+        {banners.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`w-3 h-3 rounded-full ${
+              index === currentIndex ? "bg-gray-800" : "bg-gray-300"
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+            
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
               {[
                 {

@@ -59,7 +59,7 @@ const SubjectDetails = ({
           },
         });
 
-        console.log("Subject added successfully", response.data);
+        // console.log("Subject added successfully", response.data);
       } catch (error) {
         console.error("Error adding subject", error);
       }
@@ -108,7 +108,7 @@ const SubjectDetails = ({
           }
         );
   
-        console.log("Subject edited successfully", response.data);
+        // console.log("Subject edited successfully", response.data);
       } catch (error) {
         console.error("Error editing subject", error);
       }
@@ -135,8 +135,8 @@ const SubjectDetails = ({
           },
         });
 
-        console.log("Full Response:", response);
-        console.log("Response Data:", response.data);
+        // console.log("Full Response:", response);
+        // console.log("Response Data:", response.data);
 
         if (response.data && Array.isArray(response.data)) {
           const subjectsArray = response.data.map((subjectData) => ({
@@ -147,7 +147,7 @@ const SubjectDetails = ({
             isActive: subjectData.requirementCompleted,
           }));
 
-          console.log("Processed Subjects:", subjectsArray);
+          // console.log("Processed Subjects:", subjectsArray);
 
           setSubjects(subjectsArray);
         }
@@ -198,7 +198,7 @@ const SubjectDetails = ({
         }
       );
   
-      console.log("Requirement toggled successfully", response.data);
+      // console.log("Requirement toggled successfully", response.data);
     } catch (error) {
       console.error("Error toggling requirement", error);
     }
@@ -234,8 +234,8 @@ const SubjectDetails = ({
         }
       );
   
-      console.log("Subject deleted successfully", response.data);
-  
+      // console.log("Subject deleted successfully", response.data);
+
       // Remove the subject from the state
       const updatedSubjects = subjects.filter((_, i) => i !== index);
       setSubjects(updatedSubjects);

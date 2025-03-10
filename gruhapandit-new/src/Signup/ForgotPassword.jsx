@@ -44,7 +44,7 @@ const ForgotPassword = () => {
           }
         );
 
-        console.log("API response:", response);
+        // console.log("API response:", response);
 
         if (response.status === 200) {
           // alert("OTP has been sent successfully!");

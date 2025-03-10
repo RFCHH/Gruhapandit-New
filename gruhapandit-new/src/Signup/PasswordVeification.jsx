@@ -61,7 +61,7 @@ const PasswordVerification = () => {
     setLoading(true);
 
     try {
-      console.log("Sending API request with:", { userId, password, otp });
+      // console.log("Sending API request with:", { userId, password, otp });
 
       const response = await axiosInstance.patch(
         `/authentication/resetPassword?userId=${userId}&password=${password}&otp=${otp}`,

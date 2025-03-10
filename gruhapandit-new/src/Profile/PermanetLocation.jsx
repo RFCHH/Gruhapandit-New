@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axiosInstance from "../axiosInstance";
 import { motion } from "framer-motion";
+import { FaEdit } from "react-icons/fa";
 
 const PermanentLocation = () => {
   const [formData, setFormData] = useState({
@@ -122,7 +123,7 @@ const PermanentLocation = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log("POST response:", response);
+      // console.log("POST response:", response);
       setIsEditing(false);
       setSuccessMessage(`${role.toLowerCase()} data submitted successfully!`);
       setTimeout(() => setSuccessMessage(""), 2000);  
@@ -146,7 +147,7 @@ const PermanentLocation = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log("PATCH response:", response);
+      // console.log("PATCH response:", response);
       setIsEditing(false);
       setSuccessMessage(`${role.toLowerCase()} data Updated Successfully!`);
       setTimeout(() => setSuccessMessage(""), 2000);
@@ -173,7 +174,7 @@ const PermanentLocation = () => {
       const payload = { ...formData, type: "PERMANENT", userId };
 
       if (isDataPresent) {
-        console.log("Existing data found, triggering PATCH");
+        // console.log("Existing data found, triggering PATCH");
         await updateData(payload);
       } else {
         console.log("No existing data, triggering POST");
@@ -220,7 +221,7 @@ const PermanentLocation = () => {
       onClick={handleEdit}
       className="bg-cyan-500 text-white py-2 px-3 rounded"
     >
-      Edit
+    <FaEdit />
     </button>
   )}
 </div>
